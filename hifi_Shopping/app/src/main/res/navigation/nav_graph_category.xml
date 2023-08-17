@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_category"
+    app:startDestination="@id/categoryMainFragment">
+
+    <fragment
+        android:id="@+id/categoryMainFragment"
+        android:name="com.hifi.hifi_shopping.category.ui.CategoryMainFragment"
+        android:label="fragment_category_main"
+        tools:layout="@layout/fragment_category_main" >
+        <action
+            android:id="@+id/action_categoryMainFragment_to_categoryDetailFragment"
+            app:destination="@id/categoryDetailFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:exitAnim="@android:anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryDetailFragment"
+        android:name="com.hifi.hifi_shopping.category.ui.CategoryDetailFragment"
+        android:label="fragment_category_detail"
+        tools:layout="@layout/fragment_category_detail" />
+</navigation>

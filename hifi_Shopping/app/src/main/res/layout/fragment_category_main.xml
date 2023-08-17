@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".category.ui.CategoryMainFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutCategoryMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/materialToolbarCategoryMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:menu="@menu/toolbar_menu_basic"
+            app:navigationIcon="@drawable/notifications_24px"
+            app:navigationIconTint="@color/brown"
+            app:title="@string/app_name"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/CategoryMainToolbarTitleTextAppearance"
+            app:titleTextColor="@color/dark_brown" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/dark_brown" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayoutCategoryMain"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="33dp">
+
+            <TextView
+                android:id="@+id/textViewSlogan1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="45dp"
+                android:layout_marginTop="35dp"
+                android:fontFamily="@font/slogan_kr_font"
+                android:shadowColor="#40000000"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:text="알려줄게"
+                android:textColor="@color/dark_brown"
+                android:textSize="13sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewSlogan2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/slogan_kr_font"
+                android:shadowColor="#40000000"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:text="따라와.      "
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/textViewSlogan1"
+                app:layout_constraintTop_toTopOf="@id/textViewSlogan1" />
+
+            <TextView
+                android:id="@+id/textViewSlogan3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/slogan_font"
+                android:shadowColor="#40000000"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                android:text="guy:de"
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@id/textViewSlogan2"
+                app:layout_constraintStart_toEndOf="@id/textViewSlogan2" />
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/groupCategoryMainPrepare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:constraint_referenced_ids="cardViewCategoryMainPrepare,textViewPrepare"
+                tools:ignore="MissingConstraints" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewCategoryMainPrepare"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="6dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="5dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toStartOf="@id/cardViewCategoryMainManage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewSlogan2">
+
+                <ImageView
+                    android:id="@+id/imageViewPrepare"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/prepare" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textViewPrepare"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/material_toolbar_title_font"
+                android:gravity="center"
+                android:shadowColor="#41000000"
+                android:shadowDx="1"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:text="준비"
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cardViewCategoryMainPrepare"
+                app:layout_constraintStart_toStartOf="@id/cardViewCategoryMainPrepare"
+                app:layout_constraintTop_toBottomOf="@id/cardViewCategoryMainPrepare" />
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/groupCategoryMainManage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:constraint_referenced_ids="cardViewCategoryMainManage,textViewManage"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="212dp"
+                tools:layout_editor_absoluteY="142dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewCategoryMainManage"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="33dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="5dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cardViewCategoryMainPrepare"
+                app:layout_constraintTop_toTopOf="@id/cardViewCategoryMainPrepare">
+
+                <ImageView
+                    android:id="@+id/imageViewManage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/manage" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textViewManage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/material_toolbar_title_font"
+                android:gravity="center"
+                android:shadowColor="#41000000"
+                android:shadowDx="1"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:text="관리"
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cardViewCategoryMainManage"
+                app:layout_constraintStart_toStartOf="@id/cardViewCategoryMainManage"
+                app:layout_constraintTop_toBottomOf="@id/cardViewCategoryMainManage" />
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/groupCategoryMainHobby"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:constraint_referenced_ids="cardViewCategoryMainHobby,textViewHobby"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="33dp"
+                tools:layout_editor_absoluteY="350dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewCategoryMainHobby"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="12dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="5dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/textViewPrepare"
+                app:layout_constraintStart_toStartOf="@id/textViewPrepare"
+                app:layout_constraintTop_toBottomOf="@id/textViewPrepare">
+
+                <ImageView
+                    android:id="@+id/imageViewHobby"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/hobby2" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textViewHobby"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/material_toolbar_title_font"
+                android:gravity="center"
+                android:shadowColor="#41000000"
+                android:shadowDx="1"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:text="취미"
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cardViewCategoryMainHobby"
+                app:layout_constraintStart_toStartOf="@id/cardViewCategoryMainHobby"
+                app:layout_constraintTop_toBottomOf="@id/cardViewCategoryMainHobby" />
+
+            <androidx.constraintlayout.helper.widget.Layer
+                android:id="@+id/groupCategoryMainCouple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foreground="?attr/selectableItemBackground"
+                app:constraint_referenced_ids="cardViewCategoryMainCouple,textViewCouple"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="212dp"
+                tools:layout_editor_absoluteY="350dp" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardViewCategoryMainCouple"
+                style="@style/Widget.Material3.CardView.Elevated"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:cardElevation="10dp"
+                app:cardMaxElevation="5dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="@id/textViewManage"
+                app:layout_constraintStart_toStartOf="@id/textViewManage"
+                app:layout_constraintTop_toTopOf="@id/cardViewCategoryMainHobby">
+
+                <ImageView
+                    android:id="@+id/imageViewCouple"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/couple" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/textViewCouple"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/material_toolbar_title_font"
+                android:gravity="center"
+                android:shadowColor="#41000000"
+                android:shadowDx="1"
+                android:shadowDy="2"
+                android:shadowRadius="4"
+                android:text="연애"
+                android:textColor="@color/dark_brown"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/cardViewCategoryMainCouple"
+                app:layout_constraintStart_toStartOf="@id/cardViewCategoryMainCouple"
+                app:layout_constraintTop_toBottomOf="@id/cardViewCategoryMainCouple" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
