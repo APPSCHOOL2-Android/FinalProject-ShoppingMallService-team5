@@ -1,14 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F0EFEF"
+    android:orientation="vertical"
     tools:context=".user.PointFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarPoint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:minHeight="?attr/actionBarSize"
+        app:itemIconTint="#846058"
+        app:menu="@menu/menu_my_page"
+        app:navigationIcon="@drawable/chevron_left_24px"
+        app:navigationIconTint="#846058"
+        app:title="포인트"
+        app:titleCentered="true"
+        app:titleTextColor="#846058" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="#6C3428"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elegantTextHeight="true"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="보유하신 Point"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/pointUserPoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:elegantTextHeight="true"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/white"
+                    android:textSize="35sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pointDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp">
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elegantTextHeight="true"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="Point 내역" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/pointMonthmenu"
+                    style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:layout_width="83dp"
+                        android:layout_height="38dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@color/white"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:inputType="none"
+                        android:textColor="@color/black" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="216dp"
+                    android:layout_height="34dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/pointDetailBtnListAll"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:gravity="center"
+                        android:text="전체"
+                        android:textColor="#8A8A8A"
+                        android:textIsSelectable="false"
+                        android:textSize="10sp"
+                        app:cornerRadius="5dp"
+                        app:strokeColor="#D9D9D9" />
+
+                    <Button
+                        android:id="@+id/pointDetailBtnListAdd"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:text="적립"
+                        android:textColor="#8A8A8A"
+                        android:textIsSelectable="false"
+                        android:textSize="10sp"
+                        app:cornerRadius="5dp"
+                        app:strokeColor="#D9D9D9" />
+
+                    <Button
+                        android:id="@+id/pointDetailBtnListUse"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:text="사용"
+                        android:textColor="#8A8A8A"
+                        android:textIsSelectable="false"
+                        android:textSize="10sp"
+                        app:cornerRadius="5dp"
+                        app:strokeColor="#D9D9D9" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pointDetailRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="포인트 사용 유의사항" />
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/arrow_drop_down_24px" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/pointGuide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항 포인트 사용 유의사항"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="리뷰를 기다리고 있어요 " />
+
+                    <ImageButton
+                        android:id="@+id/imageButton"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/arrow_drop_down_24px" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/pointReviewRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:icon="@drawable/search_24px"
+        android:icon="@drawable/search_brown_24px"
         android:title="item_my_page_search"
         app:showAsAction="always"
-        
+
         />
     <item
-        android:icon="@drawable/shopping_cart_24px"
+        android:icon="@drawable/shopping_cart_brown_24px"
         android:title="item_my_page_cart"
         app:showAsAction="always" />
 </menu>
