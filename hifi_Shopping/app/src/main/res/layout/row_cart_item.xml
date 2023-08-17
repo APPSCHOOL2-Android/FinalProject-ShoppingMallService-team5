@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="15dp"
+            app:strokeWidth="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="84dp"
+                    android:layout_height="84dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/cartItemName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:text="TMA-2 Comfort Wireless "
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/cartItemPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="20000원" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:orientation="horizontal">
+
+                            <ImageButton
+                                android:id="@+id/cartItemBtnMinus"
+                                style="@style/Widget.Material3.Button.IconButton"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:filterTouchesWhenObscured="false"
+                                app:srcCompat="@drawable/indeterminate_check_box_24px" />
+
+                            <TextView
+                                android:id="@+id/cartItemCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="5dp"
+                                android:elegantTextHeight="true"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:text="1" />
+
+                            <ImageButton
+                                android:id="@+id/cartItemBtnPlus"
+                                style="@style/Widget.Material3.Button.IconButton"
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="5dp"
+                                android:filterTouchesWhenObscured="false"
+                                app:srcCompat="@drawable/add_box_24px" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="최대 할인 적용 금액"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="#727272"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/cartItemDiscountPrice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="19000원"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="#727272"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="배송비"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="#727272"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/cartItemDeliverPrice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="19000원"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="#727272"
+                            android:textSize="11sp" />
+
+                        <ImageButton
+                            android:id="@+id/cartItemBtnRemove"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            app:srcCompat="@drawable/delete_24px" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+</LinearLayout>
