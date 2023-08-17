@@ -14,7 +14,7 @@
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         app:itemIconTint="#846058"
-        app:menu="@menu/menu_my_page"
+        app:menu="@menu/menu_search_cart"
         app:navigationIcon="@drawable/notifications_24px"
         app:navigationIconTint="#846058"
         app:title="마이 페이지"
