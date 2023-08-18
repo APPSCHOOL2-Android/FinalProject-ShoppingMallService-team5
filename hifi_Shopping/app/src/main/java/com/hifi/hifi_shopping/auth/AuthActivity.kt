@@ -1,11 +1,11 @@
 package com.hifi.hifi_shopping.auth
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
@@ -23,6 +23,7 @@ class AuthActivity : AppCompatActivity() {
     companion object {
         val AUTH_LOGIN_FRAGMENT = "AuthLoginFragment"
         val AUTH_JOIN_FRAGMENT = "AuthJoinFragment"
+        val AUTH_FIND_PW_FRAGMENT = "AuthFindPwFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +51,7 @@ class AuthActivity : AppCompatActivity() {
         newFragment = when (name) {
             AUTH_LOGIN_FRAGMENT -> AuthLoginFragment()
             AUTH_JOIN_FRAGMENT -> AuthJoinFragment()
+            AUTH_FIND_PW_FRAGMENT -> AuthFindPwFragment()
             else -> Fragment()
         }
 

@@ -1,12 +1,10 @@
 package com.hifi.hifi_shopping.auth
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hifi.hifi_shopping.MainActivity
-import com.hifi.hifi_shopping.R
+import androidx.fragment.app.Fragment
 import com.hifi.hifi_shopping.databinding.FragmentAuthLoginBinding
 
 class AuthLoginFragment : Fragment() {
@@ -29,6 +27,12 @@ class AuthLoginFragment : Fragment() {
             textViewAuthJoin.run{
                 setOnClickListener{
                     authActivity.replaceFragment(AuthActivity.AUTH_JOIN_FRAGMENT, true, null)
+                }
+            }
+            // 비번찾기 텍스트 클릭 => FindPwFragment
+            textViewAuthFindPw.run{
+                setOnClickListener{
+                    authActivity.replaceFragment(AuthActivity.AUTH_FIND_PW_FRAGMENT, true, null)
                 }
             }
         }
