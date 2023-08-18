@@ -24,7 +24,7 @@
             android:paddingBottom="10dp">
 
             <TextView
-                android:id="@+id/couponEnabledName"
+                android:id="@+id/rowCouponEnabledName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -41,7 +41,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/couponEnabledStartDate"
+                    android:id="@+id/rowCouponEnabledStartDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -50,7 +50,7 @@
                     android:text="2023-08-10" />
 
                 <TextView
-                    android:id="@+id/couponEnabledEndDate"
+                    android:id="@+id/rowCouponEnabledEndDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -59,7 +59,7 @@
                     android:text="~ 2023-08-11" />
 
                 <TextView
-                    android:id="@+id/couponEnabledDiscount"
+                    android:id="@+id/rowCouponEnabledDiscount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
