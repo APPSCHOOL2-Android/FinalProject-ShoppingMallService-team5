@@ -26,7 +26,7 @@ class CategoryActivity : AppCompatActivity() {
             bottomNavigationViewCategory.setOnItemSelectedListener {
                 when (it.itemId) {
                     R.id.categoryFragment -> {
-                        navController.popBackStack(R.id.categoryMainFragment, false)
+                        navController.navigate(R.id.categoryMainFragment)
                         bottomNavigationViewCategory.itemIconTintList = getColorStateList(R.color.navigation_bar_item_tint)
                         bottomNavigationViewCategory.itemTextColor = getColorStateList(R.color.navigation_bar_item_tint)
                     }
