@@ -24,6 +24,7 @@ class AuthActivity : AppCompatActivity() {
         val AUTH_LOGIN_FRAGMENT = "AuthLoginFragment"
         val AUTH_JOIN_FRAGMENT = "AuthJoinFragment"
         val AUTH_FIND_PW_FRAGMENT = "AuthFindPwFragment"
+        val AUTH_FIND_RESULT_FRAGMENT = "AuthFindResultFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +53,7 @@ class AuthActivity : AppCompatActivity() {
             AUTH_LOGIN_FRAGMENT -> AuthLoginFragment()
             AUTH_JOIN_FRAGMENT -> AuthJoinFragment()
             AUTH_FIND_PW_FRAGMENT -> AuthFindPwFragment()
+            AUTH_FIND_RESULT_FRAGMENT -> AuthFindResultFragment()
             else -> Fragment()
         }
 

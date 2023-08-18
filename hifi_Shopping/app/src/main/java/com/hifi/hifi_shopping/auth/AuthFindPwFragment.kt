@@ -25,6 +25,13 @@ class AuthFindPwFragment : Fragment() {
             toolbarAuthFindPw.setNavigationOnClickListener {
                 authActivity.onBackPressed()
             }
+
+            // "다음" 버튼 클릭 시
+            buttonFindPwCheck.run{
+                setOnClickListener{
+                    authActivity.replaceFragment(AuthActivity.AUTH_FIND_RESULT_FRAGMENT, true, null)
+                }
+            }
         }
 
         return   fragmentAuthFindPwBinding.root
