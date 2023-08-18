@@ -47,7 +47,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/Guide1"
+                android:id="@+id/guideJoin1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -62,14 +62,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/Guide2"
+                android:id="@+id/guideJoin2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="50dp"
                 android:text="이메일"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Guide1" />
+                app:layout_constraintTop_toBottomOf="@+id/guideJoin1" />
 
             <EditText
                 android:id="@+id/editTextJoinUserId"
@@ -83,10 +83,10 @@
                 android:inputType="textEmailAddress"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Guide2" />
+                app:layout_constraintTop_toBottomOf="@+id/guideJoin2" />
 
             <TextView
-                android:id="@+id/Guide3"
+                android:id="@+id/guideJoin3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
@@ -107,10 +107,10 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Guide3" />
+                app:layout_constraintTop_toBottomOf="@+id/guideJoin3" />
 
             <TextView
-                android:id="@+id/Guide4"
+                android:id="@+id/guideJoin4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
@@ -131,10 +131,10 @@
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Guide4" />
+                app:layout_constraintTop_toBottomOf="@+id/guideJoin4" />
 
             <TextView
-                android:id="@+id/Guide5"
+                android:id="@+id/guideJoin5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
@@ -144,7 +144,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextJoinUserPwCheck" />
 
             <EditText
-                android:id="@+id/editTextTextPassword3"
+                android:id="@+id/editTextJoinUserNickName"
                 android:layout_width="272dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="70dp"
@@ -156,7 +156,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Guide5" />
+                app:layout_constraintTop_toBottomOf="@+id/guideJoin5" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonJoinCheck"
@@ -170,7 +170,7 @@
                 app:cornerRadius="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword3"
+                app:layout_constraintTop_toBottomOf="@+id/editTextJoinUserNickName"
                 app:shapeAppearance="@style/TextAppearance.AppCompat.Button" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
