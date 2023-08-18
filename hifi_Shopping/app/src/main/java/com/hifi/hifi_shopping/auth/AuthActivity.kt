@@ -22,13 +22,13 @@ class AuthActivity : AppCompatActivity() {
 
     companion object {
         val AUTH_LOGIN_FRAGMENT = "AuthLoginFragment"
+        val AUTH_JOIN_FRAGMENT = "AuthJoinFragment"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityAuthBinding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(activityAuthBinding.root)
-
 
         replaceFragment(AUTH_LOGIN_FRAGMENT, false, null)
     }
@@ -49,6 +49,7 @@ class AuthActivity : AppCompatActivity() {
         // 새로운 Fragment를 담을 변수
         newFragment = when (name) {
             AUTH_LOGIN_FRAGMENT -> AuthLoginFragment()
+            AUTH_JOIN_FRAGMENT -> AuthJoinFragment()
             else -> Fragment()
         }
 
