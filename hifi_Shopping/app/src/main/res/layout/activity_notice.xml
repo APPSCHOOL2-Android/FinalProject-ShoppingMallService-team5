@@ -1,9 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".notice.NoticeActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/noticeMaterialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIconTint="@color/brown"
+        app:titleTextAppearance="@style/CategoryDetialToolbarTitleTextAppearance"
+        app:titleTextColor="@color/lstBasicFontColor" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/brown"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:scrollbars="none"
+        android:transitionGroup="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/noticeAllButton"
+                style="@style/TextAppearance.AppCompat.Widget.Switch"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/custom_select_button"
+                android:text="전체"
+                android:textColor="@color/white" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/noticeOrderPareceButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/custom_normal_button"
+                android:text="주문·배송"
+                android:textColor="@color/lstButtonTextGrayColor" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/noticeSubscribeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/custom_normal_button"
+                android:text="구독"
+                android:textColor="@color/lstButtonTextGrayColor" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/noticeWishListButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/custom_normal_button"
+                android:text="위시리스트"
+                android:textColor="@color/lstButtonTextGrayColor" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

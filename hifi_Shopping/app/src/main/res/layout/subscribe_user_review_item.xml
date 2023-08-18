@@ -42,14 +42,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/subscrobeItemStatustextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="배송지 도착"
-                    android:textAlignment="textEnd"
-                    android:textSize="11sp" />
-
-                <TextView
                     android:id="@+id/subscrobeItemNametextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
