@@ -22,7 +22,7 @@
             android:name=".subscribe.SubscribeActivity"
             android:exported="false" />
         <activity
-            android:name=".search.SearchActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".review.ReviewActivity"
@@ -49,13 +49,7 @@
             android:name=".auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".SalesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ShopingListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".search.SearchActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
