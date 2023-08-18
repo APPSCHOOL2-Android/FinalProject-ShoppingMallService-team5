@@ -52,13 +52,13 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginEnd="10dp"
-                android:text="정보를 입력해주세요"
+                android:text="정보를 입력해주세요😊"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="20dp"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/guideFindPw2"

@@ -50,7 +50,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginEnd="10dp"
-                android:text="재설정할 비밀번호를 입력해 주세요"
+                android:text="재설정할 비밀번호를 입력해 주세요🔐"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="16sp"
                 android:textStyle="normal"

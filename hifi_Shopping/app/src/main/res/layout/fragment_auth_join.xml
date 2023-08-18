@@ -53,7 +53,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="60dp"
                 android:layout_marginEnd="10dp"
-                android:text="기본 정보를 입력해주세요"
+                android:text="기본 정보를 입력해주세요👋"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textSize="20dp"
                 android:textStyle="normal"
