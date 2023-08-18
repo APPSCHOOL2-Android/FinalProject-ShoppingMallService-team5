@@ -20,8 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1"
         app:navigationIcon="@drawable/chevron_left_24px"
-        app:title="회원가입"
-        app:titleTextAppearance="@style/MyToolbarTitleStyle" />
+        app:title="회원가입" />
 
     <View
         android:id="@+id/toolbarBottomBar"
