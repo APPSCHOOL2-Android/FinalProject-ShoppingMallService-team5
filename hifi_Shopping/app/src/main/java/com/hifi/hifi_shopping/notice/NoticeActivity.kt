@@ -116,7 +116,7 @@ class NoticeActivity : AppCompatActivity() {
             var noticeTitleTextView = noticeRecycItemBinding.noticeTitleTextView
             var noticeContentTextView = noticeRecycItemBinding.noticeContentTextView
             var noticeDetailedImageView = noticeRecycItemBinding.noticeDetailedImageView
-            var noticeCategoryButton = noticeRecycItemBinding.noticeCategoryButton
+            var noticeCategoryTextview = noticeRecycItemBinding.noticeCategoryTextview
             var noticeDateTextView = noticeRecycItemBinding.noticeDateTextView
 
         }
@@ -143,7 +143,7 @@ class NoticeActivity : AppCompatActivity() {
             holder.noticeTitleTextView.text = "알림 제목"
             holder.noticeContentTextView.text = "알림 내용 알림 내용 알림 내용 알림 내용 알림 내용 알림 내용"
             holder.noticeDetailedImageView.setImageResource(R.drawable.chevron_right_24px)
-            holder.noticeCategoryButton.text = "알림 카테고리"
+            holder.noticeCategoryTextview.text = "알림 카테고리"
             holder.noticeDateTextView.text = "알림 발생 날짜"
         }
     }
