@@ -18,6 +18,8 @@ class SellerActivity : AppCompatActivity() {
     companion object{
         val LOGIN_FRAGMENT = "LoginFragment"
         val JOIN_FRAGMENT = "JoinFragment"
+        val ITEM_LIST_FRAGMENT = "ItemListFragment"
+        val ADD_ITEM_FRAGMENT = "AddItemFragment"
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +27,7 @@ class SellerActivity : AppCompatActivity() {
         activitySellerBinding = ActivitySellerBinding.inflate(layoutInflater)
         setContentView(activitySellerBinding.root)
 
-        replaceFragment(LOGIN_FRAGMENT, false, null)
+        replaceFragment(LOGIN_FRAGMENT, true, null)
     }
 
     // 지정한 Fragment를 보여주는 메서드
@@ -44,6 +46,8 @@ class SellerActivity : AppCompatActivity() {
         // 새로운 Fragment를 담을 변수
         newFragment = when(name){
             LOGIN_FRAGMENT -> LoginFragment()
+            ITEM_LIST_FRAGMENT -> ItemListFragment()
+            ADD_ITEM_FRAGMENT -> AddItemFragment()
             else -> Fragment()
         }
 
