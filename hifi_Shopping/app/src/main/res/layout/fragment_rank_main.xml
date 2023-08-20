@@ -7,7 +7,7 @@
     tools:context=".rank.RankMainFragment" >
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbarCategoryMain"
+        android:id="@+id/toolbarRankMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -17,8 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/menu_rank"
-        app:navigationIcon="@drawable/notifications_24px"
-        app:navigationIconTint="@color/brown"
+        app:navigationIcon="@drawable/chevron_left_24px"
         app:title="랭킹"
         app:titleCentered="true"
         app:titleTextColor="@color/dark_brown" />
@@ -32,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbarCategoryMain" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRankMain" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/TabLayoutRankMain"
@@ -42,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbarCategoryMain"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarRankMain"
         app:tabIndicatorColor="@color/black"
         app:tabMode="fixed"
         app:tabTextColor="@color/black"></com.google.android.material.tabs.TabLayout>
