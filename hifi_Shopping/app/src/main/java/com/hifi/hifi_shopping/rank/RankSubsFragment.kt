@@ -62,13 +62,13 @@ class RankSubsFragment : Fragment() {
     data class RankSubs(val imageResId: Int, val name: String)
 }
 
+// 구독 랭킹 관련 리사이클러뷰 어댑터
 class SubsAdapter(private val subsList: List<RankSubsFragment.RankSubs>) : RecyclerView.Adapter<SubsAdapter.SubsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubsViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_rank_item, parent, false)
         return SubsViewHolder(itemView)
     }
-
     override fun onBindViewHolder(holder: SubsViewHolder, position: Int) {
         val currentSubsItem = subsList[position]
         holder.subsImage.setImageResource(currentSubsItem.imageResId)
@@ -78,11 +78,9 @@ class SubsAdapter(private val subsList: List<RankSubsFragment.RankSubs>) : Recyc
             // Handle subs item click
         }
     }
-
     override fun getItemCount(): Int {
         return subsList.size
     }
-
     inner class SubsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val subsImage: ImageView = itemView.findViewById(R.id.ImageItem)
         val subsName: TextView = itemView.findViewById(R.id.TextItem)

@@ -62,13 +62,13 @@ class RankItemFragment : Fragment() {
     data class RankItem(val imageResId: Int, val name: String)
 }
 
+// 아이템 랭킹 관련 리사이클러뷰 어댑터
 class ItemAdapter(private val itemList: List<RankItemFragment.RankItem>) : RecyclerView.Adapter<ItemAdapter.ItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.row_rank_item, parent, false)
         return ItemViewHolder(itemView)
     }
-
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val currentItem = itemList[position]
         holder.itemImage.setImageResource(currentItem.imageResId)
@@ -78,11 +78,9 @@ class ItemAdapter(private val itemList: List<RankItemFragment.RankItem>) : Recyc
             // Handle item click
         }
     }
-
     override fun getItemCount(): Int {
         return itemList.size
     }
-
     inner class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val itemImage: ImageView = itemView.findViewById(R.id.ImageItem)
         val itemName: TextView = itemView.findViewById(R.id.TextItem)

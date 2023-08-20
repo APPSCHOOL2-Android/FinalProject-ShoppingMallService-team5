@@ -13,7 +13,7 @@ import com.hifi.hifi_shopping.databinding.FragmentRankMainBinding
 
 class RankMainFragment : Fragment() {
 
-    lateinit var fragmentRankMainBinding: FragmentRankMainBinding
+    lateinit var fragmentRankMainBinding : FragmentRankMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,18 +25,19 @@ class RankMainFragment : Fragment() {
         val viewPager = fragmentRankMainBinding.ViewPagerRankMain
         val tabLayout = fragmentRankMainBinding.TabLayoutRankMain
 
-        val adapter = PagerAdapter(childFragmentManager, lifecycle) // YourPagerAdapter에 대한 언급이 없으므로 수정 필요
+        // 어댑터 연결
+        val adapter = PagerAdapter(childFragmentManager, lifecycle)
         adapter.addFragment(RankItemFragment())
         adapter.addFragment(RankSubsFragment())
 
         viewPager.adapter = adapter
 
+        // Tab레이아웃 title 구성
         val tabTitles = listOf("종류 별", "구독")
 
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = tabTitles[position]
         }.attach()
-
 
         return fragmentRankMainBinding.root
     }
@@ -50,11 +51,9 @@ class PagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) :
     fun addFragment(fragment: Fragment) {
         fragmentList.add(fragment)
     }
-
     override fun getItemCount(): Int {
         return fragmentList.size
     }
-
     override fun createFragment(position: Int): Fragment {
         return fragmentList[position]
     }
