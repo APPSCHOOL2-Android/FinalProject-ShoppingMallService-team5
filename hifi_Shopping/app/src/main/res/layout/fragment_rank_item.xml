@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".rank.RankActivity">
+    tools:context=".rank.RankItemFragment" >
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/rankMainContainer"
-        android:name="com.hifi.hifi_shopping.rank.RankMainFragment"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewRankItem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
