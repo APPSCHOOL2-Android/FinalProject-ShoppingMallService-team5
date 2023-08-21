@@ -6,30 +6,38 @@
     android:layout_height="match_parent"
     tools:context=".auth.AuthFindPwFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutAuthFindPw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarAuthFindPw"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="1"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:title="비밀번호 찾기"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:backgroundTint="#FFFFFF"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1"
+        app:navigationIcon="@drawable/chevron_left_24px"
+        app:title="비밀번호 찾기" />
 
     <View
         android:id="@+id/toolbarBottomBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarAuthFindPw"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/toolbarAuthFindPw"
-        android:background="#6C3428" />
+        android:background="#6C3428"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAuthFindPw" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -39,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarAuthFindPw">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutAuthFindPw">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -208,7 +216,6 @@
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
     </ScrollView>

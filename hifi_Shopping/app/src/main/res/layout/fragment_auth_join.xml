@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".auth.AuthJoinFragment" >
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutAuthJoin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarAuthJoin"
@@ -32,6 +37,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarAuthJoin" />
 
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -40,7 +47,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarAuthJoin">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutAuthJoin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

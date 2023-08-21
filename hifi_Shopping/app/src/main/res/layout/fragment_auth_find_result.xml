@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".auth.AuthFindResultFragment" >
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutAuthFindResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarAuthFindResult"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +25,8 @@
         android:background="@color/white"
         android:backgroundTint="#FFFFFF"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        />
 
     <View
         android:id="@+id/toolbarBottomBar"
@@ -31,13 +38,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarAuthFindResult" />
 
+    </com.google.android.material.appbar.AppBarLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="65dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/appBarLayoutAuthFindResult">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
