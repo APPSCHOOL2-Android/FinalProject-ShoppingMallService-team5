@@ -66,19 +66,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="50dp"
-                android:text="이름"
+                android:text="닉네임"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/guideFindPw1"/>
+                app:layout_constraintTop_toBottomOf="@+id/guideFindPw1" />
 
             <EditText
-                android:id="@+id/editTextFindPwUserName"
+                android:id="@+id/editTextFindPwNickname"
                 android:layout_width="272dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="70dp"
                 android:layout_marginEnd="70dp"
                 android:backgroundTint="#AEAEAE"
                 android:ems="10"
-                android:hint=" 이름 입력"
+                android:hint=" 닉네임 입력"
                 android:inputType="text|textPersonName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -93,7 +93,7 @@
                 android:layout_marginTop="20dp"
                 android:text="전화번호"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwUserName" />
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNickname" />
 
             <EditText
                 android:id="@+id/editTextFindPwNumber"
@@ -122,7 +122,7 @@
                 android:textSize="8sp"
                 app:cornerRadius="5dp"
                 app:layout_constraintStart_toEndOf="@+id/editTextFindPwNumber"
-                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwUserName"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNickname"
                 app:strokeColor="#46000000"
                 app:strokeWidth="1dp" />
 
@@ -153,7 +153,7 @@
                 android:textSize="8sp"
                 app:cornerRadius="5dp"
                 app:layout_constraintStart_toEndOf="@+id/editTextFindPwNumber"
-                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwUserName"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNickname"
                 app:strokeColor="#46000000"
                 app:strokeWidth="1dp" />
 
