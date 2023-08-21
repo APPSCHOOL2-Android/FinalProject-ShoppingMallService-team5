@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".rank.RankMainFragment">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutRankMain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarRankMain"
         android:layout_width="match_parent"
@@ -19,27 +25,26 @@
         app:navigationIcon="@drawable/chevron_left_24px"
         app:title="랭킹"
         app:titleCentered="true"
+        app:titleTextAppearance="@style/CategoryMainToolbarTitleTextAppearance"
         app:titleTextColor="@color/dark_brown" />
 
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dark_brown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarRankMain" />
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark_brown" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/TabLayoutRankMain"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarRankMain"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutRankMain"
         app:tabIndicatorColor="@color/black"
         app:tabMode="fixed"
         app:tabTextColor="@color/black" />
@@ -48,8 +53,8 @@
         android:id="@+id/ViewPagerRankMain"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/TabLayoutRankMain"
-        app:layout_constraintBottom_toTopOf="@id/toolbarBotRankMain" />
+        app:layout_constraintBottom_toTopOf="@id/toolbarBotRankMain"
+        app:layout_constraintTop_toBottomOf="@+id/TabLayoutRankMain" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarBotRankMain"
