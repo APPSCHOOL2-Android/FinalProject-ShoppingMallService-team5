@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/categoryMainFragment"
         android:name="com.hifi.hifi_shopping.category.ui.CategoryMainFragment"
-        android:label="fragment_category_main"
-        tools:layout="@layout/fragment_category_main" />
+        android:label="fragment_category_main" />
+
 </navigation>
