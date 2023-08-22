@@ -5,9 +5,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 
 class UserCouponRepository {
-    fun getUserCouponAll(callback1: (Task<DataSnapshot>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-        val couponDataRef = database.getReference("UserCouponData")
-        couponDataRef.get().addOnCompleteListener(callback1)
+    companion object {
+        fun getUserCouponAll(callback1: (Task<DataSnapshot>) -> Unit) {
+            val database = FirebaseDatabase.getInstance()
+            val couponDataRef = database.getReference("UserCouponData")
+            couponDataRef.get().addOnCompleteListener(callback1)
+        }
     }
 }
