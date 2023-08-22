@@ -42,16 +42,13 @@
             android:name=".notice.NoticeActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".buy.BuyActivity"
             android:exported="false" />
         <activity
             android:name=".auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".category.CategoryActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
