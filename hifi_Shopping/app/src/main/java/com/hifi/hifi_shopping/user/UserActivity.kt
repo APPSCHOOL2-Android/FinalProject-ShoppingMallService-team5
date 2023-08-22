@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.animation.AccelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
@@ -18,15 +19,14 @@ import java.util.UUID
 
 class UserActivity : AppCompatActivity() {
 
-    lateinit var activityUserBinding: ActivityUserBinding
+    lateinit var activityUserBinding : ActivityUserBinding
 
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
 
-    lateinit var userData : UserDataClass
 
-
-
+    var userData = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82","ohsso98@naver.com", "0618","김대박",false,"01000000000","user_sample.jpg")
+    val pointList = mutableListOf<PointDataClass>()
     companion object{
         val MY_PAGE_FRAGMENT = "MyPageFragment"
         val CART_FRAGMENT = "CartFragment"
@@ -39,15 +39,20 @@ class UserActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user)
+        activityUserBinding = ActivityUserBinding.inflate(layoutInflater)
+        setContentView(activityUserBinding.root)
+
 
         // 데이터 입력
 //        addUserData()
-        addCouponData()
-        addPointData()
+//        addCouponData()
+//        addPointData()
 
-        // 유저 데이터 가져오기
-        getUserData()
+        // 유저에 대한 포인트 데이터 가져오기
+//        getPointList(userData)
+        Log.d("포인트3",pointList.toString())
+
+        replaceFragment(MY_PAGE_FRAGMENT, false, null)
     }
 
     // 지정한 Fragment를 보여주는 메서드
@@ -119,70 +124,4 @@ class UserActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-
-    fun addUserData(){
-        val uuid = UUID.randomUUID()
-        val idx = uuid.toString()
-
-//        val userData = UserDataClass(idx,"ohsso981@naver.com", "0619","김대박",false,"01000000000","user_sample.jpg")
-        val userData = UserDataClass(idx,"ohsso98@naver.com", "0619","김대박",false,"01000000000","user_sample.jpg")
-
-        val database = FirebaseDatabase.getInstance()
-        val userDataRef = database.getReference("UserData")
-        userDataRef.push().setValue(userData).addOnCompleteListener{
-            Log.d("유저 데이터",userData.toString())
-        }
-    }
-
-    fun addCouponData(){
-        val coupon1idx = UUID.randomUUID().toString()
-        val coupon2idx = UUID.randomUUID().toString()
-
-        val couponData1 = CouponDataClass(coupon1idx,"12", "2023-09-25",50,true)
-        val couponData2 = CouponDataClass(coupon2idx,"13", "2023-09-26",35,true)
-
-        val userCouponData1 = UserCouponDataClass(userData.idx,coupon1idx,true)
-        val userCouponData2 = UserCouponDataClass(userData.idx,coupon2idx, false)
-
-        val database = FirebaseDatabase.getInstance()
-
-        val couponDataRef = database.getReference("CouponData")
-        couponDataRef.push().setValue(couponData1)
-        couponDataRef.push().setValue(couponData2)
-
-        val userCouponDataRef = database.getReference("UserCouponData")
-        userCouponDataRef.push().setValue(userCouponData1)
-        userCouponDataRef.push().setValue(userCouponData2)
-    }
-
-    fun addPointData(){
-        val pointData1 = PointDataClass(userData.idx,200,"2023-08-22","회원 가입")
-        val pointData2 = PointDataClass(userData.idx,-10,"2023-08-23","상품 구입")
-
-        val database = FirebaseDatabase.getInstance()
-        val pointDataRef = database.getReference("PointData")
-
-        pointDataRef.push().setValue(pointData1)
-        pointDataRef.push().setValue(pointData2)
-    }
-
-    fun getUserData(){
-        val database = FirebaseDatabase.getInstance()
-        val userDataRef = database.getReference("UserData")
-        val loginUserId = "ohsso98@naver.com"
-
-        userDataRef.orderByChild("userId").equalTo(loginUserId).get().addOnCompleteListener {
-            for(c1 in it.result.children) {
-                val idx = c1.child("idx").value as String
-                val email = c1.child("email").value as String
-                val pw = c1.child("pw").value as String
-                val nickname = c1.child("nickname").value as String
-                val isVerify = c1.child("verify").value as Boolean
-                val phoneNum = c1.child("phoneNum").value as String
-                val profileImg = c1.child("profileImg").value as String
-
-                userData = UserDataClass(idx,email, pw, nickname, isVerify, phoneNum, profileImg)
-            }
-        }
-    }
 }
