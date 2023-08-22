@@ -31,12 +31,11 @@ class UserRepository {
 
         }
 
-        // 사용자 아이디를 통해 사용자 정보를 가져온다.
-        fun getUserInfoByUserId(loginUserId: String, callback1: (Task<DataSnapshot>) -> Unit) {
+
+        fun getUserInfoByUserEmail(loginUserId: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
 
-            // userId가 사용자가 입력한 아이디와 같은 데이터를 가져온다.
             userDataRef.orderByChild("email").equalTo(loginUserId).get()
                 .addOnCompleteListener(callback1)
         }
