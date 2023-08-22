@@ -41,11 +41,10 @@
                         android:id="@+id/imageView"
                         android:layout_width="360dp"
                         android:layout_height="360dp"
-                        android:src="@tools:sample/avatars"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/testImage22" />
+                        app:srcCompat="@drawable/test_image22" />
 
                     <TextView
                         android:id="@+id/textView"

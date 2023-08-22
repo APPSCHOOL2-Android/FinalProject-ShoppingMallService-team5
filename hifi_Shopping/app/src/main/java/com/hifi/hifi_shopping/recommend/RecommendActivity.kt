@@ -20,6 +20,8 @@ class RecommendActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val test = 100
+
         activityRecommendBinding = ActivityRecommendBinding.inflate(layoutInflater)
         setContentView(activityRecommendBinding.root)
 
