@@ -10,6 +10,9 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
+import com.hifi.hifi_shopping.user.model.CouponDataClass
+import com.hifi.hifi_shopping.user.model.PointDataClass
+import com.hifi.hifi_shopping.user.model.UserCouponDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import java.util.UUID
 
@@ -21,6 +24,8 @@ class UserActivity : AppCompatActivity() {
     var oldFragment:Fragment? = null
 
     lateinit var userData : UserDataClass
+
+
 
     companion object{
         val MY_PAGE_FRAGMENT = "MyPageFragment"
@@ -35,6 +40,13 @@ class UserActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user)
+
+        // 데이터 입력
+//        addUserData()
+        addCouponData()
+        addPointData()
+
+        // 유저 데이터 가져오기
         getUserData()
     }
 
@@ -107,17 +119,51 @@ class UserActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+
     fun addUserData(){
         val uuid = UUID.randomUUID()
         val idx = uuid.toString()
 
-        val userData = UserDataClass(idx,"ohsso98@naver.com", "0618","김대박",false,"01000000000","user_sample.jpg")
+//        val userData = UserDataClass(idx,"ohsso981@naver.com", "0619","김대박",false,"01000000000","user_sample.jpg")
+        val userData = UserDataClass(idx,"ohsso98@naver.com", "0619","김대박",false,"01000000000","user_sample.jpg")
 
         val database = FirebaseDatabase.getInstance()
         val userDataRef = database.getReference("UserData")
         userDataRef.push().setValue(userData).addOnCompleteListener{
             Log.d("유저 데이터",userData.toString())
         }
+    }
+
+    fun addCouponData(){
+        val coupon1idx = UUID.randomUUID().toString()
+        val coupon2idx = UUID.randomUUID().toString()
+
+        val couponData1 = CouponDataClass(coupon1idx,"12", "2023-09-25",50,true)
+        val couponData2 = CouponDataClass(coupon2idx,"13", "2023-09-26",35,true)
+
+        val userCouponData1 = UserCouponDataClass(userData.idx,coupon1idx,true)
+        val userCouponData2 = UserCouponDataClass(userData.idx,coupon2idx, false)
+
+        val database = FirebaseDatabase.getInstance()
+
+        val couponDataRef = database.getReference("CouponData")
+        couponDataRef.push().setValue(couponData1)
+        couponDataRef.push().setValue(couponData2)
+
+        val userCouponDataRef = database.getReference("UserCouponData")
+        userCouponDataRef.push().setValue(userCouponData1)
+        userCouponDataRef.push().setValue(userCouponData2)
+    }
+
+    fun addPointData(){
+        val pointData1 = PointDataClass(userData.idx,200,"2023-08-22","회원 가입")
+        val pointData2 = PointDataClass(userData.idx,-10,"2023-08-23","상품 구입")
+
+        val database = FirebaseDatabase.getInstance()
+        val pointDataRef = database.getReference("PointData")
+
+        pointDataRef.push().setValue(pointData1)
+        pointDataRef.push().setValue(pointData2)
     }
 
     fun getUserData(){

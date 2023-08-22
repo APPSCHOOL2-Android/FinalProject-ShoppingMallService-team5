@@ -5,7 +5,7 @@ data class UserDataClass(
     var email: String,
     var pw: String,
     var nickname: String,
-    var isVerify: Boolean,
+    var verify: Boolean,
     var phoneNum: String,
     var profileImg: String
 )
