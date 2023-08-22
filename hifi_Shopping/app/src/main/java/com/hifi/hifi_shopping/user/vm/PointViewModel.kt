@@ -10,7 +10,6 @@ import com.hifi.hifi_shopping.user.repository.PointRepository
 
 class PointViewModel  : ViewModel() {
 
-    // 게시글 목록
     var pointDataList = MutableLiveData<MutableList<PointDataClass>>()
 
     fun getPointList(userIdx : String){
