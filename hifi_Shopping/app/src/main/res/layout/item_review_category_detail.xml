@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingHorizontal="33dp"
+    android:paddingBottom="9dp"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/imageViewItemReviewCategoryDetailUserThumb"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/brown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/notosans_eb"
+        android:text="자취 만렙"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@id/imageViewItemReviewCategoryDetailUserThumb"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/buttonItemReviewCategoryDetailSubscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/background_subscribe_button"
+        android:fontFamily="@font/notosans_eb"
+        android:paddingHorizontal="12dp"
+        android:text="구독"
+        android:textColor="@color/white"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewItemReviewCategoryDetailUserName"
+        app:layout_constraintStart_toEndOf="@id/textViewItemReviewCategoryDetailUserName" />
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailFollower"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:fontFamily="@font/notosans_eb"
+        android:text="팔로워"
+        android:textColor="@color/grey"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@id/textViewItemReviewCategoryDetailUserName"
+        app:layout_constraintTop_toTopOf="@id/textViewItemReviewCategoryDetailUserName" />
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailFollowerCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="734"
+        android:textColor="@color/grey"
+        android:textSize="13dp"
+        app:layout_constraintEnd_toEndOf="@id/textViewItemReviewCategoryDetailFollower"
+        app:layout_constraintStart_toStartOf="@id/textViewItemReviewCategoryDetailFollower"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemReviewCategoryDetailFollower" />
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailItems"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이템 수"
+        android:textColor="@color/grey"
+        android:textSize="13dp"
+        android:fontFamily="@font/notosans_eb"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@id/textViewItemReviewCategoryDetailFollower"
+        app:layout_constraintTop_toTopOf="@id/textViewItemReviewCategoryDetailFollower"/>
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailItemCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="734"
+        android:textColor="@color/grey"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@id/textViewItemReviewCategoryDetailItems"
+        app:layout_constraintEnd_toEndOf="@id/textViewItemReviewCategoryDetailItems"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemReviewCategoryDetailItems"/>
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="리뷰"
+        android:textColor="@color/grey"
+        android:textSize="13dp"
+        android:fontFamily="@font/notosans_eb"
+        android:layout_marginStart="21dp"
+        app:layout_constraintStart_toEndOf="@id/textViewItemReviewCategoryDetailItems"
+        app:layout_constraintTop_toTopOf="@id/textViewItemReviewCategoryDetailItems"/>
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailReviewCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="734"
+        android:textColor="@color/grey"
+        android:textSize="13dp"
+        app:layout_constraintStart_toStartOf="@id/textViewItemReviewCategoryDetailReview"
+        app:layout_constraintEnd_toEndOf="@id/textViewItemReviewCategoryDetailReview"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemReviewCategoryDetailReview"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewItemReviewCategoryDetailProduct"
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="13dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageViewItemReviewCategoryDetailUserThumb">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageViewItemReviewCategoryDetailProductThumb"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_margin="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@color/grey" />
+
+            <TextView
+                android:id="@+id/imageViewItemReviewCategoryDetailProductName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/notosans_regular"
+                android:maxLines="1"
+                android:text="ASDFASDFASDF"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/imageViewItemReviewCategoryDetailProductThumb"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/imageViewItemReviewCategoryDetailProductPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_eb"
+                android:text="00,000 원"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@id/imageViewItemReviewCategoryDetailProductName"
+                app:layout_constraintTop_toBottomOf="@id/imageViewItemReviewCategoryDetailProductName" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+    
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailReviewContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/cardViewItemReviewCategoryDetailProduct"
+        app:layout_constraintEnd_toEndOf="@id/cardViewItemReviewCategoryDetailProduct"
+        app:layout_constraintTop_toBottomOf="@id/cardViewItemReviewCategoryDetailProduct"
+        android:layout_marginTop="15dp"
+        android:paddingVertical="9dp"
+        android:paddingHorizontal="13dp"
+        android:textColor="#8A8A8A"
+        android:fontFamily="@font/notosans_regular"
+        android:text="최신 리뷰"
+        android:lines="4"
+        android:ellipsize="end"
+        android:background="@drawable/review_content_textview_background"/>
+
+    <TextView
+        android:id="@+id/textViewItemReviewCategoryDetailLikeCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="734"
+        android:fontFamily="@font/notosans_eb"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemReviewCategoryDetailReviewContent"
+        app:layout_constraintEnd_toEndOf="@id/textViewItemReviewCategoryDetailReviewContent"
+        android:textSize="12sp"
+        android:textColor="#727272" />
+
+    <ImageView
+        android:id="@+id/imageViewItemReviewCategoryDetailLike"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginEnd="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/textViewItemReviewCategoryDetailLikeCount"
+        app:layout_constraintEnd_toStartOf="@id/textViewItemReviewCategoryDetailLikeCount"
+        app:srcCompat="@drawable/thumb_up_20px" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

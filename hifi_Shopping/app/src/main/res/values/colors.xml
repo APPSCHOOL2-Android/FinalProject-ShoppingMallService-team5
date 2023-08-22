@@ -3,5 +3,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="brown">#846058</color>
+
+    <color name="brown2">#846058</color>
+
+    <color name="brown">#6C3428</color>
+
+    <color name="grey">#727272</color>
+    <color name="review_cotainer">#846058</color>
+
+    <color name="dark_brown">#6C3428</color>
+
+    <color name="light_brown">#B85944</color>
+
 </resources>

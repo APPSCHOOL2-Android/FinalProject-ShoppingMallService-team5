@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".buy.OrderFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:clickable="true"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:menu="@menu/menu_home"
+        app:navigationIcon="@drawable/chevron_left_24px"
+        app:navigationIconTint="#846058"
+        app:title="주문서 작성"
+        app:titleCentered="true"
+        app:titleTextColor="#846058" />
+
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#F0EFEF">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F0EFEF"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:id="@+id/orderUserGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/orderUserToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="주문자 정보"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <ImageButton
+                        android:id="@+id/orderUserBtnToggle"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/expand_less_24px" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/orderUserBtnAuth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="#C8A4A4"
+                    android:elegantTextHeight="true"
+                    android:fontFamily="@font/notosanskr_bold"
+                    android:text="최초 1회 본인 인증"
+                    app:cornerRadius="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/orderUserLayoutAuthComplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/orderUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#DADADA"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="김소윤" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="#DADADA"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:paddingBottom="5dp"
+                            android:text="010-0000-0000" />
+
+                        <TextView
+                            android:id="@+id/textView5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#DADADA"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:padding="5dp"
+                            android:text="인증완료" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/orderDeliverGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/orderDeliverToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="배송지"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <ImageButton
+                        android:id="@+id/orderDeliverBtnToggle"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/expand_less_24px" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/orderDeliverLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
+
+                    <LinearLayout
+                        android:id="@+id/orderDeliverBtnSelectGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/orderDeliverBtnFirst"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D7D7D7"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:scaleX="0.8"
+                            android:scaleY="0.6"
+                            android:text="우리 집"
+                            android:textColor="#727272"
+                            android:textScaleX="0.8"
+                            android:textSize="16sp"
+                            app:cornerRadius="5dp" />
+
+                        <Button
+                            android:id="@+id/orderDeliverBtnSecond"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D7D7D7"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:scaleX="0.8"
+                            android:scaleY="0.6"
+                            android:text="2번 주소"
+                            android:textColor="#727272"
+                            android:textScaleX="0.8"
+                            android:textSize="16sp"
+                            app:cornerRadius="5dp" />
+
+                        <Button
+                            android:id="@+id/orderDeliverBtnThird"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D7D7D7"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:scaleX="0.8"
+                            android:scaleY="0.6"
+                            android:text="3번 주소"
+                            android:textColor="#727272"
+                            android:textScaleX="0.8"
+                            android:textSize="16sp"
+                            app:cornerRadius="5dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderDeliverAddrNameGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="배송지 이름"
+                            android:textColor="#8A8A8A" />
+
+                        <EditText
+                            android:id="@+id/orderDeliverEditAddrName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D9D9D9"
+                            android:elegantTextHeight="true"
+                            android:ems="10"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:inputType="text"
+                            android:text="우리 집"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderDeliverNameGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="받으실 분"
+                            android:textColor="#8A8A8A" />
+
+                        <EditText
+                            android:id="@+id/orderDeliverEditName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D9D9D9"
+                            android:elegantTextHeight="true"
+                            android:ems="10"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:inputType="text"
+                            android:text="김소윤"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderDeliverPhoneGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="전화번호"
+                            android:textColor="#8A8A8A" />
+
+                        <EditText
+                            android:id="@+id/orderDeliverEditPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D9D9D9"
+                            android:elegantTextHeight="true"
+                            android:ems="10"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:inputType="text"
+                            android:text="01011112222"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderDeliverAddrGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="주소"
+                            android:textColor="#8A8A8A" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/orderDeliverEditAddr"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:backgroundTint="#D9D9D9"
+                                android:elegantTextHeight="true"
+                                android:ems="10"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:hint="주소 입력"
+                                android:inputType="text"
+                                android:text="XX시 XX구 XX번지"
+                                android:textSize="13sp" />
+
+                            <Button
+                                android:id="@+id/orderDeliverEditBtnSearch"
+                                style="@style/Widget.Material3.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="38dp"
+                                android:layout_gravity="center"
+                                android:elegantTextHeight="true"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:text="주소 검색"
+                                android:textColor="#727272"
+                                android:textSize="12dp"
+                                app:cornerRadius="5dp"
+                                app:strokeColor="#D9D9D9" />
+
+                        </LinearLayout>
+
+                        <EditText
+                            android:id="@+id/orderDeliverEditAddrDetail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="#D9D9D9"
+                            android:elegantTextHeight="true"
+                            android:ems="10"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:hint="상세 주소 입력"
+                            android:inputType="text"
+                            android:text="XX동 XX호"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderDeliverMemoGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/orderDeliverMemoList"
+                            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:boxStrokeColor="#D7D7D7">
+
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@color/white"
+                                android:elegantTextHeight="true"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:hint="배송 메모 선택"
+                                android:inputType="none"
+                                android:textSize="13sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <EditText
+                            android:id="@+id/orderDeliverMemoEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="137dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@drawable/edit_text_box"
+                            android:ems="10"
+                            android:inputType="text" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/orderDeliverBtnSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:backgroundTint="#C8A4A4"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="저장"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        app:cornerRadius="5dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/orderItemListGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/orderItemListToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="주문 목록"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <ImageButton
+                        android:id="@+id/orderItemListBtnToggle"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/expand_less_24px" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/orderItemListRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/orderPayInfoGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:id="@+id/orderPayInfoToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="결제 정보"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <ImageButton
+                        android:id="@+id/orderPayInfoBtnToggle"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/expand_less_24px" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/orderPayInfoLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:text="일반 결제"
+                        android:textColor="#727272" />
+
+                    <LinearLayout
+                        android:id="@+id/orderPayInfoBtnSelectGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <Button
+                            android:id="@+id/orderPayInfoBtnCard"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="카드"
+                            android:textColor="#727272"
+                            android:textSize="14sp"
+                            app:cornerRadius="5dp"
+                            app:strokeColor="#D7D7D7" />
+
+                        <Button
+                            android:id="@+id/orderPayInfoBtnAccountTransfer"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="계좌이체"
+                            android:textColor="#727272"
+                            android:textSize="14sp"
+                            app:cornerRadius="5dp"
+                            app:strokeColor="#D7D7D7"
+                            tools:layout_marginLeft="10dp" />
+
+                        <Button
+                            android:id="@+id/orderPayInfoBtnPhone"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_bold"
+                            android:text="휴대폰"
+                            android:textColor="#727272"
+                            android:textSize="14sp"
+                            app:cornerRadius="5dp"
+                            app:strokeColor="#D7D7D7"
+                            tools:layout_marginLeft="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderPayInfoCardLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:visibility="visible">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/orderPayInfoCardListBrand"
+                            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:boxStrokeColor="#D7D7D7">
+
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@color/white"
+                                android:elegantTextHeight="true"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:hint="카드 선택"
+                                android:inputType="none"
+                                android:textSize="13sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/orderPayInfoCardListMonths"
+                            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="5dp"
+                            app:boxStrokeColor="#D7D7D7">
+
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@color/white"
+                                android:elegantTextHeight="true"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:hint="할부 개월 수를 선택해주세요."
+                                android:inputType="none"
+                                android:textSize="13sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderPayInfoAccountTransferLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/orderPayInfoAccountTransferList"
+                            style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:boxStrokeColor="#D7D7D7">
+
+                            <AutoCompleteTextView
+                                android:layout_width="match_parent"
+                                android:layout_height="35dp"
+                                android:background="@color/white"
+                                android:elegantTextHeight="true"
+                                android:fontFamily="@font/notosanskr_regular"
+                                android:hint="은행 선택"
+                                android:inputType="none"
+                                android:textSize="13sp" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:id="@+id/orderPayInfoAccountTransferInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:text="기업은행 0000-0000-0000-0000" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/orderPayInfoPhoneLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <Button
+                            android:id="@+id/orderPayInfoPhoneBtn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="#C8A4A4"
+                            android:text="휴대폰 결제"
+                            app:cornerRadius="5dp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/orderRefundInfoGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <LinearLayout
+                    android:id="@+id/orderRefundInfoToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="환불 정책"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                    <ImageButton
+                        android:id="@+id/orderRefundInfoBtnToggle"
+                        style="@style/Widget.Material3.Button.IconButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/expand_less_24px" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/orderRefundInfoDetail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/notosanskr_regular"
+                    android:text="~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~` ~~~~~~~~~~~~~~~~~~~~~~~~~~~~" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/orderPayBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_vertical|end"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_round"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingTop="12dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="12dp"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/orderPayBtnCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_bold"
+                android:text="Total 0 Items"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/orderPayBtnTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_bold"
+                android:text="00000원"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_bold"
+                android:text="결제 하기"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:id="@+id/textView25"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:rotation="180"
+                app:srcCompat="@drawable/chevron_left_24px"
+                app:tint="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
