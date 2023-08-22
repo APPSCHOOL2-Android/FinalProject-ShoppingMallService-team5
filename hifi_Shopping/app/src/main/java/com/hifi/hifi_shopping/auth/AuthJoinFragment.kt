@@ -26,7 +26,7 @@ class AuthJoinFragment : Fragment() {
         fragmentAuthJoinBinding.run {
             // 네비게이션 아이콘을 클릭했을 때의 동작 설정
             toolbarAuthJoin.setNavigationOnClickListener {
-                authActivity.onBackPressed()
+                authActivity.removeFragment(AuthActivity.AUTH_JOIN_FRAGMENT)
             }
         }
 

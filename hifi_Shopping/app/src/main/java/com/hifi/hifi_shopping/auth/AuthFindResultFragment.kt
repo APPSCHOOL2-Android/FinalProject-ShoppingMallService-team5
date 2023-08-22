@@ -24,7 +24,7 @@ class AuthFindResultFragment : Fragment() {
         fragmentAuthFindResultBinding.run {
             // 네비게이션 아이콘을 클릭했을 때의 동작 설정
             toolbarAuthFindResult.setNavigationOnClickListener {
-                authActivity.onBackPressed()
+                authActivity.removeFragment(AuthActivity.AUTH_FIND_RESULT_FRAGMENT)
             }
         }
 
