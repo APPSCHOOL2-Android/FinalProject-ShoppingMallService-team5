@@ -49,6 +49,7 @@ class ItemListFragment : Fragment() {
 
     inner class ItemRecyclerViewAdapter : RecyclerView.Adapter<ItemRecyclerViewAdapter.ItemViewHolder>() {
         inner class ItemViewHolder(rowItemBinding: RowItemBinding) : RecyclerView.ViewHolder(rowItemBinding.root){
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
