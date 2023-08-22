@@ -1,13 +1,17 @@
 package com.hifi.hifi_shopping_sales.seller
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.hifi.hifi_shopping_sales.R
 import com.hifi.hifi_shopping_sales.databinding.ActivitySellerBinding
+import kotlin.concurrent.thread
 
 class SellerActivity : AppCompatActivity() {
 
@@ -92,5 +96,16 @@ class SellerActivity : AppCompatActivity() {
     // Fragment를 BackStack에서 제거한다.
     fun removeFragment(name:String){
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    // 입력 요소에 포커스를 주는 메서드
+    fun showSoftInput(view: View){
+        view.requestFocus()
+
+        val inputMethodManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        thread {
+            SystemClock.sleep(200)
+            inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 }
