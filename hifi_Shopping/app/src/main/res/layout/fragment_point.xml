@@ -9,20 +9,34 @@
     tools:context=".user.PointFragment">
 
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarPoint"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/pointAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
-        app:itemIconTint="#846058"
-        app:menu="@menu/menu_search_cart"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:navigationIconTint="#846058"
-        app:title="포인트"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/pointToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="#846058"
+            app:menu="@menu/menu_search_cart"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:title="포인트"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+        <View
+            android:id="@+id/pointToolbarDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/dark_brown" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"

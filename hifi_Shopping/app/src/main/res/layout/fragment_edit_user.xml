@@ -7,20 +7,34 @@
     android:orientation="vertical"
     tools:context=".user.EditUserFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarEditUser"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/editUserAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
-        app:itemIconTint="#846058"
-        app:menu="@menu/menu_search_cart"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:navigationIconTint="#846058"
-        app:title="개인 정보 수정"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/editUserToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="#846058"
+            app:menu="@menu/menu_search_cart"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:title="개인 정보 수정"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+        <View
+            android:id="@+id/editUserToolbarDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/brown2" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -86,7 +100,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/editUserEditAddr"
+                        android:id="@+id/editUserAddrEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -98,7 +112,7 @@
                         android:textSize="13sp" />
 
                     <Button
-                        android:id="@+id/button2"
+                        android:id="@+id/editUserAddrBtnSearch"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
@@ -114,7 +128,7 @@
                 </LinearLayout>
 
                 <EditText
-                    android:id="@+id/editUserEditAddrDetail"
+                    android:id="@+id/editUserAddrDetailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -144,7 +158,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/textView15"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_bold"
@@ -157,7 +170,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/editUserEditPhone"
+                        android:id="@+id/editUserPhoneEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -169,7 +182,7 @@
                         android:textSize="13sp" />
 
                     <Button
-                        android:id="@+id/editUserBtnCheckPhone"
+                        android:id="@+id/editUserPhoneBtnCheck"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -188,7 +201,7 @@
                     android:orientation="horizontal">
 
                     <EditText
-                        android:id="@+id/editUserEditPhoneVerify"
+                        android:id="@+id/editUserPhoneEditTextVerify"
                         android:layout_width="290dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -200,7 +213,7 @@
                         android:textSize="13sp" />
 
                     <Button
-                        android:id="@+id/editUserBtnCheckPhoneVerify"
+                        android:id="@+id/editUserPhoneBtnCheckVerify"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -215,7 +228,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/editUserChangePwd"
+                android:id="@+id/editUserPwdEditTextChange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -223,7 +236,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_bold"
@@ -231,7 +243,7 @@
                     android:textColor="#8A8A8A" />
 
                 <EditText
-                    android:id="@+id/editUserEditPwdNew"
+                    android:id="@+id/editUserPwdEditTextNew"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#D9D9D9"
@@ -242,7 +254,6 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/textView14"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosanskr_bold"
@@ -250,7 +261,7 @@
                     android:textColor="#8A8A8A" />
 
                 <EditText
-                    android:id="@+id/editUserEditPwdSameCheck"
+                    android:id="@+id/editUserPwdEditTextSameCheck"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="#D9D9D9"

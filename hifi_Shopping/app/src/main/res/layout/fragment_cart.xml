@@ -13,20 +13,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbarCart"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/cartAppBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/white"
-            android:clickable="true"
-            android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/menu_home"
-            app:navigationIcon="@drawable/chevron_left_24px"
-            app:navigationIconTint="#846058"
-            app:title="장바구니"
-            app:titleCentered="true"
-            app:titleTextColor="#846058" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/cartToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@color/white"
+                android:clickable="true"
+                android:minHeight="?attr/actionBarSize"
+                app:menu="@menu/menu_home"
+                app:navigationIcon="@drawable/chevron_left_24px"
+                app:navigationIconTint="#846058"
+                app:title="장바구니"
+                app:titleCentered="true"
+                app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+                app:titleTextColor="#846058" />
+            <View
+                android:id="@+id/cartToolbarDivider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/dark_brown" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <ScrollView
             android:layout_width="match_parent"

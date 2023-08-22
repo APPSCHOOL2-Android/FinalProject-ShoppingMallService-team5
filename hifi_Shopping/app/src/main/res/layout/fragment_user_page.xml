@@ -7,20 +7,35 @@
     android:orientation="vertical"
     tools:context=".user.UserPageFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarUserPage"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/userPageAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
-        app:itemIconTint="#846058"
-        app:menu="@menu/menu_search_cart"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:navigationIconTint="#846058"
-        app:title="사용자이름"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/userPageToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="#846058"
+            app:menu="@menu/menu_search_cart"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:title="사용자이름"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+
+    <View
+        android:id="@+id/userPageToolbarDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/brown2" />
+
+</com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

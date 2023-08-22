@@ -7,19 +7,34 @@
     android:orientation="vertical"
     tools:context=".user.MyPageFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarMyPage"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/myPageAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        app:itemIconTint="#846058"
-        app:menu="@menu/menu_search_cart"
-        app:navigationIcon="@drawable/notifications_24px"
-        app:navigationIconTint="#846058"
-        app:title="마이 페이지"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/myPageToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="@color/brown2"
+            app:menu="@menu/menu_search_cart"
+            app:navigationIcon="@drawable/notifications_24px"
+            app:navigationIconTint="@color/brown2"
+            app:title="마이 페이지"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="@color/brown2" />
+
+        <View
+            android:id="@+id/myPageToolbarDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/brown2" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -182,7 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#846058"
+            android:backgroundTint="@color/brown2"
             android:elegantTextHeight="true"
             android:fontFamily="@font/notosanskr_bold"
             android:text="아이템 추천 받으러 가기>"
@@ -541,8 +556,6 @@
             android:textAlignment="textEnd"
             android:textColor="#FFFFFF"
             app:cornerRadius="10dp"></Button>
-
-
 
 
     </LinearLayout>
