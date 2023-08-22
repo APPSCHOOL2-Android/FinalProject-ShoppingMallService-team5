@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/rowWishListImg"
+        android:layout_width="115dp"
+        android:layout_height="135dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+    <CheckBox
+        android:id="@+id/rowWishListCheckbox"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_margin="0dp"
+        android:backgroundTint="@color/black"
+        android:bufferType="editable"
+        android:checked="false"
+        android:padding="0dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        app:layout_constraintStart_toStartOf="@+id/rowWishListImg"
+        app:layout_constraintTop_toTopOf="@+id/rowWishListImg" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/rowWishListImg"
+        app:layout_constraintTop_toBottomOf="@id/rowWishListImg">
+
+        <TextView
+            android:id="@+id/rowWishListItemBrand"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:elegantTextHeight="true"
+            android:fontFamily="@font/notosanskr_regular"
+            android:text="브랜드"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/rowWishListItemName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:elegantTextHeight="true"
+            android:fontFamily="@font/notosanskr_bold"
+            android:text="상품명" />
+
+        <TextView
+            android:id="@+id/rowWishListItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:elegantTextHeight="true"
+            android:fontFamily="@font/notosanskr_bold"
+            android:text="00000원"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

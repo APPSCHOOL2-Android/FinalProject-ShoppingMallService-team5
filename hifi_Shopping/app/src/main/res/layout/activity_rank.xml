@@ -6,4 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".rank.RankActivity">
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/rankMainContainer"
+        android:name="com.hifi.hifi_shopping.rank.RankMainFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
