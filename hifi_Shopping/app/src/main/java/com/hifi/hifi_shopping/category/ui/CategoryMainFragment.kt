@@ -25,42 +25,22 @@ class CategoryMainFragment : Fragment() {
         categoryActivity = activity as CategoryActivity
         binding = FragmentCategoryMainBinding.inflate(layoutInflater)
 
-        val colorList = ColorStateList(
-            arrayOf(
-                intArrayOf()
-            ),
-            intArrayOf(
-                ContextCompat.getColor(categoryActivity, R.color.brown)
-            )
-        )
-
-        val bottomNav = categoryActivity.binding.bottomNavigationViewCategory
-
-        binding.run {
-            groupCategoryMainPrepare.setOnClickListener {
-                findNavController().navigate(R.id.action_categoryMainFragment_to_categoryDetailFragment)
-                bottomNav.itemIconTintList = colorList
-                bottomNav.itemTextColor = colorList
-            }
-
-            groupCategoryMainManage.setOnClickListener {
-                findNavController().navigate(R.id.action_categoryMainFragment_to_categoryDetailFragment)
-                bottomNav.itemIconTintList = colorList
-                bottomNav.itemTextColor = colorList
-            }
-
-            groupCategoryMainHobby.setOnClickListener {
-                findNavController().navigate(R.id.action_categoryMainFragment_to_categoryDetailFragment)
-                bottomNav.itemIconTintList = colorList
-                bottomNav.itemTextColor = colorList
-            }
-
-            groupCategoryMainCouple.setOnClickListener {
-                findNavController().navigate(R.id.action_categoryMainFragment_to_categoryDetailFragment)
-                bottomNav.itemIconTintList = colorList
-                bottomNav.itemTextColor = colorList
-            }
-        }
+//        val colorList = ColorStateList(
+//            arrayOf(
+//                intArrayOf()
+//            ),
+//            intArrayOf(
+//                ContextCompat.getColor(categoryActivity, R.color.brown)
+//            )
+//        )
+//
+//        val bottomNav = categoryActivity.binding.bottomNavigationViewCategory
+//
+//        binding.run {
+//            findNavController().navigate(R.id.categoryMainFragment)
+//            bottomNav.itemIconTintList = colorList
+//            bottomNav.itemTextColor = colorList
+//        }
 
         return binding.root
     }

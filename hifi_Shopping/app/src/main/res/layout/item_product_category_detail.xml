@@ -24,7 +24,7 @@
             android:background="#FFFFFF">
 
             <ImageView
-                android:id="@+id/imageViewItemProductCategoryDetail"
+                android:id="@+id/imageViewItemProductCategoryDetailThumb"
                 android:layout_width="119dp"
                 android:layout_height="119dp"
                 android:layout_marginStart="8dp"
@@ -45,12 +45,12 @@
                 android:layout_marginEnd="8dp"
                 android:maxLines="1"
                 android:ellipsize="end"
-                app:layout_constraintStart_toEndOf="@id/imageViewItemProductCategoryDetail"
+                app:layout_constraintStart_toEndOf="@id/imageViewItemProductCategoryDetailThumb"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="20sp"
                 android:textColor="@color/dark_brown"
-                android:fontFamily="@font/slogan_font"/>
+                android:fontFamily="@font/notosans_eb"/>
 
             <TextView
                 android:id="@+id/textViewItemProductCategoryDetailPrice"
@@ -61,7 +61,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewItemProductCategoryDetailName"
                 android:textSize="12sp"
                 android:textColor="#50555C"
-                android:fontFamily="@font/slogan_font"/>
+                android:fontFamily="@font/notosans_eb"/>
 
             <TextView
                 android:id="@+id/textViewItemProductCategoryDetailRating"
@@ -72,7 +72,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewItemProductCategoryDetailPrice"
                 android:textSize="12sp"
                 android:textColor="#8A8A8A"
-                android:fontFamily="@font/slogan_font"/>
+                android:fontFamily="@font/notosans_eb"/>
 
             <TextView
                 android:id="@+id/textViewItemProductCategoryDetailReviewCount"
@@ -84,7 +84,7 @@
                 app:layout_constraintBaseline_toBaselineOf="@id/textViewItemProductCategoryDetailRating"
                 android:textSize="12sp"
                 android:textColor="@color/brown"
-                android:fontFamily="@font/slogan_font"/>
+                android:fontFamily="@font/notosans_eb"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -119,7 +119,7 @@
                     android:text="+15"
                     android:textSize="8sp"
                     android:textColor="#C8A4A4"
-                    android:fontFamily="@font/slogan_font"/>
+                    android:fontFamily="@font/notosans_eb"/>
 
             </LinearLayout>
 

@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".buy.ui.BuyOrderCompleteListFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageViewBuyOrderCompleteList"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/order_complete_image_background"
+            android:padding="10dp"
+            android:layout_marginEnd="15dp"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toBottomOf="@id/textViewBuyOrderCompleteList"
+            app:layout_constraintEnd_toStartOf="@id/textViewBuyOrderCompleteList"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewBuyOrderCompleteList"
+            app:srcCompat="@drawable/order_complete_icon" />
+
+        <TextView
+            android:id="@+id/textViewBuyOrderCompleteList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:elegantTextHeight="true"
+            android:fontFamily="@font/notosanskr_bold"
+            android:text="주문 완료"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imageViewBuyOrderCompleteList"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewBuyOrderCompleteList2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이용해주셔서 감사합니다."
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            android:fontFamily="@font/notosanskr_regular"
+            android:elegantTextHeight="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList"
+            android:layout_marginTop="6dp"/>
+
+        <TextView
+            android:id="@+id/textViewBuyOrderCompleteListProduct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="22dp"
+            android:text="상품 정보"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_bold"
+            android:elegantTextHeight="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList2"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewBuyOrderCompleteProduct"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="22dp"
+            android:paddingVertical="10dp"
+            android:background="@drawable/grey_stroke_rounded_rectangle_background"
+            app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListProduct"
+            tools:listitem="@layout/item_product_buy_order_complete_list"/>
+
+        <TextView
+            android:id="@+id/textViewBuyOrderCompleteListDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="배송 정보"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_bold"
+            android:elegantTextHeight="true"
+            app:layout_constraintStart_toStartOf="@id/recyclerViewBuyOrderCompleteProduct"
+            app:layout_constraintTop_toBottomOf="@id/recyclerViewBuyOrderCompleteProduct" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutBuyOrderCompleteListDelivery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListDelivery"
+            app:layout_constraintEnd_toEndOf="@id/recyclerViewBuyOrderCompleteProduct"
+            app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListDelivery"
+            android:background="@drawable/grey_stroke_rounded_rectangle_background"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="수령인"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="연락처"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteList3"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList3"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배송지"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteList4"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList4"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListReceiver"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:gravity="end"
+                app:layout_constraintTop_toTopOf="@id/textViewBuyOrderCompleteList3"
+                app:layout_constraintStart_toEndOf="@id/textViewBuyOrderCompleteList3"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="홍길동"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListReceiver"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListReceiver"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:text="010-0000-0000"
+                android:gravity="end"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListPhone"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListPhone"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="9dp"
+                android:text="경기도 용인시 처인구 포곡읍 포곡로 309번길 317028 아파트 308동 1230호"
+                android:gravity="end"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textViewBuyOrderCompleteListPayment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="결제 정보"
+            android:textColor="@color/black"
+            android:fontFamily="@font/notosanskr_bold"
+            android:elegantTextHeight="true"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutBuyOrderCompleteListDelivery"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayoutBuyOrderCompleteListDelivery" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutBuyOrderCompleteListPayment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListPayment"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutBuyOrderCompleteListDelivery"
+            app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListPayment"
+            android:background="@drawable/grey_stroke_rounded_rectangle_background"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="상품금액"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배송비"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteList6"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList6"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="할인금액"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/grey"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteList7"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList7"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListProductPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:gravity="end"
+                app:layout_constraintTop_toTopOf="@id/textViewBuyOrderCompleteList6"
+                app:layout_constraintStart_toEndOf="@id/textViewBuyOrderCompleteList6"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:text="0000원"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListDeliveryPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListProductPrice"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListProductPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:text="0000원"
+                android:gravity="end"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListDiscount"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListDeliveryPrice"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListDeliveryPrice"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:fontFamily="@font/notosanskr_regular"
+                android:elegantTextHeight="true"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:lineSpacingExtra="9dp"
+                android:text="0000원"
+                android:gravity="end"/>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListDiscount"/>
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteList10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="총 결제액"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/notosanskr_bold"
+                android:elegantTextHeight="true"
+                app:layout_constraintTop_toBottomOf="@id/divider"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:id="@+id/textViewBuyOrderCompleteListTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0000원"
+                android:textSize="12sp"
+                android:textColor="@color/brown"
+                android:fontFamily="@font/notosanskr_bold"
+                android:elegantTextHeight="true"
+                app:layout_constraintTop_toTopOf="@id/textViewBuyOrderCompleteList10"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/buttonBuyOrderCompleteConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/order_complete_button_rectangle_background"
+            android:elevation="10dp"
+            android:fontFamily="@font/notosanskr_bold"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:text="확인"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/constraintLayoutBuyOrderCompleteListPayment"
+            app:layout_constraintStart_toStartOf="@id/constraintLayoutBuyOrderCompleteListPayment"
+            app:layout_constraintTop_toBottomOf="@id/constraintLayoutBuyOrderCompleteListPayment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="20dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
