@@ -11,5 +11,13 @@ class UserCouponRepository {
             val couponDataRef = database.getReference("UserCouponData")
             couponDataRef.get().addOnCompleteListener(callback1)
         }
+
+        fun getUserCouponListByUserIdx(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
+            val database = FirebaseDatabase.getInstance()
+            val userCouponDataRef = database.getReference("UserCouponData")
+            userCouponDataRef.orderByChild("userIdx").equalTo(userIdx).get()
+                .addOnCompleteListener(callback1)
+
+        }
     }
 }
