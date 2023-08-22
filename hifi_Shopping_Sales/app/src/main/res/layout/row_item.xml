@@ -6,17 +6,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    app:cardCornerRadius="15dp"
+    android:backgroundTint="@color/background_color"
+    app:cardBackgroundColor="@color/background_color"
+    app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true">
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/background_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#61FFFFFF"
+            android:background="@color/background_color"
+            android:elevation="10dp"
             android:padding="8dp">
 
             <ImageView
@@ -32,8 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:fontFamily="@font/montserrat_extrabold"
                 android:text="제품명"
-                android:textColor="@color/main"
+                android:textColor="@color/brown"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imageView"

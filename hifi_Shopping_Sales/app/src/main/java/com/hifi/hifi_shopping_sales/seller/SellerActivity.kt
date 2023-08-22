@@ -25,6 +25,8 @@ class SellerActivity : AppCompatActivity() {
         val ITEM_LIST_FRAGMENT = "ItemListFragment"
         val ADD_ITEM_FRAGMENT = "AddItemFragment"
     }
+
+    lateinit var loginSellerClass:SellerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -109,3 +111,4 @@ class SellerActivity : AppCompatActivity() {
         }
     }
 }
+data class SellerClass(var idx:String, var companyName:String, var email:String, var name: String, var pw:String)
