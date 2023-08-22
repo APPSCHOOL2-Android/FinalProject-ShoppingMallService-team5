@@ -8,6 +8,6 @@ class UserCouponRepository {
     fun getUserCouponAll(callback1: (Task<DataSnapshot>) -> Unit) {
         val database = FirebaseDatabase.getInstance()
         val couponDataRef = database.getReference("UserCouponData")
-        couponDataRef.orderByChild("validDate").get().addOnCompleteListener(callback1)
+        couponDataRef.get().addOnCompleteListener(callback1)
     }
 }
