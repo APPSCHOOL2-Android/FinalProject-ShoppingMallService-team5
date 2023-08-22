@@ -6,18 +6,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.MainActivity
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.user.model.PointDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
+import com.hifi.hifi_shopping.user.vm.PointViewModel
 import java.util.UUID
 
 class MyPageFragment : Fragment() {
 
     lateinit var fragmentMyPageBinding : FragmentMyPageBinding
     lateinit var userActivity: UserActivity
+    lateinit var pointViewModel: PointViewModel
 
 
     override fun onCreateView(
@@ -27,15 +30,27 @@ class MyPageFragment : Fragment() {
         fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
         userActivity = activity as UserActivity
 
+
         val userTemp = userActivity.userData
+        pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
 
+        var pointValue = 0L;
 
+        pointViewModel.run {
+            pointDataList.observe(userActivity){
+                val pointValue = pointDataList.value?.map { p->p.amount }?.sum()
+                Log.d("포인트테스트",pointValue.toString())
+                fragmentMyPageBinding.myPagePointCount.text = pointValue.toString()
+//                fragmentPointBinding.recyclerViewPostListResult.adapter?.notifyDataSetChanged()
+            }
+        }
         fragmentMyPageBinding.run {
             myPageUserNick.text = userTemp.nickname
 
             myPageToPoint.run {
 //                Log.d("포인트",pointSum.toString())
 //                myPagePointCount.text = pointSum.toString()
+                pointViewModel.getPointList(userTemp.idx)
 
                 setOnClickListener {
                     userActivity.replaceFragment(UserActivity.POINT_FRAGMENT, true, null)

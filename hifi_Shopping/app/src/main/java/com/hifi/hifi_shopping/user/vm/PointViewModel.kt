@@ -2,12 +2,13 @@ package com.hifi.hifi_shopping.user.vm
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.user.model.PointDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import com.hifi.hifi_shopping.user.repository.PointRepository
 
-class PointViewModel {
+class PointViewModel  : ViewModel() {
 
     // 게시글 목록
     var pointDataList = MutableLiveData<MutableList<PointDataClass>>()
@@ -31,6 +32,6 @@ class PointViewModel {
             pointDataList.value = tempList
         }
     }
-    
+
 
 }

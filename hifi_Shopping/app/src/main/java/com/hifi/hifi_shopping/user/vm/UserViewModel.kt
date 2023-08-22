@@ -1,4 +1,6 @@
 package com.hifi.hifi_shopping.user.vm
 
-class UserViewModel {
+import androidx.lifecycle.ViewModel
+
+class UserViewModel: ViewModel() {
 }
