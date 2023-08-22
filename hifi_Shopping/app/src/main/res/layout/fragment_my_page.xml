@@ -164,8 +164,8 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
                     android:src="@drawable/edit_note_24"
                     tools:layout_gravity="center" />
 
