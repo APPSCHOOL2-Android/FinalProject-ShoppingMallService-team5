@@ -5,5 +5,5 @@ data class CouponDataClass(
     val categoryNum : String,
     val validDate : String,
     val discountPercent : Long,
-    val isVerify:Boolean
+    val verify:Boolean
 )
