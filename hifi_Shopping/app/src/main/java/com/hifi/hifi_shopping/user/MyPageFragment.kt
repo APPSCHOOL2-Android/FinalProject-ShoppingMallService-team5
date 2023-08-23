@@ -33,14 +33,14 @@ class MyPageFragment : Fragment() {
         userActivity = activity as UserActivity
 
 
-        val userTemp = userActivity.userData
+        val userTemp = userActivity.userTemp
         pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
         userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
 
 
         pointViewModel.run {
             pointDataList.observe(userActivity){
-                val pointValue = pointDataList.value?.map { p->p.amount }?.sum()
+                val pointValue = pointDataList.value?.map { p->p.amount.toInt() }?.sum()
 //                Log.d("포인트테스트",pointValue.toString())
                 fragmentMyPageBinding.myPagePointCount.text = pointValue.toString()
 //                fragmentPointBinding.recyclerViewPostListResult.adapter?.notifyDataSetChanged()
@@ -49,7 +49,7 @@ class MyPageFragment : Fragment() {
 
         userCouponViewModel.run {
             userCouponDataList.observe(userActivity){
-                val couponCount = userCouponDataList.value?.filter { c-> c.used }?.size
+                val couponCount = userCouponDataList.value?.filter { c-> c.used.toBoolean() }?.size
                 fragmentMyPageBinding.myPageCouponCount.text = couponCount.toString()
             }
         }
@@ -57,6 +57,24 @@ class MyPageFragment : Fragment() {
 
 
         fragmentMyPageBinding.run {
+            myPageToolbar.run {
+                setNavigationOnClickListener {
+                    userActivity.removeFragment(UserActivity.MY_PAGE_FRAGMENT)
+                }
+
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_item_search -> {
+//                            userActivity.replaceFragment(MainActivity.SEARCH_FRAGMENT, true, null)
+                        }
+                        R.id.menu_item_cart -> {
+                            userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
+                        }
+                    }
+                    true
+                }
+            }
+
             myPageUserNick.text = userTemp.nickname
 
             myPageToPoint.run {
