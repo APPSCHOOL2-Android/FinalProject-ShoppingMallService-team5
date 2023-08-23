@@ -1,21 +1,14 @@
 package com.hifi.hifi_shopping.user
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
-import android.view.animation.AccelerateInterpolator
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
-import com.hifi.hifi_shopping.user.model.CouponDataClass
-import com.hifi.hifi_shopping.user.model.PointDataClass
-import com.hifi.hifi_shopping.user.model.UserCouponDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
-import java.util.UUID
 
 class UserActivity : AppCompatActivity() {
 
@@ -24,9 +17,8 @@ class UserActivity : AppCompatActivity() {
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
 
+    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "sample_img")
 
-    var userData = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82","ohsso98@naver.com", "0618","김대박",false,"01000000000","user_sample.jpg")
-    val pointList = mutableListOf<PointDataClass>()
     companion object{
         val MY_PAGE_FRAGMENT = "MyPageFragment"
         val CART_FRAGMENT = "CartFragment"
@@ -42,15 +34,6 @@ class UserActivity : AppCompatActivity() {
         activityUserBinding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(activityUserBinding.root)
 
-
-        // 데이터 입력
-//        addUserData()
-//        addCouponData()
-//        addPointData()
-
-        // 유저에 대한 포인트 데이터 가져오기
-//        getPointList(userData)
-        Log.d("포인트3",pointList.toString())
 
         replaceFragment(MY_PAGE_FRAGMENT, false, null)
     }
