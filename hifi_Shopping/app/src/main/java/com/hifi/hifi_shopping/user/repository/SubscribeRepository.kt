@@ -26,7 +26,7 @@ class SubscribeRepository {
         fun getSubscribeListByFollowerIdx(followerIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val subscribeDataRef = database.getReference("SubscribeData")
-            subscribeDataRef.orderByChild("userIdx").equalTo(followerIdx).get()
+            subscribeDataRef.orderByChild("followerIdx").equalTo(followerIdx).get()
                 .addOnCompleteListener(callback1)
 
         }
