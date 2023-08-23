@@ -14,6 +14,8 @@ import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.user.model.PointDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import com.hifi.hifi_shopping.user.vm.PointViewModel
+import com.hifi.hifi_shopping.user.vm.ReviewViewModel
+import com.hifi.hifi_shopping.user.vm.SubscribeViewModel
 import com.hifi.hifi_shopping.user.vm.UserCouponViewModel
 import java.util.UUID
 
@@ -23,6 +25,8 @@ class MyPageFragment : Fragment() {
     lateinit var userActivity: UserActivity
     lateinit var pointViewModel: PointViewModel
     lateinit var userCouponViewModel: UserCouponViewModel
+    lateinit var reviewViewModel: ReviewViewModel
+    lateinit var subscribeViewModel: SubscribeViewModel
 
 
     override fun onCreateView(
@@ -36,6 +40,8 @@ class MyPageFragment : Fragment() {
         val userTemp = userActivity.userTemp
         pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
         userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
+        reviewViewModel = ViewModelProvider(userActivity)[ReviewViewModel::class.java]
+        subscribeViewModel = ViewModelProvider(userActivity)[SubscribeViewModel::class.java]
 
 
         pointViewModel.run {
@@ -47,6 +53,7 @@ class MyPageFragment : Fragment() {
             }
         }
 
+
         userCouponViewModel.run {
             userCouponDataList.observe(userActivity){
                 val couponCount = userCouponDataList.value?.filter { c-> c.used.toBoolean() }?.size
@@ -54,7 +61,18 @@ class MyPageFragment : Fragment() {
             }
         }
 
-
+        reviewViewModel.run {
+            reviewDataList.observe(userActivity){
+                val reviewCount = reviewDataList.value?.size
+                fragmentMyPageBinding.myPageReviewCount.text = reviewCount.toString()
+            }
+        }
+        subscribeViewModel.run {
+            followerList.observe(userActivity){
+                val followerCount = followerList.value?.size
+                fragmentMyPageBinding.myPageFollowerCount.text = followerCount.toString()
+            }
+        }
 
         fragmentMyPageBinding.run {
             myPageToolbar.run {
@@ -94,7 +112,9 @@ class MyPageFragment : Fragment() {
                 }
             }
 
-            myPageToReview.run {
+            myPageToUserPage.run {
+                reviewViewModel.getReviewListByUser(userTemp.idx)
+                subscribeViewModel.getFollowerAll(userTemp.idx)
                 setOnClickListener {
                     userActivity.replaceFragment(UserActivity.USER_PAGE_FRAGMENT, true, null)
                 }
