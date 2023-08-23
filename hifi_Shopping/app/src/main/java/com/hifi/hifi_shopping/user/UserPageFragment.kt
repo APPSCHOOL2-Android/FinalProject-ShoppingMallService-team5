@@ -18,7 +18,7 @@ import com.hifi.hifi_shopping.user.adapter.UserPageViewPagerAdapter
 class UserPageFragment : Fragment() {
 
     lateinit var fragmentUserPageBinding: FragmentUserPageBinding
-    lateinit var mainActivity: MainActivity
+    lateinit var userActivity: UserActivity
 
     private val tabTextList = listOf("아이템","리뷰")
 
@@ -31,7 +31,7 @@ class UserPageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentUserPageBinding = FragmentUserPageBinding.inflate(layoutInflater)
-        mainActivity = activity as MainActivity
+        userActivity = activity as UserActivity
 
         fragmentUserPageBinding.run {
             tabLayout = userPageTabLayout
