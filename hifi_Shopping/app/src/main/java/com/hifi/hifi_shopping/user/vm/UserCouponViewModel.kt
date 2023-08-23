@@ -26,7 +26,7 @@ class UserCouponViewModel : ViewModel() {
         UserCouponRepository.getUserCouponListByUserIdx(useridx){
             for(c1 in it.result.children){
                 val userIdx = c1.child("userIdx").value as String
-                val used = (c1.child("used").value as String).toBoolean()
+                val used = c1.child("used").value as String
                 val couponIdx = c1.child("couponIdx").value as String
 
                 val uc1 = UserCouponDataClass(userIdx,couponIdx,used)
@@ -35,10 +35,10 @@ class UserCouponViewModel : ViewModel() {
                 CouponRepository.getCouponInfo(couponIdx){
                     for(c2 in it.result.children){
                         val categoryNum = c1.child("categoryNum").value as String
-                        val discountPercent = (c1.child("discountPercent").value as String).toLong()
+                        val discountPercent = c1.child("discountPercent").value as String
                         val idx = c1.child("idx").value as String
                         val validDate = c1.child("validDate").value as String
-                        val verify = (c1.child("verify").value as String).toBoolean()
+                        val verify = c1.child("verify").value as String
                         val ci = CouponDataClass(idx,categoryNum,validDate,discountPercent,verify)
 
                         tempList2.add(ci)

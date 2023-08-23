@@ -37,7 +37,7 @@ class SubscribeViewModel : ViewModel() {
                         val nickname = c1.child("nickname").value as String
                         val phoneNum = c1.child("phoneNum").value as String
                         val profileImg = c1.child("profileImg").value as String
-                        val verify = (c1.child("verify").value as String).toBoolean()
+                        val verify = c1.child("verify").value as String
 
                         val u = UserDataClass(idx, email, pw, nickname, verify, phoneNum, profileImg)
 
@@ -71,7 +71,7 @@ class SubscribeViewModel : ViewModel() {
                         val nickname = c1.child("nickname").value as String
                         val phoneNum = c1.child("phoneNum").value as String
                         val profileImg = c1.child("profileImg").value as String
-                        val verify = (c1.child("verify").value as String).toBoolean()
+                        val verify = c1.child("verify").value as String
 
                         val u = UserDataClass(idx, email, pw, nickname, verify, phoneNum, profileImg)
 

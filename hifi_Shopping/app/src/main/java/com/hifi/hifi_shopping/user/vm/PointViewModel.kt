@@ -19,7 +19,7 @@ class PointViewModel  : ViewModel() {
         PointRepository.getPointListByUserEmail(userIdx) {
             for(c1 in it.result.children) {
                 val userIdx = c1.child("userIdx").value as String
-                val amount = (c1.child("amount").value as String).toLong()
+                val amount = c1.child("amount").value as String
                 val date = c1.child("date").value as String
                 val context = c1.child("context").value as String
 
