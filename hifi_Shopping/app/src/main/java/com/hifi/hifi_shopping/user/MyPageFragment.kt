@@ -14,6 +14,7 @@ import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.user.model.PointDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import com.hifi.hifi_shopping.user.vm.PointViewModel
+import com.hifi.hifi_shopping.user.vm.UserCouponViewModel
 import java.util.UUID
 
 class MyPageFragment : Fragment() {
@@ -21,6 +22,7 @@ class MyPageFragment : Fragment() {
     lateinit var fragmentMyPageBinding : FragmentMyPageBinding
     lateinit var userActivity: UserActivity
     lateinit var pointViewModel: PointViewModel
+    lateinit var userCouponViewModel: UserCouponViewModel
 
 
     override fun onCreateView(
@@ -33,17 +35,27 @@ class MyPageFragment : Fragment() {
 
         val userTemp = userActivity.userData
         pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
+        userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
 
-        var pointValue = 0L;
 
         pointViewModel.run {
             pointDataList.observe(userActivity){
                 val pointValue = pointDataList.value?.map { p->p.amount }?.sum()
-                Log.d("포인트테스트",pointValue.toString())
+//                Log.d("포인트테스트",pointValue.toString())
                 fragmentMyPageBinding.myPagePointCount.text = pointValue.toString()
 //                fragmentPointBinding.recyclerViewPostListResult.adapter?.notifyDataSetChanged()
             }
         }
+
+        userCouponViewModel.run {
+            userCouponDataList.observe(userActivity){
+                val couponCount = userCouponDataList.value?.filter { c-> c.used }?.size
+                fragmentMyPageBinding.myPageCouponCount.text = couponCount.toString()
+            }
+        }
+
+
+
         fragmentMyPageBinding.run {
             myPageUserNick.text = userTemp.nickname
 
@@ -58,6 +70,7 @@ class MyPageFragment : Fragment() {
 
             }
             myPageToCoupon.run {
+                userCouponViewModel.getUserCouponAll(userTemp.idx)
                 setOnClickListener {
                     userActivity.replaceFragment(UserActivity.COUPON_FRAGMENT, true, null)
                 }
