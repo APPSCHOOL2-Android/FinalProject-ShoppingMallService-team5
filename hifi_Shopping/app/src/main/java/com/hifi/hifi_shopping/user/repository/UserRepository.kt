@@ -10,12 +10,6 @@ import java.util.UUID
 class UserRepository {
     companion object {
         fun addUserData(userData: UserDataClass, callback1: (Task<Void>) -> Unit) {
-//        val uuid = UUID.randomUUID()
-//        val idx = uuid.toString()
-
-//        val userData = UserDataClass(idx,"ohsso98@naver.com", "0618","김대박",false,"01000000000","user_sample.jpg")
-//        val userData = UserDataClass(idx,"alohalo98@naver.com", "1222","김용",false,"01011111111","user_sample.jpg")
-
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
             userDataRef.push().setValue(userData).addOnCompleteListener(callback1)
@@ -25,10 +19,8 @@ class UserRepository {
         fun getUserInfoByUserIdx(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
-
-            userDataRef.orderByChild("userIdx").equalTo(userIdx).get()
+            userDataRef.orderByChild("idx").equalTo(userIdx).get()
                 .addOnCompleteListener(callback1)
-
         }
 
 
