@@ -30,6 +30,7 @@ class ReviewViewModel : ViewModel() {
                 val data = ReviewDataClass(idx, productIdx, title, context, score, writerIdx, likeCnt, date, imgSrc)
                 tempList.add(data)
             }
+            reviewDataList.value = tempList
         }
     }
 }
