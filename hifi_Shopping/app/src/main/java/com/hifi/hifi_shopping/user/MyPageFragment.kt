@@ -93,6 +93,10 @@ class MyPageFragment : Fragment() {
                 }
             }
 
+            myPageBtnToEditUser.setOnClickListener {
+                userActivity.replaceFragment(UserActivity.EDIT_USER_FRAGMENT,true,null)
+            }
+
             myPageUserNick.text = userTemp.nickname
 
             myPageToPoint.run {
