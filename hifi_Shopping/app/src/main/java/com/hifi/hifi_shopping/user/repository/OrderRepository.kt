@@ -10,7 +10,7 @@ class OrderRepository {
             val database = FirebaseDatabase.getInstance()
             val orderDataRef = database.getReference("OrderData")
 
-            orderDataRef.orderByChild("userIdx").equalTo(userIdx).get()
+            orderDataRef.orderByChild("buyerIdx").equalTo(userIdx).get()
                 .addOnCompleteListener(callback1)
 
         }
