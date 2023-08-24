@@ -15,6 +15,7 @@ import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.recommend.RecommendActivity
+import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.subscribe.SubscribeActivity
 import com.hifi.hifi_shopping.user.model.PointDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
@@ -122,15 +123,11 @@ class MyPageFragment : Fragment() {
 
         fragmentMyPageBinding.run {
             myPageToolbar.run {
-                setNavigationOnClickListener {
-                    userActivity.removeFragment(UserActivity.MY_PAGE_FRAGMENT)
-
-                }
-
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_item_search -> {
-//                            userActivity.replaceFragment(MainActivity.SEARCH_FRAGMENT, true, null)
+                            val intent = Intent(userActivity, SearchActivity::class.java)
+                            startActivity(intent)
                         }
                         R.id.menu_item_cart -> {
                             userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
