@@ -54,6 +54,22 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/guideJoin6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="닉네임은 비밀번호 찾기에 사용되니 꼭 기억해주세요!"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/dark_brown"
+                android:textSize="14dp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideJoin1" />
+
+            <TextView
                 android:id="@+id/guideJoin1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
