@@ -2,23 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/rankFragment"
+        android:id="@+id/bottomMenuItemRankMain"
         android:icon="@drawable/bar_chart_24px"
-        android:title="랭킹" />
+        android:menuCategory="secondary"
+        android:title="랭킹"
+        android:checkable="true"/>
     <item
-        android:id="@+id/recommendFragment"
+        android:id="@+id/bottomMenuItemRecommend"
         android:icon="@drawable/thumb_up_24px"
-        android:title="추천" />
+        android:menuCategory="secondary"
+        android:title="추천"
+        android:checkable="true"/>
     <item
-        android:id="@+id/categoryFragment"
+        android:id="@+id/bottomMenuItemCategoryMain"
         android:icon="@drawable/home_24px"
-        android:title="홈" />
+        android:menuCategory="secondary"
+        android:title="홈"
+        android:checkable="true"/>
     <item
-        android:id="@+id/userFragment"
+        android:id="@+id/bottomMenuItemMyPage"
         android:icon="@drawable/person_24px"
-        android:title="마이페이지" />
+        android:menuCategory="secondary"
+        android:title="마이페이지"
+        android:checkable="false"/>
     <item
-        android:id="@+id/wishFragment"
+        android:id="@+id/bottomMenuItemWish"
         android:icon="@drawable/favorite_24px"
-        android:title="위시리스트" />
+        android:menuCategory="secondary"
+        android:title="위시리스트"
+        android:checkable="true"/>
 </menu>

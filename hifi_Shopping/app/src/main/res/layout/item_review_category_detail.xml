@@ -143,7 +143,7 @@
                 app:srcCompat="@color/grey" />
 
             <TextView
-                android:id="@+id/imageViewItemReviewCategoryDetailProductName"
+                android:id="@+id/textViewItemReviewCategoryDetailProductName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -159,15 +159,15 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/imageViewItemReviewCategoryDetailProductPrice"
+                android:id="@+id/textViewItemReviewCategoryDetailProductPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosans_eb"
                 android:text="00,000 원"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@id/imageViewItemReviewCategoryDetailProductName"
-                app:layout_constraintTop_toBottomOf="@id/imageViewItemReviewCategoryDetailProductName" />
+                app:layout_constraintStart_toStartOf="@id/textViewItemReviewCategoryDetailProductName"
+                app:layout_constraintTop_toBottomOf="@id/textViewItemReviewCategoryDetailProductName" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
