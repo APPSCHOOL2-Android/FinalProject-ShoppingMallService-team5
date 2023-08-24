@@ -19,7 +19,7 @@ class ProductViewModel : ViewModel() {
 
         val tempList = mutableListOf<ProductDataClass>()
 
-        ProductRepository.getProductAllByIdx(userIdx) {
+        ProductRepository.getProductInfoByIdx(userIdx) {
             for (c1 in it.result.children) {
                 val category = c1.child("category").value as String
                 val context = c1.child("context").value as String
