@@ -397,7 +397,10 @@
                             android:layout_marginTop="5dp"
                             android:background="@drawable/edit_text_box"
                             android:ems="10"
-                            android:inputType="text" />
+                            android:gravity="start"
+                            android:inputType="text|textMultiLine"
+                            android:text="ㅂㅈㄷㅂㅇㅁㄴㅇㅁㄴ"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     </LinearLayout>
 

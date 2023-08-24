@@ -102,6 +102,10 @@ class OrderFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        orderProductList.clear()
+    }
 
     private fun dataSetting(){
         fragmentOrderBinding = FragmentOrderBinding.inflate(layoutInflater)
@@ -220,6 +224,7 @@ class OrderFragment : Fragment() {
                     var info = OrderProduct(it.idx, it.name, it.price, it.context,it. category, it.pointAmount, it.sellerIdx, null)
                     orderProductList.add(info)
                 }
+                Log.d("tttt", "재생성")
                 fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
             }
             productImgDataList.observe(buyActivity){
