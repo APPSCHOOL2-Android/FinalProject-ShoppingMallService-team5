@@ -1,4 +1,4 @@
-package com.hifi.hifi_shopping.buy.ui
+package com.hifi.hifi_shopping.buy.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -173,7 +173,7 @@
                             android:layout_weight="1"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_bold"
-                            android:text="19000원"
+                            android:text="3000원"
                             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                             android:textColor="#727272"
                             android:textSize="11sp" />

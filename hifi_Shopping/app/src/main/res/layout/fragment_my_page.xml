@@ -238,7 +238,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/textView4"
+                            android:id="@+id/orderUserPhoneNumberTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
