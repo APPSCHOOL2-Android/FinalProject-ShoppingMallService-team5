@@ -32,7 +32,7 @@
                     android:layout_height="84dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                    tools:srcCompat="@drawable/sync_48px" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

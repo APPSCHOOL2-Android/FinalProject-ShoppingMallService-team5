@@ -46,8 +46,11 @@ class BuyActivity : AppCompatActivity() {
     private fun startFragment(){
         //val buyProductList = intent.getStringArrayListExtra("buyProduct")
         val buyProductList = ArrayList<String>()// 테스트용
-        buyProductList.add("15")
-        buyProductList.add("30")
+        buyProductList.add("21")
+        buyProductList.add("31")
+        buyProductList.add("32")
+        buyProductList.add("33")
+        buyProductList.add("34")
         val bundle = Bundle()
 
         if(buyProductList?.size == 1){

@@ -2,6 +2,8 @@ package com.hifi.hifi_shopping.buy.fragment
 
 import android.content.ClipData.Item
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -19,21 +21,26 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
+import com.hifi.hifi_shopping.buy.buy_vm.ProductData
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentOrderBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
 
 
+data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
 class OrderFragment : Fragment() {
 
     private lateinit var fragmentOrderBinding: FragmentOrderBinding
     private lateinit var buyActivity: BuyActivity
 
     private lateinit var orderUserViewModel: OrderUserViewModel
+    private lateinit var orderItemViewModel: OrderItemViewModel
     private var orderUserIdx = ""
     private var selAddressIdx = 0
     private lateinit var orderItemList : ArrayList<String>
+    private var orderProductList = mutableListOf<OrderProduct>()
 
 
     override fun onCreateView(
@@ -83,11 +90,15 @@ class OrderFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return orderItemList.size
+            return orderProductList.size
         }
 
         override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            //TODO("Not yet implemented")
+            holder.rowOrderItemListName.text = orderProductList[position].name
+            holder.rowOrderItemListPrice.text = orderProductList[position].price
+            if(orderProductList[position].img != null){
+                holder.rowOrderItemListImg.setImageBitmap(orderProductList[position].img)
+            }
         }
     }
 
@@ -200,6 +211,30 @@ class OrderFragment : Fragment() {
 
     private fun viewModelSetting(){
         orderUserViewModel = ViewModelProvider(buyActivity)[OrderUserViewModel::class.java]
+        orderItemViewModel = ViewModelProvider(buyActivity)[OrderItemViewModel::class.java]
+//data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
+        orderItemViewModel.run{
+            productDataList.observe(buyActivity){
+                orderProductList.clear()
+                it.forEach {
+                    var info = OrderProduct(it.idx, it.name, it.price, it.context,it. category, it.pointAmount, it.sellerIdx, null)
+                    orderProductList.add(info)
+                }
+                fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
+            }
+            productImgDataList.observe(buyActivity){
+
+                it.forEachIndexed { index, bitmap ->
+                    if(orderProductList[index].img == null) orderProductList[index].img = bitmap
+                }
+
+                fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
+            }
+            orderItemList.forEach {
+                getOrderProductData(it)
+            }
+
+        }
 
         orderUserViewModel.run{
             verify.observe(buyActivity){
