@@ -16,14 +16,13 @@ import com.hifi.hifi_shopping.databinding.FragmentAuthFindPwBinding
 
 class AuthFindPwFragment : Fragment() {
 
-    lateinit var fragmentAuthFindPwBinding: FragmentAuthFindPwBinding
-    lateinit var authActivity: AuthActivity
+    private lateinit var fragmentAuthFindPwBinding: FragmentAuthFindPwBinding
+    private lateinit var authActivity: AuthActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         fragmentAuthFindPwBinding = FragmentAuthFindPwBinding.inflate(inflater)
         authActivity = activity as AuthActivity
 
@@ -32,35 +31,34 @@ class AuthFindPwFragment : Fragment() {
         }
 
         fragmentAuthFindPwBinding.buttonFindPwCheck.setOnClickListener {
-            val nickname = fragmentAuthFindPwBinding.editTextFindPwNickname.text.toString()
-            val number = fragmentAuthFindPwBinding.editTextFindPwNumber.text.toString()
+            val nickname = fragmentAuthFindPwBinding.editTextFindPwNickname.text.toString().trim()
 
-            checkNicknameInFirebase(nickname, number)
+            if (nickname.isNotEmpty()) {
+                checkNicknameInFirebase(nickname)
+            } else {
+                fragmentAuthFindPwBinding.warningNickname.visibility = View.VISIBLE
+            }
         }
 
         return fragmentAuthFindPwBinding.root
     }
 
-    private fun checkNicknameInFirebase(nickname: String, number: String) {
+    private fun checkNicknameInFirebase(nickname: String) {
         val databaseReference: DatabaseReference =
             FirebaseDatabase.getInstance().getReference("UserData")
-
         val query: Query = databaseReference.orderByChild("nickname").equalTo(nickname)
+
         query.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // 닉네임이 파이어베이스에 등록되어 있는 경우
                     val bundle = Bundle()
                     bundle.putString("nickname", nickname)
-                    bundle.putString("number", number)
 
                     val authFindResultFragment = AuthFindResultFragment()
                     authFindResultFragment.arguments = bundle
 
-                    authActivity.replaceFragment(AuthActivity.AUTH_FIND_RESULT_FRAGMENT, true, null
-                    )
+                    authActivity.replaceFragment(AuthActivity.AUTH_FIND_RESULT_FRAGMENT, true, bundle)
                 } else {
-                    // 닉네임이 파이어베이스에 등록되어 있지 않은 경우
                     fragmentAuthFindPwBinding.warningNickname.visibility = View.VISIBLE
                 }
             }
@@ -77,4 +75,3 @@ class AuthFindPwFragment : Fragment() {
     }
 
 }
-

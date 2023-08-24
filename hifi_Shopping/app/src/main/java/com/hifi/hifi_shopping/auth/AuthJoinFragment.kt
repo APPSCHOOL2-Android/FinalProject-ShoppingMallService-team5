@@ -37,7 +37,7 @@ class AuthJoinFragment : Fragment() {
         fragmentAuthJoinBinding = FragmentAuthJoinBinding.inflate(inflater)
         authActivity = activity as AuthActivity
 
-        // Initialize Firebase Authentication and Firestore
+        // Initialize Firebase Authentication
         firebaseAuth = FirebaseAuth.getInstance()
         firebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -53,43 +53,43 @@ class AuthJoinFragment : Fragment() {
                 val passwordCheck = editTextJoinUserPwCheck.text.toString()
 
                 // 경고 메시지 초기화
-                warningEmailFormat.visibility = View.GONE
-                warningPassword.visibility = View.GONE
-                warningPasswordCheck.visibility = View.GONE
-                warningNicknameFormat.visibility = View.GONE
-                warningEmailAlready.visibility = View.GONE
-                warningNicknameAlready.visibility = View.GONE
+                warningJoinEmailFormat.visibility = View.GONE
+                warningJoinPassword.visibility = View.GONE
+                warningJoinPasswordCheck.visibility = View.GONE
+                warningJoinNicknameFormat.visibility = View.GONE
+                warningJoinEmailAlready.visibility = View.GONE
+                warningJoinNicknameAlready.visibility = View.GONE
 
                 // 예외처리
                 // 이메일 형식 검사
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    warningEmailFormat.visibility = View.VISIBLE
+                    warningJoinEmailFormat.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
-                    warningEmailFormat.visibility = View.GONE
+                    warningJoinEmailFormat.visibility = View.GONE
                 }
                 // 비밀번호 길이 검사
                 if (password.length < 6) {
-                    warningPassword.visibility = View.VISIBLE
+                    warningJoinPassword.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
-                    warningPassword.visibility = View.GONE
+                    warningJoinPassword.visibility = View.GONE
                 }
                 // 비밀번호 확인 검사
                 if (password != passwordCheck) {
-                    warningPasswordCheck.visibility = View.VISIBLE
+                    warningJoinPasswordCheck.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
-                    warningPasswordCheck.visibility = View.GONE
+                    warningJoinPasswordCheck.visibility = View.GONE
                 }
                 // 닉네임 길이 및 특수 기호 검사
                 if (nickname.length < 2 || nickname.length > 12 || INVALID_NICKNAME_CHARACTERS.any {
                         nickname.contains(it)
                     }) {
-                    warningNicknameFormat.visibility = View.VISIBLE
+                    warningJoinNicknameFormat.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
-                    warningNicknameFormat.visibility = View.GONE
+                    warningJoinNicknameFormat.visibility = View.GONE
                 }
 
                 // 이메일 중복 검사
@@ -99,10 +99,10 @@ class AuthJoinFragment : Fragment() {
                         override fun onDataChange(snapshot: DataSnapshot) {
                             if (snapshot.exists()) {
                                 // 이미 등록된 이메일이 있을 경우
-                                warningEmailAlready.visibility = View.VISIBLE
+                                warningJoinEmailAlready.visibility = View.VISIBLE
                                 return
                             } else {
-                                warningEmailAlready.visibility = View.GONE
+                                warningJoinEmailAlready.visibility = View.GONE
                             }
 
                             // 닉네임 중복 검사
@@ -111,10 +111,10 @@ class AuthJoinFragment : Fragment() {
                                     override fun onDataChange(snapshot: DataSnapshot) {
                                         if (snapshot.exists()) {
                                             // 이미 등록된 닉네임이 있을 경우
-                                            warningNicknameAlready.visibility = View.VISIBLE
+                                            warningJoinNicknameAlready.visibility = View.VISIBLE
                                             return
                                         } else {
-                                            warningNicknameAlready.visibility = View.GONE
+                                            warningJoinNicknameAlready.visibility = View.GONE
                                         }
 
                                         // Firebase 인증을 통한 회원 가입
