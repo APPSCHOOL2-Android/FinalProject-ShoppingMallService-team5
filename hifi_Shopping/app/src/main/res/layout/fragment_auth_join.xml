@@ -190,26 +190,50 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextJoinUserNickName">
 
                 <TextView
-                    android:id="@+id/warningName"
+                    android:id="@+id/warningEmailAlready"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="아이디@이메일을 확인해주세요"
+                    android:text="이미 등록된 아이디 입니다"
                     android:textColor="#FF0000"
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/warningNumber"
+                    android:id="@+id/warningEmailFormat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="비밀번호를 확인해주세요"
+                    android:text="이메일 형식으로 작성해주세요"
                     android:textColor="#FF0000"
                     android:visibility="gone" />
 
                 <TextView
-                    android:id="@+id/warningRequest"
+                    android:id="@+id/warningPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="닉네임을 확인해주세요"
+                    android:text="비밀번호를 6자 이상으로 작성해주세요"
+                    android:textColor="#FF0000"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/warningPasswordCheck"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력한 비밀번호가 맞지 않습니다"
+                    android:textColor="#FF0000"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/warningNicknameAlready"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="이미 등록된 닉네임입니다"
+                    android:textColor="#FF0000"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/warningNicknameFormat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="닉네임 형식을 확인해주세요"
                     android:textColor="#FF0000"
                     android:visibility="gone" />
             </LinearLayout>
