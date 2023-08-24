@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,7 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.MainActivity
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
+import com.hifi.hifi_shopping.recommend.RecommendActivity
+import com.hifi.hifi_shopping.subscribe.SubscribeActivity
 import com.hifi.hifi_shopping.user.model.PointDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import com.hifi.hifi_shopping.user.vm.OrderViewModel
@@ -168,7 +172,8 @@ class MyPageFragment : Fragment() {
 
             // 아이템 추천 받으러 가기
             myPageBtnToRecommend.setOnClickListener {
-
+                val intent = Intent(userActivity, RecommendActivity::class.java)
+                startActivity(intent)
             }
 
 
@@ -234,10 +239,29 @@ class MyPageFragment : Fragment() {
                 setOnItemSelectedListener {
                     when (it.itemId) {
                         R.id.userFragment -> {
+
+
+                        }
+                        R.id.rankFragment ->{
+
+
+                        }
+                        R.id.categoryFragment->{
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            startActivity(intent)
+
+                        }
+                        R.id.recommendFragment ->{
+
                         }
                     }
                     return@setOnItemSelectedListener true
                 }
+            }
+
+            myPageBtnToSubscribe.setOnClickListener {
+                val intent = Intent(userActivity, SubscribeActivity::class.java)
+                startActivity(intent)
             }
         }
 
