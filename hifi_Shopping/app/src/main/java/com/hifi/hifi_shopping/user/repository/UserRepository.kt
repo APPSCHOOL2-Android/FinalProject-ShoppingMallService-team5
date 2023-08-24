@@ -31,5 +31,20 @@ class UserRepository {
             userDataRef.orderByChild("email").equalTo(loginUserId).get()
                 .addOnCompleteListener(callback1)
         }
+
+        fun modifyUserInfo(userDataClass: UserDataClass, isNewImage:Boolean, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userDataRef = database.getReference("UserData")
+
+            userDataRef.orderByChild("idx").equalTo(userDataClass.idx).get().addOnCompleteListener {
+                for(a1 in it.result.children){
+                    if(isNewImage == true){
+                        a1.ref.child("profileImg").setValue(userDataClass.profileImg)
+                    }
+                    a1.ref.child("nickname").setValue(userDataClass.nickname)
+                    a1.ref.child("pw").setValue(userDataClass.pw).addOnCompleteListener(callback1)
+                }
+            }
+        }
     }
 }
