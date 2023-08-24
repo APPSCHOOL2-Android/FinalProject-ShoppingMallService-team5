@@ -29,10 +29,18 @@
             android:orientation="vertical"
             android:padding="8dp">
 
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                app:dividerColor="@color/brown" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/row_item" />
 
         </LinearLayout>
     </ScrollView>

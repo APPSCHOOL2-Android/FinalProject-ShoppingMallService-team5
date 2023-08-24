@@ -1,6 +1,7 @@
 package com.hifi.hifi_shopping_sales.seller
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
@@ -8,9 +9,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialSharedAxis
 import com.hifi.hifi_shopping_sales.R
 import com.hifi.hifi_shopping_sales.databinding.ActivitySellerBinding
+import com.hifi.hifi_shopping_sales.vm.SellerViewModel
 import kotlin.concurrent.thread
 
 class SellerActivity : AppCompatActivity() {
@@ -29,7 +32,6 @@ class SellerActivity : AppCompatActivity() {
     lateinit var loginSellerClass:SellerClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         activitySellerBinding = ActivitySellerBinding.inflate(layoutInflater)
         setContentView(activitySellerBinding.root)
 
@@ -112,3 +114,10 @@ class SellerActivity : AppCompatActivity() {
     }
 }
 data class SellerClass(var idx:String, var companyName:String, var email:String, var name: String, var pw:String)
+data class ProductClass(val idx:String, val category:String, val context:String, val price:String,
+                        val name:String, val pointAmount:String, val sellerIdx:String, var imgList:MutableList<ImgClass>?)
+
+data class ImgClass(val order:String, val default:String, val imgSrc:String, var bitmap: Bitmap?,
+                    val productIdx:String)
+
+data class ProductRowItemClass(val idx:String, var img:Bitmap?, val name:String, val price:String, val orderCnt:String, val reviewScore:String)

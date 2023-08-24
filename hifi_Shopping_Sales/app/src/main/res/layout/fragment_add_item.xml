@@ -28,11 +28,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/background_color"
-            android:padding="20dp">
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="0dp"
+            android:paddingEnd="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp">
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                app:dividerColor="@color/brown" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:background="#61FFFFFF">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,6 +149,20 @@
                         app:layout_constraintTop_toBottomOf="@+id/subImageView1"
                         app:srcCompat="@drawable/empty_photo" />
 
+                    <view
+                        android:id="@+id/view"
+                        class="com.google.android.material.divider.MaterialDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout_editor_absoluteY="460dp" />
+
+                    <view
+                        android:id="@+id/view5"
+                        class="com.google.android.material.divider.MaterialDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:layout_editor_absoluteY="460dp" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -211,6 +237,7 @@
                             android:textColor="@color/brown"
                             android:textColorHint="@color/brown"
                             tools:text="테스트가격" />
+
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <ImageView
