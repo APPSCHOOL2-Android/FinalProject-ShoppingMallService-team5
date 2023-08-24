@@ -4,10 +4,13 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hifi.hifi_shopping.R
@@ -79,6 +82,17 @@ class EditUserFragment : Fragment() {
                 phoneVerify()
             }
 
+            editUserPwdEditTextSameCheck.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+                override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
+                    if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
+                        // 비밀번호 확인 메서드 호출
+                        pwdSameCheck()
+                        return true
+                    }
+                    return false
+                }
+            })
+
 
         }
         return fragmentEditUserBinding.root
@@ -147,4 +161,15 @@ class EditUserFragment : Fragment() {
         }
     }
 
+    fun pwdSameCheck(){
+        fragmentEditUserBinding.run {
+            val newPwd = editUserPwdEditTextNew.text.toString()
+            val checkNewPwd = editUserPwdEditTextSameCheck.text.toString()
+            if(newPwd != checkNewPwd){
+                editUserPwdEditTextSameCheck.error ="비밀번호가 일치하지 않습니다."
+            }else{
+                userActivity.hideKeyboard(editUserPwdEditTextSameCheck)
+            }
+        }
+    }
 }
