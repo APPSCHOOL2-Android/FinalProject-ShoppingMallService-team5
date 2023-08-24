@@ -149,20 +149,6 @@
                         app:layout_constraintTop_toBottomOf="@+id/subImageView1"
                         app:srcCompat="@drawable/empty_photo" />
 
-                    <view
-                        android:id="@+id/view"
-                        class="com.google.android.material.divider.MaterialDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_editor_absoluteY="460dp" />
-
-                    <view
-                        android:id="@+id/view5"
-                        class="com.google.android.material.divider.MaterialDivider"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:layout_editor_absoluteY="460dp" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -186,7 +172,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutLoginUserId"
+                        android:id="@+id/textContainer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -213,7 +199,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textInputLayoutLoginUserId2"
+                        android:id="@+id/textContainer2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -226,17 +212,46 @@
                         app:hintTextColor="@color/brown2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textInputLayoutLoginUserId">
+                        app:layout_constraintTop_toBottomOf="@id/textContainer">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputEditTextProductContext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/notosans_black"
+                            android:inputType="number|numberSigned"
+                            android:textColor="@color/brown"
+                            android:textColorHint="@color/brown"
+                            tools:text="테스트 가격" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textContainer3"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="상품 설명"
+                        android:textColorHint="@color/brown2"
+                        android:transitionGroup="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/brown2"
+                        app:endIconMode="clear_text"
+                        app:hintTextColor="@color/brown2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textContainer2">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textInputEditTextProductPrice"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/notosans_black"
-                            android:inputType="text|textPersonName"
+                            android:inputType="text|textMultiLine"
                             android:textColor="@color/brown"
                             android:textColorHint="@color/brown"
-                            tools:text="테스트가격" />
+                            tools:text="테스트 설명 테스트 설명 테스트 설명 테스트 설명 테스트 설명 테스트 설명 테스트 설명
+                                    테스트 설명 테스트 설명 테스트 설명 테스트 설명 테스트 설명 테스트 설명 테스트 설명" />
 
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -247,7 +262,7 @@
                         android:layout_marginTop="12dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLoginUserId2"
+                        app:layout_constraintTop_toBottomOf="@id/textContainer3"
                         app:srcCompat="@drawable/empty_photo" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -270,33 +285,32 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/productInfoAddContainer">
 
-                    <LinearLayout
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/addProductBtnCategoryTextView"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_weight="1"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_bold"
+                            android:text="카테고리를 입력해주세요!"
                             android:textColor="@color/white"
-                            tools:text="준비 > 욕실 > 면도 > 면도기" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
                             android:id="@+id/addProductBtnPriceTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_bold"
-                            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                            android:text="가격을 입력해주세요!"
                             android:textColor="@color/white"
-                            tools:text="30,000원" />
-                    </LinearLayout>
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"

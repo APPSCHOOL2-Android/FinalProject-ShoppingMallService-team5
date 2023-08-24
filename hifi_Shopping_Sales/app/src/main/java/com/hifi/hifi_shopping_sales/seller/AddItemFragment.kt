@@ -8,7 +8,10 @@ import android.icu.lang.UCharacter.VerticalOrientation
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +22,8 @@ import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -26,6 +31,12 @@ import com.hifi.hifi_shopping_sales.R
 import com.hifi.hifi_shopping_sales.databinding.FragmentAddItemBinding
 import com.hifi.hifi_shopping_sales.databinding.RowItemBinding
 import com.hifi.hifi_shopping_sales.databinding.RowProductCategoryBinding
+import com.hifi.hifi_shopping_sales.repository.ProductRepository
+import com.hifi.hifi_shopping_sales.utils.formatPrice
+import com.hifi.hifi_shopping_sales.vm.SellerViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.UUID
 
 class AddItemFragment : Fragment(){
@@ -186,6 +197,7 @@ class AddItemFragment : Fragment(){
 
     lateinit var fragmentAddItemBinding: FragmentAddItemBinding
     lateinit var sellerActivity: SellerActivity
+    lateinit var sellerViewModel: SellerViewModel
 
     // 업로드할 이미지의 Uri
     var titleUploadUri: Uri? = null
@@ -202,6 +214,7 @@ class AddItemFragment : Fragment(){
     ): View? {
         fragmentAddItemBinding = FragmentAddItemBinding.inflate(inflater)
         sellerActivity = activity as SellerActivity
+        sellerViewModel = ViewModelProvider(sellerActivity)[SellerViewModel::class.java]
 
         // 앨범 설정
         titleAlbumLauncher = albumSetting(fragmentAddItemBinding.titleImageView, "TITLE")
@@ -227,6 +240,20 @@ class AddItemFragment : Fragment(){
                     categoryListRecyclerView.adapter?.notifyDataSetChanged()
                 }
             }
+            textInputEditTextProductPrice.addTextChangedListener(object : TextWatcher{
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+
+                override fun afterTextChanged(s: Editable?) {
+                    addProductBtnPriceTextView.text = formatPrice(s.toString())
+                }
+            })
             titleImageView.setOnClickListener {
                 clickAlbumLaunch(titleAlbumLauncher)
             }
@@ -242,6 +269,7 @@ class AddItemFragment : Fragment(){
             addProductBtn.setOnClickListener {
                 val name = textInputEditTextProductName.text.toString()
                 val price = textInputEditTextProductPrice.text.toString()
+                val context = textInputEditTextProductContext.text.toString()
 
                 if(name.isEmpty()){
                     val builder = MaterialAlertDialogBuilder(sellerActivity)
@@ -274,34 +302,46 @@ class AddItemFragment : Fragment(){
                     return@setOnClickListener
                 }
                 val idx = UUID.randomUUID().toString()
-                val titleFileName = if(titleUploadUri == null){
-                    "None"
-                } else {
-                    "image/img_${System.currentTimeMillis()}.jpg"
+                val newAddProduct = AddProductInfoClass(idx, sellerViewModel.idx.value!!, categoryNum.toString(),
+                    context, name, price, price.substring(0, price.length - 2))
+
+                runBlocking {
+                    // Coroutine 스코프 내에서 비동기 작업 실행
+                    val job = launch {
+                        ProductRepository.addProductInfo(newAddProduct)
+                        if(titleUploadUri != null) {
+                            val titleFileName = "img_title_${System.currentTimeMillis()}.jpg"
+                            val newAddProductTitleImgClass = AddProductImgClass(idx, "true", titleFileName, "1")
+                            ProductRepository.addProductImgInfo(newAddProductTitleImgClass)
+                            ProductRepository.uploadImage(titleUploadUri!!, titleFileName)
+                        }
+                        if(sub1UploadUri != null) {
+                            val sub1FileName = "img_sub1_${System.currentTimeMillis()}.jpg"
+                            val newAddProductSub1ImgClass = AddProductImgClass(idx, "true", sub1FileName, "2")
+                            ProductRepository.addProductImgInfo(newAddProductSub1ImgClass)
+                            ProductRepository.uploadImage(sub1UploadUri!!, sub1FileName)
+                        }
+                        if(sub2UploadUri != null) {
+                            val sub2FileName = "img_sub2_${System.currentTimeMillis()}.jpg"
+                            val newAddProductSub2ImgClass = AddProductImgClass(idx, "true", sub2FileName, "3")
+                            ProductRepository.addProductImgInfo(newAddProductSub2ImgClass)
+                            ProductRepository.uploadImage(sub2UploadUri!!, sub2FileName)
+                        }
+                        if(productInfoUploadUri != null) {
+                            val productInfoFileName = "img_info_${System.currentTimeMillis()}.jpg"
+                            val newAddProductInfoImgClass = AddProductImgClass(idx, "false", productInfoFileName, "1")
+                            ProductRepository.addProductImgInfo(newAddProductInfoImgClass)
+                            ProductRepository.uploadImage(productInfoUploadUri!!, productInfoFileName)
+                        }
+                    }
+
+                    // 비동기 작업이 끝날 때까지 기다림
+                    job.join()
+
+                    // 작업이 끝난 후 콜백 호출
+                    sellerActivity.removeFragment(SellerActivity.ADD_ITEM_FRAGMENT)
+                    Log.d("testaaa", "flag1")
                 }
-                val sub1FileName = if(sub1UploadUri == null){
-                    "None"
-                } else {
-                    "image/img_${System.currentTimeMillis()}.jpg"
-                }
-                val sub2FileName = if(sub2UploadUri == null){
-                    "None"
-                } else {
-                    "image/img_${System.currentTimeMillis()}.jpg"
-                }
-                val productInfoFileName = if(productInfoUploadUri == null){
-                    "None"
-                } else {
-                    "image/img_${System.currentTimeMillis()}.jpg"
-                }
-                Log.d("testaaa", "${idx}\n")
-                Log.d("testaaa", "${name}\n")
-                Log.d("testaaa", "${price}\n")
-                Log.d("testaaa", "${categoryNum}\n")
-                Log.d("testaaa", "${titleFileName}\n")
-                Log.d("testaaa", "${sub1FileName}\n")
-                Log.d("testaaa", "${sub2FileName}\n")
-                Log.d("testaaa", "${productInfoFileName}\n")
             }
         }
         return fragmentAddItemBinding.root
@@ -316,6 +356,8 @@ class AddItemFragment : Fragment(){
 
                 rowProductCategoryBinding.root.setOnClickListener {
                     previousCategory[previousNum] = fragmentAddItemBinding.currentCategoryTextView.text as String
+                    fragmentAddItemBinding.addProductBtnCategoryTextView.text =
+                        "${previousCategory[previousNum]} > ${categoryData[categoryNum]?.get(adapterPosition)}"
                     fragmentAddItemBinding.currentCategoryTextView.text =
                         "${previousCategory[previousNum]} > ${categoryData[categoryNum]?.get(adapterPosition)}"
                     categoryNum *= 10

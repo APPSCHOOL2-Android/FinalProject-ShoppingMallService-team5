@@ -5,6 +5,12 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
+import com.hifi.hifi_shopping_sales.seller.AddProductImgClass
+import com.hifi.hifi_shopping_sales.seller.AddProductInfoClass
+import com.hifi.hifi_shopping_sales.seller.ImgClass
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
 class ProductRepository {
     companion object{
@@ -26,6 +32,26 @@ class ProductRepository {
             val database = FirebaseDatabase.getInstance()
             val postDataRef = database.getReference("ProductImgData")
             postDataRef.orderByChild("productIdx").equalTo(productIdx).get().addOnCompleteListener(callback1)
+        }
+
+        // 게시글 정보를 저장한다.
+       suspend fun addProductInfo(productInfo:AddProductInfoClass){
+            val database = FirebaseDatabase.getInstance()
+            val postDataRef = database.getReference("ProductData")
+            postDataRef.push().setValue(productInfo)
+        }
+
+        suspend fun addProductImgInfo(productImgClass:AddProductImgClass){
+            val database = FirebaseDatabase.getInstance()
+            val postDataRef = database.getReference("ProductImgData")
+            postDataRef.push().setValue(productImgClass)
+        }
+
+        // 이미지 업로드
+        suspend fun uploadImage(uploadUri: Uri, fileName:String){
+            val storage = FirebaseStorage.getInstance()
+            val imageRef = storage.reference.child(fileName)
+            imageRef.putFile(uploadUri)
         }
     }
 }

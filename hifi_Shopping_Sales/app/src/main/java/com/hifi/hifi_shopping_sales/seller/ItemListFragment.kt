@@ -25,7 +25,6 @@ class ItemListFragment : Fragment() {
     lateinit var productViewModel: ProductViewModel
     lateinit var sellerViewModel: SellerViewModel
     val productItemList = mutableListOf<ProductRowItemClass>()
-    var cnt = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

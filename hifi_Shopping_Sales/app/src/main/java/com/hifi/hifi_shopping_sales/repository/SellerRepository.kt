@@ -1,14 +1,8 @@
 package com.hifi.hifi_shopping_sales.repository
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.hifi.hifi_shopping_sales.seller.ImgClass
 
 class SellerRepository {
     companion object{

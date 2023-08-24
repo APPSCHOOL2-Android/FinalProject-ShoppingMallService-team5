@@ -121,3 +121,7 @@ data class ImgClass(val order:String, val default:String, val imgSrc:String, var
                     val productIdx:String)
 
 data class ProductRowItemClass(val idx:String, var img:Bitmap?, val name:String, val price:String, val orderCnt:String, val reviewScore:String)
+
+data class AddProductInfoClass(val idx:String, val sellerIdx:String, val category:String, val context:String,
+    val name:String, val price:String, val pointAmount:String)
+data class AddProductImgClass(val productIdx:String, val default:String, val imgSrc:String, val omgOrder:String)

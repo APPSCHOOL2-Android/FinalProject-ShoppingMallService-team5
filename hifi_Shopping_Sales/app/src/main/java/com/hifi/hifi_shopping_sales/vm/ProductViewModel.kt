@@ -2,9 +2,9 @@ package com.hifi.hifi_shopping_sales.vm
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hifi.hifi_shopping_sales.repository.ImageRepository
 import com.hifi.hifi_shopping_sales.repository.ProductRepository
 import com.hifi.hifi_shopping_sales.seller.ImgClass
 import com.hifi.hifi_shopping_sales.seller.ProductClass
@@ -57,7 +57,7 @@ class ProductViewModel() : ViewModel() {
                         val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
                         val newImgList = ImgClass(order, def, fileName, bitmap, idx)
                         productList?.value?.get(idx)?.imgList?.add(newImgList)
-                        if(def == "true" && order == "1") {
+                        if (def == "true" && order == "1") {
                             loadImgBitmap.postValue(Pair(idx, bitmap))
                         }
                     }
