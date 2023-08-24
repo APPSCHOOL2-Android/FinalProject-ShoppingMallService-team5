@@ -41,6 +41,8 @@ class OrderFragment : Fragment() {
     private lateinit var orderItemList : ArrayList<String>
     private var orderProductList = mutableListOf<OrderProduct>()
 
+    private var totalOrderProductCount = 0
+    private var totalOrderProductPrice = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,6 +76,30 @@ class OrderFragment : Fragment() {
             var rowOrderItemListBtnPlus = rowOrderItemListBinding.rowOrderItemListBtnPlus
             var rowOrderItemListBtnCoupon = rowOrderItemListBinding.rowOrderItemListBtnCoupon
             var rowOrderItemListDiscountPrice = rowOrderItemListBinding.rowOrderItemListDiscountPrice
+
+            init{
+                rowOrderItemListBinding.run{
+                    rowOrderItemListBtnMinus.setOnClickListener {
+                        var oriCount = rowOrderItemListCount.text.toString().toInt()
+                        if(oriCount > 1) {
+                            oriCount--
+                            getTotalPrice(rowOrderItemListPrice.text.toString(), false)
+                            getTotalCount(1, false)
+                        }
+                        rowOrderItemListCount.text = oriCount.toString()
+                    }
+                }
+                rowOrderItemListBinding.run{
+                    rowOrderItemListBtnPlus.setOnClickListener {
+                        var oriCount = rowOrderItemListCount.text.toString().toInt()
+                        oriCount++
+                        rowOrderItemListCount.text = oriCount.toString()
+                        getTotalPrice(rowOrderItemListPrice.text.toString(), true)
+                        getTotalCount(1, true)
+                    }
+                }
+            }
+
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -219,11 +245,19 @@ class OrderFragment : Fragment() {
         orderItemViewModel.run{
             productMap.observe(buyActivity){
                 orderProductList.clear()
+                totalOrderProductCount = 0
+                totalOrderProductPrice = 0
                 for(itemIdx in orderItemList){
-                    if(it[itemIdx] != null) orderProductList.add(it[itemIdx]!!)
+                    if(it[itemIdx] != null) {
+                        orderProductList.add(it[itemIdx]!!)
+                        getTotalCount(1, true)
+                        getTotalPrice(it[itemIdx]!!.price, true )
+                    }
                 }
                 fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
+                fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
             }
+
             orderItemList.forEach {
                 getOrderProductData(it)
             }
@@ -260,4 +294,21 @@ class OrderFragment : Fragment() {
         }
     }
 
+    fun getTotalPrice(Price: String, plus: Boolean){
+        val sb = StringBuilder()
+        val sumPrice = if(plus) totalOrderProductPrice + Price.toInt() else totalOrderProductPrice - Price.toInt()
+        totalOrderProductPrice = sumPrice
+        if(sumPrice < 0) return
+        sumPrice.toString().reversed().forEachIndexed { index, c ->
+            sb.append("$c")
+            if((index+1) % 3 == 0)sb.append(",")
+        }
+        if(sb.last() == ',') sb.deleteCharAt(sb.lastIndex)
+        fragmentOrderBinding.orderPayBtnTotal.text = "${sb.reverse()}원"
+    }
+
+    fun getTotalCount(num: Int, plus: Boolean){
+        totalOrderProductCount = if(plus) totalOrderProductCount + num else totalOrderProductCount - num
+        fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
+    }
 }
