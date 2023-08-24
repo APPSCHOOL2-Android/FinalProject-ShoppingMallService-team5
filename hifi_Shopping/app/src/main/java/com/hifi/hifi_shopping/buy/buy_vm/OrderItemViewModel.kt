@@ -6,34 +6,23 @@ import android.os.SystemClock
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-
-data class ProductData(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String)
-
+data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
 class OrderItemViewModel: ViewModel() {
 
-    var productDataList = MutableLiveData<MutableList<ProductData>>()
-    var tempProductList = mutableListOf<ProductData>()
-
-    var productImgDataList = MutableLiveData<MutableList<Bitmap>>()
-    var tempImgProductList = mutableListOf<Bitmap>()
-
-    init{
-        tempProductList.clear()
-        tempImgProductList.clear()
-        productDataList.value = tempProductList
-        productImgDataList.value = tempImgProductList
-    }
+    var productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()
+    val tempHashMap =  LinkedHashMap<String, OrderProduct>()
 
     fun getOrderProductData(idx: String){
 
         OrderItemRepository.getOrderProductData(idx, {
             for (i1 in it.result.children) {
-                val temp = ProductData(
+                val temp = OrderProduct(
                     i1.child("idx").value as String,
                     i1.child("name").value as String,
                     i1.child("price").value as String,
@@ -41,10 +30,11 @@ class OrderItemViewModel: ViewModel() {
                     i1.child("category").value as String,
                     i1.child("pointAmount").value as String,
                     i1.child("sellerIdx").value as String,
+                    null
                 )
-                tempProductList.add(temp)
+                tempHashMap[idx] = temp
             }
-            productDataList.value = tempProductList
+            productMap.value = tempHashMap
         },{
             OrderItemRepository.getProductImgSrc(idx){
                 for(c1 in it.result.children){
@@ -58,8 +48,9 @@ class OrderItemViewModel: ViewModel() {
                                     url.openConnection() as HttpURLConnection
                                 val bitmap =
                                     BitmapFactory.decodeStream(httpURLConnection.inputStream)
-                                tempImgProductList.add(bitmap)
-                                productImgDataList.postValue(tempImgProductList)
+
+                                tempHashMap[idx]?.img = bitmap
+                                productMap.postValue(tempHashMap)
                             }
                         }
                     }

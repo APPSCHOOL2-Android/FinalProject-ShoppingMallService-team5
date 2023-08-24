@@ -22,14 +22,13 @@ import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
+import com.hifi.hifi_shopping.buy.buy_vm.OrderProduct
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
-import com.hifi.hifi_shopping.buy.buy_vm.ProductData
-import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentOrderBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
 
 
-data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
+
 class OrderFragment : Fragment() {
 
     private lateinit var fragmentOrderBinding: FragmentOrderBinding
@@ -218,25 +217,16 @@ class OrderFragment : Fragment() {
         orderItemViewModel = ViewModelProvider(buyActivity)[OrderItemViewModel::class.java]
 
         orderItemViewModel.run{
-            productDataList.observe(buyActivity){
+            productMap.observe(buyActivity){
                 orderProductList.clear()
-                it.forEach {
-                    var info = OrderProduct(it.idx, it.name, it.price, it.context,it. category, it.pointAmount, it.sellerIdx, null)
-                    orderProductList.add(info)
-                }
-                Log.d("tttt", "재생성")
-                fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
-            }
-            productImgDataList.observe(buyActivity){
-                it.forEachIndexed { index, bitmap ->
-                    if(orderProductList[index].img == null) orderProductList[index].img = bitmap
+                for(itemIdx in orderItemList){
+                    if(it[itemIdx] != null) orderProductList.add(it[itemIdx]!!)
                 }
                 fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
             }
             orderItemList.forEach {
                 getOrderProductData(it)
             }
-
         }
 
         orderUserViewModel.run{
