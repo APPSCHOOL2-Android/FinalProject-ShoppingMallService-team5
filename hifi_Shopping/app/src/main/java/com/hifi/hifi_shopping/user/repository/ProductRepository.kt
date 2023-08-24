@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 
 class ProductRepository {
     companion object{
-        fun getProductAllByIdx(idx: String, callback1: (Task<DataSnapshot>) -> Unit) {
+        fun getProductInfoByIdx(idx: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val productDataRef = database.getReference("ProductData")
 
