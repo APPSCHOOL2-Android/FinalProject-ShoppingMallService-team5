@@ -21,7 +21,6 @@
             android:minHeight="?attr/actionBarSize"
             app:itemIconTint="@color/brown2"
             app:menu="@menu/menu_search_cart"
-            app:navigationIcon="@drawable/notifications_24px"
             app:navigationIconTint="@color/brown2"
             app:title="마이 페이지"
             app:titleCentered="true"
