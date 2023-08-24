@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.MainActivity
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.recommend.RecommendActivity
@@ -176,28 +177,33 @@ class MyPageFragment : Fragment() {
                 startActivity(intent)
             }
 
-
             orderViewModel.getOrderListByUser(userTemp.idx)
+
             // 배송 현황
             myPageDeliverStatusPacking.run {
-
                 setOnClickListener{
-
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    startActivity(intent)
                 }
             }
             myPageDeliverStatusShipping.run {
                 setOnClickListener{
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    startActivity(intent)
 
                 }
             }
             myPageDeliverStatusArriving.run {
                 setOnClickListener{
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    startActivity(intent)
 
                 }
             }
             myPageDeliverStatusSuccess.run {
                 setOnClickListener{
-
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    startActivity(intent)
                 }
             }
 
@@ -205,33 +211,32 @@ class MyPageFragment : Fragment() {
             // 기본 템 보유 현황
             myPageBasicItemStatusHobby.run {
                 setOnClickListener{
-
+                    userActivity.replaceFragment(UserActivity.PURCHASE_FRAGMENT,true,null)
                 }
             }
 
             myPageBasicItemStatusDating.run {
                 setOnClickListener{
-
+                    userActivity.replaceFragment(UserActivity.PURCHASE_FRAGMENT,true,null)
                 }
             }
 
             myPageBasicItemStatusPrepare.run {
                 setOnClickListener{
-
+                    userActivity.replaceFragment(UserActivity.PURCHASE_FRAGMENT,true,null)
                 }
             }
 
             myPageBasicItemStatusManaging.run {
                 setOnClickListener{
-
+                    userActivity.replaceFragment(UserActivity.PURCHASE_FRAGMENT,true,null)
                 }
             }
 
             // 내 구독리스트 확인하러 가기
-            myPageBtnToSubscribe.run {
-                setOnClickListener {
-
-                }
+            myPageBtnToSubscribe.setOnClickListener {
+                val intent = Intent(userActivity, SubscribeActivity::class.java)
+                startActivity(intent)
             }
 
             userBottomNavigationView.run {
@@ -259,10 +264,7 @@ class MyPageFragment : Fragment() {
                 }
             }
 
-            myPageBtnToSubscribe.setOnClickListener {
-                val intent = Intent(userActivity, SubscribeActivity::class.java)
-                startActivity(intent)
-            }
+
         }
 
         return fragmentMyPageBinding.root
