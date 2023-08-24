@@ -12,7 +12,6 @@ class AuthLoginFragment : Fragment() {
 
     lateinit var fragmentAuthLoginBinding: FragmentAuthLoginBinding
     lateinit var authActivity : AuthActivity
-    lateinit var googleSignInHelper: GoogleSignInHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,9 +20,6 @@ class AuthLoginFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentAuthLoginBinding = FragmentAuthLoginBinding.inflate(inflater)
         authActivity = activity as AuthActivity
-
-        // GoogleSignInHelper 인스턴스 생성
-        googleSignInHelper = GoogleSignInHelper(requireActivity(), authActivity.auth!!)
 
         fragmentAuthLoginBinding.run{
 
@@ -62,11 +58,6 @@ class AuthLoginFragment : Fragment() {
                             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                         }
                     }
-            }
-            // 구글 로그인 버튼 클릭
-            buttonAuthGoogleLogin.setOnClickListener {
-                // GoogleSignInHelper를 통한 구글 로그인 시작
-                googleSignInHelper.signIn()
             }
         }
 

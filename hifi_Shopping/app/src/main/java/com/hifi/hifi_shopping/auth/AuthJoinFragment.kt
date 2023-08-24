@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.hifi.hifi_shopping.auth.model.UserDataClass
 import com.hifi.hifi_shopping.databinding.FragmentAuthJoinBinding
 import java.util.UUID
 
@@ -65,7 +66,7 @@ class AuthJoinFragment : Fragment() {
                             )
 
                             // Realtime Database에 UserData 추가
-                            val databaseReference = firebaseDatabase.getReference("users")
+                            val databaseReference = firebaseDatabase.getReference("UserData")
                             databaseReference.child(userId).setValue(userData)
                                 .addOnSuccessListener {
                                     // 가입 성공 시 로그인 프래그먼트로 전환

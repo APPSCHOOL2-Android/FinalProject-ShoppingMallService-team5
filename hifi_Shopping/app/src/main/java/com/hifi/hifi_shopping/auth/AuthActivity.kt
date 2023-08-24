@@ -1,7 +1,6 @@
 package com.hifi.hifi_shopping.auth
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
@@ -10,17 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.model.UserDataClass
 import com.hifi.hifi_shopping.databinding.ActivityAuthBinding
 import kotlin.concurrent.thread
 
@@ -33,7 +27,7 @@ class AuthActivity : AppCompatActivity() {
 
     // Firebase Database 인스턴스 생성
     private val database: FirebaseDatabase = FirebaseDatabase.getInstance()
-    private val usersReference: DatabaseReference = database.getReference("users")
+    private val usersReference: DatabaseReference = database.getReference("UserData")
 
     companion object {
         val AUTH_LOGIN_FRAGMENT = "AuthLoginFragment"
@@ -46,9 +40,6 @@ class AuthActivity : AppCompatActivity() {
     // nullable한 FirebaseAuth 객체 선언 (Authentication)
     var auth: FirebaseAuth? = null
 
-    // 구글 로그인 관련 변수
-    private lateinit var googleSignInClient: GoogleSignInClient
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityAuthBinding = ActivityAuthBinding.inflate(layoutInflater)
@@ -58,14 +49,6 @@ class AuthActivity : AppCompatActivity() {
 
         // auth 객체 초기화 (Authentication)
         auth = FirebaseAuth.getInstance()
-
-        // Google Sign In 설정용 객체
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        // Google Sign In 수행용 객체
-        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
     // 사용자 로그인 및 계정 생성 함수 (Authentication)
