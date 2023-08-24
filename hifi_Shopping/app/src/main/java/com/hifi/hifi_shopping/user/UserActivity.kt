@@ -5,6 +5,9 @@ import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialSharedAxis
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
@@ -18,6 +21,7 @@ class UserActivity : AppCompatActivity() {
     var oldFragment:Fragment? = null
 
     var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "sample_img")
+
 
     companion object{
         val MY_PAGE_FRAGMENT = "MyPageFragment"
@@ -33,8 +37,6 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityUserBinding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(activityUserBinding.root)
-
-
         replaceFragment(MY_PAGE_FRAGMENT, false, null)
     }
 
@@ -67,15 +69,6 @@ class UserActivity : AppCompatActivity() {
         newFragment?.arguments = bundle
 
         if(newFragment != null) {
-
-            // oldFragment -> newFragment로 이동
-            // oldFramgent : exit
-            // newFragment : enter
-
-            // oldFragment <- newFragment 로 되돌아가기
-            // oldFragment : reenter
-            // newFragment : return
-
             // 애니메이션 설정
             if(oldFragment != null){
                 oldFragment?.exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
