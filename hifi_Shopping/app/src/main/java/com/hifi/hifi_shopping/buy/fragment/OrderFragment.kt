@@ -108,7 +108,7 @@ class OrderFragment : Fragment() {
         buyActivity = activity as BuyActivity
         orderUserIdx = arguments?.getString("userIdx")!!
         orderItemList = arguments?.getStringArrayList("selProduct")!!
-
+        fragmentOrderBinding.orderPayBtnCount.text = "Total ${orderProductList.size} Items"
     }
 
     private fun clickEventSetting(){
@@ -212,7 +212,7 @@ class OrderFragment : Fragment() {
     private fun viewModelSetting(){
         orderUserViewModel = ViewModelProvider(buyActivity)[OrderUserViewModel::class.java]
         orderItemViewModel = ViewModelProvider(buyActivity)[OrderItemViewModel::class.java]
-//data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
+
         orderItemViewModel.run{
             productDataList.observe(buyActivity){
                 orderProductList.clear()
@@ -223,11 +223,9 @@ class OrderFragment : Fragment() {
                 fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
             }
             productImgDataList.observe(buyActivity){
-
                 it.forEachIndexed { index, bitmap ->
                     if(orderProductList[index].img == null) orderProductList[index].img = bitmap
                 }
-
                 fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
             }
             orderItemList.forEach {
