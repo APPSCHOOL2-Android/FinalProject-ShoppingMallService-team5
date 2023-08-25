@@ -34,8 +34,6 @@ class CategoryMainFragment : Fragment() {
     lateinit var categoryMainViewModel: CategoryMainViewModel
     lateinit var categoryViewModel: CategoryViewModel
 
-    var worth = 3
-
     var categoryList: Array<String>? = null
     var categoryNum = 0
 
@@ -50,14 +48,14 @@ class CategoryMainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("brudenell", "asdfasdfasdf")
         categoryActivity = activity as CategoryActivity
         binding = FragmentCategoryMainBinding.inflate(layoutInflater)
 
         categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
         categoryViewModel = ViewModelProvider(categoryActivity)[CategoryViewModel::class.java]
 
-        val productListAdapter = ProductListAdapter { idx ->
+        Log.d("brudenell", "fefefefefefef")
+        val productListAdapter = ProductListAdapter(categoryMainViewModel) { idx ->
             val intent = Intent(categoryActivity, BuyActivity::class.java)
 
             val buyProductList = ArrayList<String>()
@@ -78,7 +76,8 @@ class CategoryMainFragment : Fragment() {
             }
 
             allProductList.observe(viewLifecycleOwner) {
-                getProductWithWorth()
+//                getProductWithWorth()
+                getProductWithWorthJustInfo()
             }
 
             productList.observe(viewLifecycleOwner) {
@@ -153,7 +152,8 @@ class CategoryMainFragment : Fragment() {
                         productWorth += 6
                         Log.d("brudenell", "upbutton")
                     }
-                    getProductWithWorth()
+//                    getProductWithWorth()
+                    getProductWithWorthJustInfo()
                 }
             }
 
@@ -163,7 +163,8 @@ class CategoryMainFragment : Fragment() {
                         productWorth -= 6
                         Log.d("brudenell","downbutton")
                     }
-                    getProductWithWorth()
+//                    getProductWithWorth()
+                    getProductWithWorthJustInfo()
                 }
             }
 

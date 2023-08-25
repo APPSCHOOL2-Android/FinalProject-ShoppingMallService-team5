@@ -28,4 +28,14 @@ class CategoryMainViewModel: ViewModel() {
             productList.value = it
         }
     }
+
+    fun getProductWithWorthJustInfo() {
+        categoryMainRepository.getProductWithWorthJustInfo(productWorth, productCount) {
+            productList.value = it
+        }
+    }
+
+    fun getProductImgUrl(idx: Int, callback: (String) -> Unit) {
+        categoryMainRepository.getProductImgUrl(idx, callback)
+    }
 }

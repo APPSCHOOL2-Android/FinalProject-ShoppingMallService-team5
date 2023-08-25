@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.category.ui
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.RoundedCorner
 import android.view.ViewGroup
@@ -14,7 +15,10 @@ import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 
-class ProductListAdapter(val callback: (String) -> Unit): ListAdapter<CategoryMainProduct, ProductListAdapter.ProductListViewHolder>(diffUtil) {
+class ProductListAdapter(
+    val categoryMainViewModel: CategoryMainViewModel,
+    val callback: (String) -> Unit
+) : ListAdapter<CategoryMainProduct, ProductListAdapter.ProductListViewHolder>(diffUtil) {
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<CategoryMainProduct>() {
             override fun areItemsTheSame(oldItem: CategoryMainProduct, newItem: CategoryMainProduct): Boolean {
@@ -52,15 +56,23 @@ class ProductListAdapter(val callback: (String) -> Unit): ListAdapter<CategoryMa
             itemProductCategoryDetailBinding.run {
                 imageViewItemProductCategoryDetailThumb.setImageResource(R.color.brown2)
 
-                val storage = FirebaseStorage.getInstance()
-                val fileRef = storage.reference.child(product.imgSrc)
-                fileRef.downloadUrl.addOnCompleteListener {
+                if (product.imgSrc.isEmpty()) {
+                    categoryMainViewModel.getProductImgUrl(categoryMainViewModel.productWorth + currentList.size - adapterPosition - 1) { url ->
+                        Glide.with(imageViewItemProductCategoryDetailThumb)
+                            .load(url)
+                            .placeholder(R.color.brown2)
+                            .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+                            .into(imageViewItemProductCategoryDetailThumb)
+                    }
+                } else {
                     Glide.with(imageViewItemProductCategoryDetailThumb)
-                        .load(it.result.toString())
+                        .load(product.imgSrc)
                         .placeholder(R.color.brown2)
-                        .apply(RequestOptions.bitmapTransform(RoundedCorners(10)))
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                         .into(imageViewItemProductCategoryDetailThumb)
                 }
+
+
 
 //                Glide.with(imageViewItemProductCategoryDetailThumb)
 //                    .load(product.imgSrc)

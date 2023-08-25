@@ -10,6 +10,8 @@ class CategoryMainRepository {
 
     lateinit var allProductList: List<CategoryMainProduct>
 
+    val storage = FirebaseStorage.getInstance()
+
     fun getProduct(categoryNum: String, callback: (List<CategoryMainProduct>) -> Unit) {
         val database = FirebaseDatabase.getInstance().getReference("ProductData")
 
@@ -84,6 +86,36 @@ class CategoryMainRepository {
 //                    }
 //                }
 //            }
+        }
+    }
+
+    fun getProductWithWorthJustInfo(productWorth: Int, productCount: Int, callback: (List<CategoryMainProduct>) -> Unit) {
+        val range = if (productWorth + 6 > productCount) {
+            productCount
+        } else {
+            productWorth + 6
+        }
+
+        val resultList = allProductList.slice(productWorth until range)
+        callback(resultList.reversed())
+    }
+
+    val databaseImg = FirebaseDatabase.getInstance().getReference("ProductImgData")
+
+    fun getProductImgUrl(idx: Int, callback: (String) -> Unit) {
+//        val database = FirebaseDatabase.getInstance().getReference("ProductImgData")
+
+        databaseImg.orderByChild("productIdx").equalTo(allProductList[idx].idx).get().addOnCompleteListener {
+            it.result.children.forEach {
+                if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
+                    val filename = it.child("imgSrc").value as String
+                    val fileRef = storage.reference.child(filename)
+                    fileRef.downloadUrl.addOnCompleteListener {
+                        allProductList[idx].imgSrc = it.result.toString()
+                        callback(it.result.toString())
+                    }
+                }
+            }
         }
     }
 }
