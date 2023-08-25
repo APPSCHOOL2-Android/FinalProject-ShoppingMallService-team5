@@ -9,21 +9,30 @@ class UserRepository {
 
     companion object {
         // 사용자 정보를 저장한다.
-        fun addUserInfo(userData: UserDataClass, callback1: (Task<Void>) -> Unit) {
+        fun addUserData(userData: UserDataClass, callback1: (Task<Void>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
             userDataRef.push().setValue(userData).addOnCompleteListener(callback1)
         }
 
-        // 사용자 아이디를 통해 사용자 정보를 가져온다.
-        fun getUserInfoByUserId(loginUserId: String, callback1: (Task<DataSnapshot>) -> Unit) {
+        // 사용자 idx를 통해 사용자 정보를 가져온다.
+        fun getUserInfoByUserIdx(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
 
-            // email이 사용자가 입력한 아이디와 같은 데이터를 가져온다.
+            userDataRef.orderByChild("idx").equalTo(userIdx).get()
+                .addOnCompleteListener(callback1)
+        }
+
+        // 사용자 이메일를 통해 사용자 정보를 가져온다.
+        fun getUserInfoByUserEmail(loginUserId: String, callback1: (Task<DataSnapshot>) -> Unit) {
+            val database = FirebaseDatabase.getInstance()
+            val userDataRef = database.getReference("UserData")
+
             userDataRef.orderByChild("email").equalTo(loginUserId).get()
                 .addOnCompleteListener(callback1)
         }
+
 
         // 사용자 정보를 수정하는 메서드
         fun modifyUserInfo(userData: UserDataClass, callback1: (Task<Void>) -> Unit) {
