@@ -18,7 +18,8 @@
         android:icon="@drawable/home_24px"
         android:menuCategory="secondary"
         android:title="홈"
-        android:checkable="true"/>
+        android:checkable="true"
+        android:checked="true"/>
     <item
         android:id="@+id/bottomMenuItemMyPage"
         android:icon="@drawable/person_24px"

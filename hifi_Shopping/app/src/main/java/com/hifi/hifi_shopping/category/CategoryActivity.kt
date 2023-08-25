@@ -12,6 +12,7 @@ import androidx.core.view.forEach
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -29,6 +30,9 @@ class CategoryActivity : AppCompatActivity() {
 
     lateinit var categoryViewModel: CategoryViewModel
 
+    lateinit var navHostFragment: NavHostFragment
+    lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
@@ -36,19 +40,18 @@ class CategoryActivity : AppCompatActivity() {
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
-        val navHostFragment =
+        navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         binding.run {
             bottomNavigationViewCategory.run {
-                selectedItemId = R.id.bottomMenuItemCategoryMain
 
                 onBackPressedDispatcher.addCallback(this@CategoryActivity, object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
                         if (navController.currentDestination?.id == R.id.categoryMainFragment){
-                            finish()
-                            return
+                            //finish()
+                            //return
                         }
 
                         navController.popBackStack()
@@ -141,10 +144,6 @@ class CategoryActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
-        val navController = navHostFragment.navController
 
         binding.bottomNavigationViewCategory.run {
             when (navController.currentDestination?.id) {

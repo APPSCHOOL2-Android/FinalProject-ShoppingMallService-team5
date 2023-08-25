@@ -2,10 +2,12 @@ package com.hifi.hifi_shopping.category.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.category.CategoryActivity
-import com.hifi.hifi_shopping.category.CategoryViewModel
 import com.hifi.hifi_shopping.databinding.FragmentCategoryMainBinding
 import com.hifi.hifi_shopping.databinding.ItemCategoryCategoryDetailBinding
-import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 import com.hifi.hifi_shopping.databinding.ItemReviewCategoryDetailBinding
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.user.UserActivity
@@ -26,7 +26,7 @@ class CategoryMainFragment : Fragment() {
     lateinit var categoryActivity: CategoryActivity
     lateinit var binding: FragmentCategoryMainBinding
 
-    lateinit var categoryViewModel: CategoryViewModel
+    lateinit var categoryMainViewModel: CategoryMainViewModel
 
     var worth = 3
 
@@ -39,6 +39,10 @@ class CategoryMainFragment : Fragment() {
     ): View? {
         categoryActivity = activity as CategoryActivity
         binding = FragmentCategoryMainBinding.inflate(layoutInflater)
+
+        categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
+
+        val productListAdapter = ProductListAdapter()
 
         categoryNum = arguments?.getInt("categoryNum") ?: 0
 
@@ -78,25 +82,47 @@ class CategoryMainFragment : Fragment() {
                 layoutManager = LinearLayoutManager(categoryActivity, LinearLayoutManager.HORIZONTAL, false)
             }
 
+            // 제품 리스트
             recyclerViewCategoryMainProduct.run {
-                adapter = ProductListAdapter()
+                adapter = productListAdapter
                 layoutManager = LinearLayoutManager(categoryActivity)
+            }
+
+            categoryMainViewModel.run {
+                allProductList.observe(viewLifecycleOwner) {
+
+                    getProductWithWorth()
+                }
+
+                productList.observe(viewLifecycleOwner) {
+                    productListAdapter.submitList(it)
+                }
+            }
+
+            fabCategoryMainWorthUp.setOnClickListener {
+                categoryMainViewModel.run {
+                    if (productCount > productWorth + 6) {
+                        productWorth += 6
+                        Log.d("brudenell", "upbutton")
+                    }
+                    getProductWithWorth()
+                }
+            }
+
+            fabCategoryMainWorthDown.setOnClickListener {
+                categoryMainViewModel.run {
+                    if (productWorth > 0) {
+                        productWorth -= 6
+                        Log.d("brudenell","downbutton")
+                    }
+                    getProductWithWorth()
+                }
             }
 
             recyclerViewCategoryMainReview.run {
                 adapter = ReviewListAdapter()
                 layoutManager = LinearLayoutManager(categoryActivity)
                 addItemDecoration(DividerItemDecoration(categoryActivity, DividerItemDecoration.VERTICAL))
-            }
-
-            fabCategoryMainWorthUp.setOnClickListener {
-                worth += 1
-                recyclerViewCategoryMainProduct.adapter?.notifyDataSetChanged()
-            }
-
-            fabCategoryMainWorthDown.setOnClickListener {
-                worth -= 1
-                recyclerViewCategoryMainProduct.adapter?.notifyDataSetChanged()
             }
 
             switchCategoryMainProductOrReview.run {
@@ -194,42 +220,6 @@ class CategoryMainFragment : Fragment() {
                     textViewItemReviewCategoryDetailProductName.text = "제품명$adapterPosition"
 
                     textViewItemReviewCategoryDetailReviewContent.text = "최신 리뷰$adapterPosition"
-                }
-            }
-        }
-    }
-
-    inner class ProductListAdapter: RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder>() {
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductListViewHolder {
-            val itemProductCategoryDetailBinding = ItemProductCategoryDetailBinding.inflate(layoutInflater)
-
-            val params = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            itemProductCategoryDetailBinding.root.layoutParams = params
-
-            return ProductListViewHolder(itemProductCategoryDetailBinding)
-        }
-
-        override fun onBindViewHolder(holder: ProductListViewHolder, position: Int) {
-            holder.bind()
-        }
-
-        override fun getItemCount(): Int {
-            return 6
-        }
-
-        inner class ProductListViewHolder(
-            val itemProductCategoryDetailBinding: ItemProductCategoryDetailBinding
-        ): RecyclerView.ViewHolder(itemProductCategoryDetailBinding.root){
-            fun bind() {
-                itemProductCategoryDetailBinding.run {
-                    Glide.with(imageViewItemProductCategoryDetailThumb)
-                        .load("https://picsum.photos/${100 + worth * 6 + adapterPosition}/${100 + worth * 6 + adapterPosition}")
-                        .into(imageViewItemProductCategoryDetailThumb)
-
-                    textViewItemProductCategoryDetailName.text = "제품명${worth * 6 + adapterPosition}"
                 }
             }
         }
