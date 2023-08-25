@@ -9,12 +9,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.auth.model.UserDataClass
 import com.hifi.hifi_shopping.databinding.ActivityAuthBinding
 import kotlin.concurrent.thread
 
@@ -59,53 +59,23 @@ class AuthActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 로그인 성공
                     val user = auth?.currentUser
+                    Toast.makeText(this, "로그인되었습니다", Toast.LENGTH_SHORT).show()
+
+                    // 화면 이동 구현 필요
+                    // 사용자 정보 번들로 옮기기 필요
+
                 } else {
                     // 로그인 실패
                     val exception = task.exception
                     if (exception != null) {
-                        // 서버 연결 실패나 예외 처리
-                        Toast.makeText(
-                            this,
-                            "로그인에 실패했습니다: ${exception.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        // 회원 가입 안내 스낵바 표시
+                        showSignUpSnackbarB()
                     } else {
-                        // 계정 생성 시도
-                        createUserAccount(email, password)
+                        // 서버 연결 실패나 예외 처리
+                        showSignUpSnackbarA()
                     }
                 }
             }
-    }
-
-    // 새로운 계정 생성 함수 (Authentication)
-    fun createUserAccount(email: String, password: String) {
-        auth?.createUserWithEmailAndPassword(email, password)
-            ?.addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // 계정 생성 성공 후 로그인 수행
-                    val user = auth?.currentUser
-                } else {
-                    // 계정 생성 실패
-                    Toast.makeText(this, "계정 생성 및 로그인 실패", Toast.LENGTH_SHORT).show()
-                }
-            }
-    }
-
-    // 사용자 데이터 추가
-    fun addUserData(userData: UserDataClass) {
-        // 인덱스를 이용하여 데이터 추가
-        usersReference.child(userData.idx).setValue(userData)
-    }
-
-    // 사용자 데이터 조회
-    fun getUserData(idx: String, callback: (userData: UserDataClass?) -> Unit) {
-        usersReference.child(idx).get().addOnSuccessListener { dataSnapshot ->
-            val userData = dataSnapshot.getValue(UserDataClass::class.java)
-            callback(userData)
-        }.addOnFailureListener {
-            // 조회 실패 시 처리
-            callback(null)
-        }
     }
 
     // 지정한 Fragment를 보여주는 메서드
@@ -172,6 +142,25 @@ class AuthActivity : AppCompatActivity() {
             SystemClock.sleep(200)
             inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
         }
+    }
+
+    // 연결 오류 스낵바 표시
+    fun showSignUpSnackbarA() {
+        val snackbar = Snackbar.make(
+            activityAuthBinding.root,
+            "연결에 문제가 발생했습니다.",
+            Snackbar.LENGTH_LONG
+        )
+        snackbar.show()
+    }
+    // 미회원 가입 스낵바 표시
+    fun showSignUpSnackbarB() {
+        val snackbar = Snackbar.make(
+            activityAuthBinding.root,
+            "계정을 생성하려면 회원 가입 페이지로 이동해주세요.",
+            Snackbar.LENGTH_LONG
+        )
+        snackbar.show()
     }
 
 }

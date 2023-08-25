@@ -66,6 +66,20 @@ class AuthFindResultFragment : Fragment() {
                         val userReference = snapshot.ref
                         userReference.child("pw").setValue(newPassword)
                         showPasswordChangeSuccessDialog()
+
+                        // 아래에서부터 Firebase Authentication의 비밀번호 변경
+                        val user = firebaseAuth.currentUser
+                        user?.updatePassword(newPassword)
+                            ?.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val userUid = user.uid
+                                    // Firebase Realtime Database에 변경된 비밀번호 동기화
+                                    performDatabasePasswordSync(userUid, newPassword)
+                                } else {
+                                    val errorMessage = "연결 오류가 발생했습니다."
+                                    showErrorMessageDialog(errorMessage)
+                                }
+                            }
                     }
                 } else {
                     val errorMessage = "해당 계정을 찾을 수 없습니다."
@@ -74,10 +88,23 @@ class AuthFindResultFragment : Fragment() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                val errorMessage = "데이터베이스 오류가 발생했습니다."
+                val errorMessage = "연결 오류가 발생했습니다."
                 showErrorMessageDialog(errorMessage)
             }
         })
+    }
+
+    // Firebase Realtime Database에 변경된 비밀번호 동기화
+    private fun performDatabasePasswordSync(userUid: String, newPassword: String) {
+        val userReference = firebaseDatabase.getReference("UserData").child(userUid)
+        userReference.child("pw").setValue(newPassword)
+            .addOnSuccessListener {
+                showPasswordChangeSuccessDialog()
+            }
+            .addOnFailureListener {
+                val errorMessage = "연결 오류가 발생했습니다."
+                showErrorMessageDialog(errorMessage)
+            }
     }
 
     private fun showPasswordChangeSuccessDialog() {

@@ -35,29 +35,35 @@ class AuthLoginFragment : Fragment() {
                     authActivity.replaceFragment(AuthActivity.AUTH_FIND_PW_FRAGMENT, true, null)
                 }
             }
-            // 일반 로그인 버튼 클릭
-            buttonAuthLogin.setOnClickListener{
+
+            // 로그인 버튼 클릭 시 포커스와 키보드 제어
+            buttonAuthLogin.setOnClickListener {
                 // 사용자 입력 정보를 가져옵니다.
                 val email = textInputEditTextLoginUserId.text.toString()
                 val password = textInputEditTextLoginUserPw.text.toString()
 
-                // 사용자 정보를 파이어베이스에 전달하고 로그인을 시도합니다.
-                authActivity.auth?.signInWithEmailAndPassword(email, password)
-                    ?.addOnCompleteListener(requireActivity()) { task ->
-                        if (task.isSuccessful) {
-                            // 로그인 성공 시
-                            val successMessage = "일반 로그인 성공" // 토스트에 출력할 메시지
-                            Toast.makeText(requireContext(), successMessage, Toast.LENGTH_SHORT).show()
-                            // 화면전환 처리 필요
-                            // authActivity.replaceFragment(...)
-                        } else {
-                            // 로그인 실패 시
-                            // 예외 처리 필요
-                            val exception = task.exception
-                            val errorMessage = exception?.message ?: "로그인 실패"
-                            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-                        }
+                if (email.isEmpty() || password.isEmpty()) {
+                    // 이메일이나 비밀번호가 비어있다면 해당 에디트 텍스트로 포커스를 올립니다.
+                    if (email.isEmpty()) {
+                        textInputEditTextLoginUserId.requestFocus()
+                        authActivity.showSoftInput(textInputEditTextLoginUserId)
+                    } else {
+                        textInputEditTextLoginUserPw.requestFocus()
+                        authActivity.showSoftInput(textInputEditTextLoginUserPw)
                     }
+                } else {
+                    // 이메일과 비밀번호가 모두 입력되었다면 로그인 시도
+                    authActivity.loginUser(email, password)
+
+                    // 포커스와 키보드 클리어
+                    textInputEditTextLoginUserId.clearFocus()
+                    textInputEditTextLoginUserPw.clearFocus()
+                }
+            }
+
+            // 에디트 텍스트 클릭 시 포커스와 키보드
+            textInputEditTextLoginUserId.setOnClickListener {
+                authActivity.showSoftInput(it)
             }
         }
 
