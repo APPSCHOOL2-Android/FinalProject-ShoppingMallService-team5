@@ -20,6 +20,7 @@ class OrderItemViewModel: ViewModel() {
 
     fun getOrderProductData(idx: String){
 
+
         OrderItemRepository.getOrderProductData(idx, {
             for (i1 in it.result.children) {
                 val temp = OrderProduct(

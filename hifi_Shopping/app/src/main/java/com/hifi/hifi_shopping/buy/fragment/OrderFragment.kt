@@ -1,32 +1,21 @@
 package com.hifi.hifi_shopping.buy.fragment
 
-import android.content.ClipData.Item
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
-import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository.Companion.getOrderProductData
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderProduct
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
@@ -46,6 +35,7 @@ class OrderFragment : Fragment() {
     private var selAddressIdx = 0
     private lateinit var orderItemList : ArrayList<String>
     private var orderProductList = mutableListOf<OrderProduct>()
+    private lateinit var rowOrderItemListBinding: RowOrderItemListBinding
 
     private var totalOrderProductCount = 0
     private var totalOrderProductPrice = 0
@@ -59,15 +49,6 @@ class OrderFragment : Fragment() {
         dataSetting()
         viewModelSetting()
         clickEventSetting()
-
-
-        fragmentOrderBinding.run{
-            orderItemListRecyclerView.run{
-                adapter = ItemListAdapter()
-                layoutManager = LinearLayoutManager(buyActivity)
-            }
-        }
-
 
         return fragmentOrderBinding.root
     }
@@ -88,6 +69,7 @@ class OrderFragment : Fragment() {
 
     private fun clickEventSetting(){
         fragmentOrderBinding.run{
+
             orderUserBtnToggle.run{
                 setOnClickListener {
                     orderUserLayoutAuthComplete.isVisible = !orderUserLayoutAuthComplete.isVisible
@@ -193,6 +175,7 @@ class OrderFragment : Fragment() {
                     }
                 }
             }
+
             orderDeliverMemoVisibleBtn.run{
                 setOnClickListener{
                     orderDeliverMemoEditText.isVisible = !orderDeliverMemoEditText.isVisible
@@ -206,12 +189,33 @@ class OrderFragment : Fragment() {
                 }
             }
 
+            orderDeliverBtnToggle.run{
+                setOnClickListener {
+                    orderDeliverLayout.isVisible = !orderDeliverLayout.isVisible
+                    if(orderDeliverLayout.isVisible){
+                        this.setImageResource(R.drawable.expand_less_24px)
+                    } else {
+                        this.setImageResource(R.drawable.expand_more_24px)
+                    }
+                }
+            }
+
+            orderItemListBtnToggle.run{
+                setOnClickListener {
+                    orderItemListLayout.isVisible = !orderItemListLayout.isVisible
+                    if(orderItemListLayout.isVisible){
+                        this.setImageResource(R.drawable.expand_less_24px)
+                    } else {
+                        this.setImageResource(R.drawable.expand_more_24px)
+                    }
+                }
+            }
         }
     }
 
-    fun softInputVisible(view:View, visible: Boolean){
-        view.requestFocus()
+    private fun softInputVisible(view:View, visible: Boolean){
         if(visible){
+            view.requestFocus()
             val inputMethodManger = buyActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             thread {
                 SystemClock.sleep(200)
@@ -231,18 +235,9 @@ class OrderFragment : Fragment() {
 
         orderItemViewModel.run{
             productMap.observe(buyActivity){
-                orderProductList.clear()
                 totalOrderProductCount = 0
                 totalOrderProductPrice = 0
-                for(itemIdx in orderItemList){
-                    if(it[itemIdx] != null) {
-                        orderProductList.add(it[itemIdx]!!)
-                        getTotalCount(1, true)
-                        getTotalPrice(it[itemIdx]!!.price, true )
-                    }
-                }
-                fragmentOrderBinding.orderItemListRecyclerView.adapter?.notifyDataSetChanged()
-                fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
+                productViewSetting(it)
             }
 
             orderItemList.forEach {
@@ -281,19 +276,29 @@ class OrderFragment : Fragment() {
         }
     }
 
-    inner class ItemListAdapter(): RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
-        inner class ItemViewHolder(rowOrderItemListBinding: RowOrderItemListBinding): ViewHolder(rowOrderItemListBinding.root){
-            var rowOrderItemListImg = rowOrderItemListBinding.rowOrderItemListImg
-            var rowOrderItemListName = rowOrderItemListBinding.rowOrderItemListName
-            var rowOrderItemListPrice = rowOrderItemListBinding.rowOrderItemListPrice
-            var rowOrderItemListBtnMinus = rowOrderItemListBinding.rowOrderItemListBtnMinus
-            var rowOrderItemListCount = rowOrderItemListBinding.rowOrderItemListCount
-            var rowOrderItemListBtnPlus = rowOrderItemListBinding.rowOrderItemListBtnPlus
-            var rowOrderItemListBtnCoupon = rowOrderItemListBinding.rowOrderItemListBtnCoupon
-            var rowOrderItemListDiscountPrice = rowOrderItemListBinding.rowOrderItemListDiscountPrice
+    private fun productViewSetting(map: LinkedHashMap<String, OrderProduct>){
+        orderProductList.clear()
+        fragmentOrderBinding.orderItemListLayout.removeAllViews()
+        for(itemIdx in orderItemList){
+            if(map[itemIdx] != null) {
+                orderProductList.add(map[itemIdx]!!)
+                getTotalCount(1, true)
+                getTotalPrice(map[itemIdx]!!.price, true )
 
-            init{
+                rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
                 rowOrderItemListBinding.run{
+                    rowOrderItemListName.text = map[itemIdx]!!.name
+                    rowOrderItemListPrice.text = map[itemIdx]!!.price
+                    if(map[itemIdx]!!.img != null){
+                        rowOrderItemListImg.setImageBitmap(map[itemIdx]!!.img)
+                    }
+                    rowOrderItemListBtnPlus.setOnClickListener {
+                        var oriCount = rowOrderItemListCount.text.toString().toInt()
+                        oriCount++
+                        rowOrderItemListCount.text = oriCount.toString()
+                        getTotalPrice(rowOrderItemListPrice.text.toString(), true)
+                        getTotalCount(1, true)
+                    }
                     rowOrderItemListBtnMinus.setOnClickListener {
                         var oriCount = rowOrderItemListCount.text.toString().toInt()
                         if(oriCount > 1) {
@@ -304,40 +309,8 @@ class OrderFragment : Fragment() {
                         rowOrderItemListCount.text = oriCount.toString()
                     }
                 }
-                rowOrderItemListBinding.run{
-                    rowOrderItemListBtnPlus.setOnClickListener {
-                        var oriCount = rowOrderItemListCount.text.toString().toInt()
-                        oriCount++
-                        rowOrderItemListCount.text = oriCount.toString()
-                        getTotalPrice(rowOrderItemListPrice.text.toString(), true)
-                        getTotalCount(1, true)
-                    }
-                }
-            }
-
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-            var rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
-            var itemViewHolder = ItemViewHolder(rowOrderItemListBinding)
-
-            rowOrderItemListBinding.root.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            return itemViewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return orderProductList.size
-        }
-
-        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            holder.rowOrderItemListName.text = orderProductList[position].name
-            holder.rowOrderItemListPrice.text = orderProductList[position].price
-            if(orderProductList[position].img != null){
-                holder.rowOrderItemListImg.setImageBitmap(orderProductList[position].img)
+                fragmentOrderBinding.orderItemListLayout.addView(rowOrderItemListBinding.root)
+                fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
             }
         }
     }

@@ -23,7 +23,7 @@ class OrderItemRepository {
         }
         fun getProductImg(src: String, callback1: (Task<Uri>) -> Unit){
             val storage = FirebaseStorage.getInstance()
-            val fileRef = storage.reference.child(src)
+            val fileRef = storage.getReference("product").child(src)
             // 데이터를 가져올 수 있는 경로를 가져온다.
             fileRef.downloadUrl.addOnCompleteListener(callback1)
         }
