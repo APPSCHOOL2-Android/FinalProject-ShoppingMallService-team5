@@ -46,11 +46,12 @@ class BuyActivity : AppCompatActivity() {
     private fun startFragment(){
         //val buyProductList = intent.getStringArrayListExtra("buyProduct")
         val buyProductList = ArrayList<String>()// 테스트용
-        buyProductList.add("21")
-        buyProductList.add("31")
-        buyProductList.add("32")
-        buyProductList.add("33")
-        buyProductList.add("34")
+        for(i in 5 .. 8){
+            buyProductList.add("$i")
+        }
+        for(i in 36 .. 38){
+            buyProductList.add("$i")
+        }
         val bundle = Bundle()
 
         if(buyProductList?.size == 1){
@@ -130,6 +131,21 @@ class BuyActivity : AppCompatActivity() {
         thread {
             SystemClock.sleep(200)
             inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    fun softInputVisible(view:View, visible: Boolean){
+        if(visible){
+            view.requestFocus()
+            val inputMethodManger = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            thread {
+                SystemClock.sleep(200)
+                inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }else {
+            val inputMethodManager = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            view.clearFocus()
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 

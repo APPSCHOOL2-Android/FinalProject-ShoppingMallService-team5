@@ -12,13 +12,14 @@ class OrderUserRepository {
 
         fun getOrderUserPossibleCoupon(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
-            val userCoupontData = database.getReference("CouponData")
-            userCoupontData.orderByChild("idx").equalTo(idx).get().addOnCompleteListener(callback1)
+            val couponDataRef = database.getReference("CouponData")
+            couponDataRef.orderByChild("idx").equalTo(idx).get().addOnCompleteListener(callback1)
         }
-        fun getOrderUserCoupon(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit){
+        fun getOrderUserCoupon(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
-            val userCoupontData = database.getReference("UserCouponData")
-            userCoupontData.orderByChild("userIdx").equalTo(userIdx).get().addOnCompleteListener(callback1)
+            val userCoupontDataRef = database.getReference("UserCouponData")
+            userCoupontDataRef.orderByChild("userIdx").equalTo(userIdx).get().addOnCompleteListener(callback1)
+                .addOnCompleteListener(callback2)
         }
         fun getOrderUser(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()

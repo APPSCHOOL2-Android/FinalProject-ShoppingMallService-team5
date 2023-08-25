@@ -66,7 +66,6 @@ class OrderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
 
         dataSetting()
         viewModelSetting()
@@ -74,12 +73,6 @@ class OrderFragment : Fragment() {
         clickEventSetting()
 
         return fragmentOrderBinding.root
-    }
-
-
-    override fun onResume() {
-        super.onResume()
-        orderProductList.clear()
     }
 
     private fun dataSetting(){
@@ -190,10 +183,10 @@ class OrderFragment : Fragment() {
                 setOnClickListener{
                     orderDeliverMemoEditText.isVisible = !orderDeliverMemoEditText.isVisible
                     if(orderDeliverMemoEditText.isVisible){
-                        softInputVisible(orderDeliverMemoEditText, true)
+                        buyActivity.softInputVisible(orderDeliverMemoEditText, true)
                         orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_less_24px)
                     } else {
-                        softInputVisible(this, false)
+                        buyActivity.softInputVisible(this, false)
                         orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_more_24px)
                     }
                 }
@@ -203,9 +196,11 @@ class OrderFragment : Fragment() {
                 setOnClickListener{
                     orderDeliverMemoEditText.isVisible = !orderDeliverMemoEditText.isVisible
                     if(orderDeliverMemoEditText.isVisible){
-                        softInputVisible(orderDeliverMemoEditText, true)
+                        buyActivity.softInputVisible(orderDeliverMemoEditText, true)
                         orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_less_24px)
                     } else {
+                        buyActivity.
+
                         softInputVisible(this, false)
                         orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_more_24px)
                     }
@@ -317,24 +312,6 @@ class OrderFragment : Fragment() {
                     builder.show()
                 }
             }
-
-
-
-        }
-    }
-
-    private fun softInputVisible(view:View, visible: Boolean){
-        if(visible){
-            view.requestFocus()
-            val inputMethodManger = buyActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            thread {
-                SystemClock.sleep(200)
-                inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-            }
-        }else {
-            val inputMethodManager = buyActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            view.clearFocus()
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
@@ -387,20 +364,15 @@ class OrderFragment : Fragment() {
 
             orderUserCouponList.observe(buyActivity){
                 userCouponList = it
-                Log.d("tttt", "$it")
             }
 
             orderUserPossibleCouponList.observe(buyActivity){
                 possibleCouponList = it
-                Log.d("tttt", "$it")
             }
 
             getOdderUserAddress(orderUserIdx,0)
             orderUserAuthCheck(orderUserIdx)
             getOrderUserCoupon(orderUserIdx)
-            for(coupon in userCouponList){
-                getOrderUserPossibleCoupon(coupon.couponIdx)
-            }
         }
     }
 
@@ -411,7 +383,13 @@ class OrderFragment : Fragment() {
             if(map[itemIdx] != null) {
                 orderProductList.add(map[itemIdx]!!)
                 getTotalCount(1, true)
-                getTotalPrice(map[itemIdx]!!.price, true)
+                getTotalPrice(map[itemIdx]!!.price, true) // 제품가격
+                getTotalPrice("3000", true) // 배송비
+
+                val itemCouponList = possibleCouponList.filter {
+                    it.categoryNum == map[itemIdx]!!.category.slice(0 until it.categoryNum.length)
+                }
+//                Log.d("tttt", "${map[itemIdx]!!.category}")
 
                 rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
                 rowOrderItemListBinding.run{
@@ -439,8 +417,13 @@ class OrderFragment : Fragment() {
                         }
                         rowOrderItemListCount.text = oriCount.toString()
                     }
-                    rowOrderItemListBtnCoupon.setOnClickListener {
-
+                    rowOrderItemListBtnCoupon.run{
+                        if(itemCouponList.isEmpty()){
+                            visibility = View.INVISIBLE
+                        }
+                        setOnClickListener {
+                            Log.d("tttt","찍히면 안되는데....")
+                        }
                     }
                 }
                 fragmentOrderBinding.orderItemListLayout.addView(rowOrderItemListBinding.root)

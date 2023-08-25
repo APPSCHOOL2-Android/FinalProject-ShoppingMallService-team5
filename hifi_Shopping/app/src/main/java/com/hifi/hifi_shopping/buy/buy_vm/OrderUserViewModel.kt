@@ -29,26 +29,9 @@ class OrderUserViewModel() : ViewModel() {
     val orderUserPossibleCouponList = MutableLiveData<MutableList<PossibleCoupon>>()
     var tempList3 = mutableListOf<PossibleCoupon>()
 
-
-    fun getOrderUserPossibleCoupon(idx: String){
-        tempList3.clear()
-        OrderUserRepository.getOrderUserPossibleCoupon(idx){
-            for(c1 in it.result.children){
-                val possibleCoupon = PossibleCoupon(
-                    c1.child("idx").value as String,
-                    c1.child("categoryNum").value as String,
-                    c1.child("validData").value as String,
-                    c1.child("discountPercent").value as String,
-                    c1.child("verify").value as String == "true",
-                )
-                if(possibleCoupon.verify) tempList3.add(possibleCoupon)
-            }
-            orderUserPossibleCouponList.value = tempList3
-        }
-    }
     fun getOrderUserCoupon(idx: String){
         tempList2.clear()
-        OrderUserRepository.getOrderUserCoupon(idx){
+        OrderUserRepository.getOrderUserCoupon(idx,{
             for(c1 in it.result.children){
                 val orderUserCoupon = OrderUserCoupon(
                     c1.child("couponIdx").value as String,
@@ -57,7 +40,25 @@ class OrderUserViewModel() : ViewModel() {
                 if(orderUserCoupon.used) tempList2.add(orderUserCoupon)
             }
             orderUserCouponList.value = tempList2
-        }
+        },{
+            tempList3.clear()
+            tempList2.forEach{
+                OrderUserRepository.getOrderUserPossibleCoupon(it.couponIdx){
+                    for(c1 in it.result.children){
+                        val possibleCoupon = PossibleCoupon(
+                            c1.child("idx").value as String,
+                            c1.child("categoryNum").value as String,
+                            c1.child("validDate").value as String,
+                            c1.child("discountPercent").value as String,
+                            c1.child("verify").value as String == "true",
+                        )
+                        Log.d("tttt", "$possibleCoupon")
+                        if(possibleCoupon.verify) tempList3.add(possibleCoupon)
+                    }
+                    orderUserPossibleCouponList.value = tempList3
+                }
+            }
+        })
     }
 
     fun setOrderUserAddress(num:Int){
