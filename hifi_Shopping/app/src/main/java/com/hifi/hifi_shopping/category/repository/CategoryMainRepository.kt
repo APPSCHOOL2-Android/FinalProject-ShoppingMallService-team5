@@ -10,10 +10,10 @@ class CategoryMainRepository {
 
     lateinit var allProductList: List<CategoryMainProduct>
 
-    fun getProduct(callback: (List<CategoryMainProduct>) -> Unit) {
+    fun getProduct(categoryNum: String, callback: (List<CategoryMainProduct>) -> Unit) {
         val database = FirebaseDatabase.getInstance().getReference("ProductData")
 
-        database.get().addOnCompleteListener {
+        database.orderByChild("category").startAt(categoryNum).endAt(categoryNum + "\uf8ff").get().addOnCompleteListener {
             allProductList = it.result.children.map { product ->
                 CategoryMainProduct(
                     product.child("idx").value as String,
@@ -40,7 +40,6 @@ class CategoryMainRepository {
         }
 
         var fetchCount = range - productWorth
-        Log.d("brudenell", "$fetchCount")
 
         for (i in productWorth until range) {
             val product = allProductList[i]
@@ -48,41 +47,43 @@ class CategoryMainRepository {
             if (product.imgSrc.isNotEmpty()) {
                 fetchCount -= 1
                 if (fetchCount == 0) {
-                    callback(allProductList.slice(productWorth until range))
+                    val resultList = allProductList.slice(productWorth until range)
+                    callback(resultList.reversed())
                 }
                 continue
+            }
+
+            database.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
+                it.result.children.forEach {
+                    if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
+                        allProductList[i].imgSrc = it.child("imgSrc").value as String
+                    }
+                }
+                fetchCount -= 1
+                if (fetchCount == 0) {
+                    val resultList = allProductList.slice(productWorth until range)
+                    callback(resultList.reversed())
+                }
             }
 
 //            database.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
 //                it.result.children.forEach {
 //                    if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
-//                        allProductList[i].imgSrc = it.child("imgSrc").value as String
+//                        val filename = it.child("imgSrc").value as String
+//                        val storage = FirebaseStorage.getInstance()
+//                        val fileRef = storage.reference.child(filename)
+//                        fileRef.downloadUrl.addOnCompleteListener {
+//                            allProductList[i].imgSrc = it.result.toString()
+//
+//                            fetchCount -= 1
+//                            if (fetchCount == 0) {
+//                                val resultList = allProductList.slice(productWorth until range)
+//                                callback(resultList.reversed())
+//                            }
+//                        }
 //                    }
 //                }
-//                fetchCount -= 1
-//                if (fetchCount == 0) {
-//                    callback(allProductList.slice(productWorth until range))
-//                }
 //            }
-
-            database.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
-                it.result.children.forEach {
-                    Log.d("brudenell", "${it.child("default").value} ${it.child("omgOrder").value}")
-                    if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
-                        val filename = it.child("imgSrc").value as String
-                        val storage = FirebaseStorage.getInstance()
-                        val fileRef = storage.reference.child(filename)
-                        fileRef.downloadUrl.addOnCompleteListener {
-                            allProductList[i].imgSrc = it.result.toString()
-
-                            fetchCount -= 1
-                            if (fetchCount == 0) {
-                                callback(allProductList.slice(productWorth until range))
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
 }

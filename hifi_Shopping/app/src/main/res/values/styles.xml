@@ -15,7 +15,8 @@
 
     <style name="CategoryDetialToolbarTitleTextAppearance" parent="@style/TextAppearance.AppCompat.Large">
 
-        <item name="fontFamily">@font/notosans_eb</item>
+        <item name="fontFamily">@font/notosanskr_bold</item>
+        <item name="android:elegantTextHeight">true</item>
 
         <item name="android:textSize">24sp</item>
     </style>

@@ -28,21 +28,37 @@
     <action
         android:id="@+id/actionToRankMainFragment"
         app:destination="@id/rankMainFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
 
     <action
         android:id="@+id/actionToRecommendFragment"
         app:destination="@id/recommendFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
 
     <action
         android:id="@+id/actionToCategoryMainFragment"
         app:destination="@id/categoryMainFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
 
     <action
         android:id="@+id/actionToWishFragment"
         app:destination="@id/wishFragment"
-        app:launchSingleTop="true" />
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
 
 </navigation>

@@ -50,23 +50,23 @@ class ProductListAdapter: ListAdapter<CategoryMainProduct, ProductListAdapter.Pr
     ): RecyclerView.ViewHolder(itemProductCategoryDetailBinding.root){
         fun bind(product: CategoryMainProduct) {
             itemProductCategoryDetailBinding.run {
-//                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.brown2)
-//
-//                val storage = FirebaseStorage.getInstance()
-//                val fileRef = storage.reference.child(product.imgSrc)
-//                fileRef.downloadUrl.addOnCompleteListener {
-//                    Glide.with(imageViewItemProductCategoryDetailThumb)
-//                        .load(it.result.toString())
-//                        .placeholder(R.color.brown2)
-//                        .apply(RequestOptions.bitmapTransform(RoundedCorners(10)))
-//                        .into(imageViewItemProductCategoryDetailThumb)
-//                }
+                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.brown2)
 
-                Glide.with(imageViewItemProductCategoryDetailThumb)
-                    .load(product.imgSrc)
-                    .placeholder(R.color.brown2)
-                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
-                    .into(imageViewItemProductCategoryDetailThumb)
+                val storage = FirebaseStorage.getInstance()
+                val fileRef = storage.reference.child(product.imgSrc)
+                fileRef.downloadUrl.addOnCompleteListener {
+                    Glide.with(imageViewItemProductCategoryDetailThumb)
+                        .load(it.result.toString())
+                        .placeholder(R.color.brown2)
+                        .apply(RequestOptions.bitmapTransform(RoundedCorners(10)))
+                        .into(imageViewItemProductCategoryDetailThumb)
+                }
+
+//                Glide.with(imageViewItemProductCategoryDetailThumb)
+//                    .load(product.imgSrc)
+//                    .placeholder(R.color.brown2)
+//                    .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
+//                    .into(imageViewItemProductCategoryDetailThumb)
 
                 textViewItemProductCategoryDetailName.text = product.name
                 textViewItemProductCategoryDetailPrice.text = product.price

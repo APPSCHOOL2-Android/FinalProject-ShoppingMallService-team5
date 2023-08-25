@@ -44,19 +44,25 @@ class CategoryActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
         navController = navHostFragment.navController
 
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (navController.currentDestination?.id == R.id.categoryMainFragment && !(categoryViewModel.searchSubCategory.value ?: false)){
+                    finish()
+                    return
+                }
+
+                navController.popBackStack()
+
+                categoryViewModel.setNavControllerDestination(navController.currentDestination?.id ?: R.id.categoryMainFragment)
+            }
+        })
+
         binding.run {
             bottomNavigationViewCategory.run {
 
-                onBackPressedDispatcher.addCallback(this@CategoryActivity, object : OnBackPressedCallback(true) {
-                    override fun handleOnBackPressed() {
-                        if (navController.currentDestination?.id == R.id.categoryMainFragment){
-                            //finish()
-                            //return
-                        }
-
-                        navController.popBackStack()
-
-                        when (navController.currentDestination?.id) {
+                categoryViewModel.run {
+                    navControllerDestination.observe(this@CategoryActivity) { destination ->
+                        when (destination) {
                             R.id.rankMainFragment -> {
                                 menu.forEach {
                                     if (it.itemId == R.id.bottomMenuItemRankMain) {
@@ -87,7 +93,7 @@ class CategoryActivity : AppCompatActivity() {
                             }
                         }
                     }
-                })
+                }
 
                 setOnItemSelectedListener {
                     when (it.itemId) {
@@ -145,37 +151,6 @@ class CategoryActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        binding.bottomNavigationViewCategory.run {
-            when (navController.currentDestination?.id) {
-                R.id.rankMainFragment -> {
-                    menu.forEach {
-                        if (it.itemId == R.id.bottomMenuItemRankMain) {
-                            it.isChecked = true
-                        }
-                    }
-                }
-                R.id.recommendFragment -> {
-                    menu.forEach {
-                        if (it.itemId == R.id.bottomMenuItemRecommend) {
-                            it.isChecked = true
-                        }
-                    }
-                }
-                R.id.categoryMainFragment -> {
-                    menu.forEach {
-                        if (it.itemId == R.id.bottomMenuItemCategoryMain) {
-                            it.isChecked = true
-                        }
-                    }
-                }
-                R.id.wishFragment -> {
-                    menu.forEach {
-                        if (it.itemId == R.id.bottomMenuItemWish) {
-                            it.isChecked = true
-                        }
-                    }
-                }
-            }
-        }
+        categoryViewModel.setNavControllerDestination(navController.currentDestination?.id ?: R.id.categoryMainFragment)
     }
 }

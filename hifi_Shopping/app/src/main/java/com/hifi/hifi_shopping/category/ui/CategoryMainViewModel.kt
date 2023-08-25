@@ -16,12 +16,8 @@ class CategoryMainViewModel: ViewModel() {
 
     val categoryMainRepository = CategoryMainRepository()
 
-    init {
-        getProduct()
-    }
-
-    fun getProduct() {
-        categoryMainRepository.getProduct {
+    fun getProduct(categoryNum: String) {
+        categoryMainRepository.getProduct(categoryNum) {
             productCount = it.size
             allProductList.value = it
         }
