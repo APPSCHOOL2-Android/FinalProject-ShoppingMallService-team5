@@ -4,8 +4,10 @@ import android.provider.Settings.Global
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import java.util.UUID
 

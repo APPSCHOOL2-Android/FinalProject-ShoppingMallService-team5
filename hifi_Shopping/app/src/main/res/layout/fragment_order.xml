@@ -294,7 +294,7 @@
                             android:elegantTextHeight="true"
                             android:ems="10"
                             android:fontFamily="@font/notosanskr_regular"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -411,7 +411,7 @@
                             android:ems="10"
                             android:gravity="start"
                             android:inputType="text|textMultiLine"
-                            android:text="ㅂㅈㄷㅂㅇㅁㄴㅇㅁㄴ"
+                            android:text="불러오는 중 입니다."
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     </LinearLayout>
@@ -537,7 +537,7 @@
                         android:orientation="horizontal"
                         android:padding="10dp">
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/orderPayInfoBtnCard"
                             style="@style/Widget.Material3.Button.OutlinedButton"
                             android:layout_width="match_parent"
@@ -546,12 +546,12 @@
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_bold"
                             android:text="카드"
-                            android:textColor="#727272"
+                            android:textColor="@color/reviewWriteColor"
                             android:textSize="14sp"
                             app:cornerRadius="5dp"
-                            app:strokeColor="#D7D7D7" />
+                            app:strokeColor="@color/reviewWriteColor" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/orderPayInfoBtnAccountTransfer"
                             style="@style/Widget.Material3.Button.OutlinedButton"
                             android:layout_width="match_parent"
@@ -567,7 +567,7 @@
                             app:strokeColor="#D7D7D7"
                             tools:layout_marginLeft="10dp" />
 
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/orderPayInfoBtnPhone"
                             style="@style/Widget.Material3.Button.OutlinedButton"
                             android:layout_width="match_parent"
@@ -592,44 +592,27 @@
                         android:padding="5dp"
                         android:visibility="visible">
 
-                        <com.google.android.material.textfield.TextInputLayout
+                        <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/orderPayInfoCardListBrand"
                             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            app:boxStrokeColor="#D7D7D7">
+                            android:layout_height="30dp"
+                            app:boxStrokeColor="#D7D7D7" />
 
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:background="@color/white"
-                                android:elegantTextHeight="true"
-                                android:fontFamily="@font/notosanskr_regular"
-                                android:hint="카드 선택"
-                                android:inputType="none"
-                                android:textSize="13sp" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/brown"
+                            android:orientation="vertical"></LinearLayout>
 
-                        </com.google.android.material.textfield.TextInputLayout>
-
-                        <com.google.android.material.textfield.TextInputLayout
+                        <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/orderPayInfoCardListMonths"
                             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
-                            app:boxStrokeColor="#D7D7D7">
-
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:background="@color/white"
-                                android:elegantTextHeight="true"
-                                android:fontFamily="@font/notosanskr_regular"
-                                android:hint="할부 개월 수를 선택해주세요."
-                                android:inputType="none"
-                                android:textSize="13sp" />
-
-                        </com.google.android.material.textfield.TextInputLayout>
+                            android:layout_height="30dp"
+                            android:layout_marginTop="10dp"
+                            app:boxStrokeColor="#D7D7D7" />
 
                     </LinearLayout>
 
@@ -641,31 +624,29 @@
                         android:padding="10dp"
                         android:visibility="gone">
 
-                        <com.google.android.material.textfield.TextInputLayout
+                        <androidx.appcompat.widget.AppCompatSpinner
                             android:id="@+id/orderPayInfoAccountTransferList"
                             style="@style/Widget.Material3.TextInputLayout.FilledBox.ExposedDropdownMenu"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="30dp"
                             app:boxStrokeColor="#D7D7D7">
 
-                            <AutoCompleteTextView
-                                android:layout_width="match_parent"
-                                android:layout_height="35dp"
-                                android:background="@color/white"
-                                android:elegantTextHeight="true"
-                                android:fontFamily="@font/notosanskr_regular"
-                                android:hint="은행 선택"
-                                android:inputType="none"
-                                android:textSize="13sp" />
+                        </androidx.appcompat.widget.AppCompatSpinner>
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/brown"
+                            android:orientation="vertical"></LinearLayout>
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/orderPayInfoAccountTransferInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_margin="10dp"
-                            android:text="기업은행 0000-0000-0000-0000" />
+                            android:layout_marginTop="10dp"
+                            android:hint="계좌번호를 입력해주세요."
+                            android:inputType="number" />
 
                     </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.hifi.hifi_shopping.buy.fragment
 
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -10,9 +11,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
@@ -40,6 +44,15 @@ class OrderFragment : Fragment() {
     private var totalOrderProductCount = 0
     private var totalOrderProductPrice = 0
 
+    private var authCheck = true
+
+    private val cardList = arrayOf(
+        "은행 선택","신한", "농협", "국민", "우리", "카카오", "토스"
+    )
+    private val installmentMonth = arrayOf(
+        "일시불", "2개월", "3개월", "4개월", "5개월", "6개월", "12개월", "24개월", "36개월"
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +61,7 @@ class OrderFragment : Fragment() {
 
         dataSetting()
         viewModelSetting()
+        viewSetting()
         clickEventSetting()
 
         return fragmentOrderBinding.root
@@ -210,6 +224,90 @@ class OrderFragment : Fragment() {
                     }
                 }
             }
+
+            orderPayInfoBtnToggle.run{
+                setOnClickListener {
+                    orderPayInfoLayout.isVisible = !orderPayInfoLayout.isVisible
+                    if(orderPayInfoLayout.isVisible){
+                        this.setImageResource(R.drawable.expand_less_24px)
+                    } else {
+                        this.setImageResource(R.drawable.expand_more_24px)
+                    }
+                }
+            }
+
+            orderRefundInfoBtnToggle.run{
+                setOnClickListener {
+                    orderRefundInfoDetail.isVisible = !orderRefundInfoDetail.isVisible
+                    if(orderRefundInfoDetail.isVisible){
+                        this.setImageResource(R.drawable.expand_less_24px)
+                    } else {
+                        this.setImageResource(R.drawable.expand_more_24px)
+                    }
+                }
+            }
+
+            orderPayInfoBtnCard.run{
+                setOnClickListener {
+                    orderPayInfoCardLayout.visibility = View.VISIBLE
+                    orderPayInfoAccountTransferLayout.visibility = View.GONE
+                    orderPayInfoPhoneLayout.visibility = View.GONE
+
+                    setTextColor(buyActivity.getColor(R.color.reviewWriteColor))
+                    setStrokeColorResource(R.color.reviewWriteColor)
+                    orderPayInfoBtnAccountTransfer.setTextColor(buyActivity.getColor(R.color.lstButtonTextGrayColor))
+                    orderPayInfoBtnAccountTransfer.setStrokeColorResource(R.color.lstButtonTextGrayColor)
+                    orderPayInfoBtnPhone.setTextColor(buyActivity.getColor(R.color.lstButtonTextGrayColor))
+                    orderPayInfoBtnPhone.setStrokeColorResource(R.color.lstButtonTextGrayColor)
+                }
+            }
+
+            orderPayInfoBtnAccountTransfer.run{
+                setOnClickListener {
+                    orderPayInfoCardLayout.visibility = View.GONE
+                    orderPayInfoAccountTransferLayout.visibility = View.VISIBLE
+                    orderPayInfoPhoneLayout.visibility = View.GONE
+
+                    setTextColor(buyActivity.getColor(R.color.reviewWriteColor))
+                    setStrokeColorResource(R.color.reviewWriteColor)
+                    orderPayInfoBtnCard.setTextColor(buyActivity.getColor(R.color.lstButtonTextGrayColor))
+                    orderPayInfoBtnCard.setStrokeColorResource(R.color.lstButtonTextGrayColor)
+                    orderPayInfoBtnPhone.setTextColor(buyActivity.getColor(R.color.lstButtonTextGrayColor))
+                    orderPayInfoBtnPhone.setStrokeColorResource(R.color.lstButtonTextGrayColor)
+                }
+            }
+
+            orderPayInfoBtnPhone.run{
+                setOnClickListener {
+                    orderPayInfoCardLayout.visibility = View.GONE
+                    orderPayInfoAccountTransferLayout.visibility = View.GONE
+                    orderPayInfoPhoneLayout.visibility = View.VISIBLE
+
+                    setTextColor(buyActivity.getColor(R.color.reviewWriteColor))
+                    setStrokeColorResource(R.color.reviewWriteColor)
+                    orderPayInfoBtnCard.setTextColor(buyActivity.getColor(R.color.lstButtonTextGrayColor))
+                    orderPayInfoBtnCard.setStrokeColorResource(R.color.lstButtonTextGrayColor)
+                    orderPayInfoBtnAccountTransfer.setTextColor(buyActivity.getColor(R.color.lstButtonTextGrayColor))
+                    orderPayInfoBtnAccountTransfer.setStrokeColorResource(R.color.lstButtonTextGrayColor)
+                }
+            }
+
+            orderPayInfoPhoneBtn.run{
+                setOnClickListener {
+                    val builder = MaterialAlertDialogBuilder(buyActivity)
+                    builder.setTitle("휴대폰 결제")
+                    builder.setMessage("본인 인증 회원만 휴대폰 결제가 가능 합니다.")
+                    builder.setNegativeButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                        if(orderUserViewModel.verify.value!!){
+                            Snackbar.make(fragmentOrderBinding.root, "휴대폰 결제 설정 되었습니다.", Snackbar.LENGTH_SHORT).show()
+                        } else{
+                            Snackbar.make(fragmentOrderBinding.root, "본인 인증된 회원만 가능합니다.", Snackbar.LENGTH_SHORT).show()
+                        }
+                    }
+                    builder.setPositiveButton("취소", null)
+                    builder.show()
+                }
+            }
         }
     }
 
@@ -223,10 +321,9 @@ class OrderFragment : Fragment() {
             }
         }else {
             val inputMethodManager = buyActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-            view.clearFocus() // 뷰의 포커스를 해제합니다.
-            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0) // 키보드를 숨깁니다.
+            view.clearFocus()
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
         }
-
     }
 
     private fun viewModelSetting(){
@@ -249,9 +346,14 @@ class OrderFragment : Fragment() {
             verify.observe(buyActivity){
                 if(it){
                     fragmentOrderBinding.orderUserBtnAuth.visibility = View.GONE
+                    if(!authCheck){
+                        Snackbar.make(fragmentOrderBinding.root, "본인 인증 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                        authCheck = true
+                    }
                 } else {
                     fragmentOrderBinding.orderUserBtnAuth.visibility = View.VISIBLE
                     fragmentOrderBinding.orderUserLayoutAuthComplete.visibility = View.GONE
+                    authCheck = false
                 }
             }
 
@@ -313,6 +415,31 @@ class OrderFragment : Fragment() {
                 }
                 fragmentOrderBinding.orderItemListLayout.addView(rowOrderItemListBinding.root)
                 fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
+            }
+        }
+    }
+
+    private fun viewSetting(){
+        fragmentOrderBinding.run{
+            orderPayInfoCardListBrand.run{
+                val a1 = ArrayAdapter<String>(buyActivity, android.R.layout.simple_list_item_1, cardList)
+                a1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter = a1
+                setSelection(0)
+            }
+
+            orderPayInfoCardListMonths.run{
+                val a1 = ArrayAdapter<String>(buyActivity, android.R.layout.simple_list_item_1, installmentMonth)
+                a1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter = a1
+                setSelection(0)
+            }
+
+            orderPayInfoAccountTransferList.run{
+                val a1 = ArrayAdapter<String>(buyActivity, android.R.layout.simple_list_item_1, cardList)
+                a1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                adapter = a1
+                setSelection(0)
             }
         }
     }
