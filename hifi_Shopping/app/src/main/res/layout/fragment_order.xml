@@ -411,7 +411,6 @@
                             android:ems="10"
                             android:gravity="start"
                             android:inputType="text|textMultiLine"
-                            android:text="불러오는 중 입니다."
                             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                     </LinearLayout>

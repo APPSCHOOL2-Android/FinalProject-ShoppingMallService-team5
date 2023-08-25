@@ -55,13 +55,13 @@ class BuyActivity : AppCompatActivity() {
 
         if(buyProductList?.size == 1){
             bundle.putString("selProduct", buyProductList?.first()) // 상품 인덱스
-            bundle.putString("userIdx", "0") // 유저 인덱스
+            bundle.putString("userIdx", "e8fa83ce-5341-4f10-9929-5521d9c5fe82") // 유저 인덱스
             activityBuyBinding.run{
                 replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
             }
         } else {
             bundle.putStringArrayList("selProduct", buyProductList)
-            bundle.putString("userIdx", "0")
+            bundle.putString("userIdx", "e8fa83ce-5341-4f10-9929-5521d9c5fe82")
             activityBuyBinding.run{
                 replaceFragment(ORDER_FRAGMENT, true, bundle)
             }

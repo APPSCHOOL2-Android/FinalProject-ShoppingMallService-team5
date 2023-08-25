@@ -11,7 +11,9 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-data class AddressData(var idx: String, var userIdx: String, var receiver:String, var receiverPhoneNum:String, var address:String, var context:String)
+data class AddressData(var idx: String, var userIdx: String, var receiver: String, var receiverPhoneNum: String, var address: String, var context: String)
+data class OrderUserCoupon(val couponIdx: String, val used: Boolean, val userIdx: String)
+data class PossibleCoupon(val idx: String, val categoryNum: String, val validData: String, val discountPercent: String, val verify: Boolean)
 class OrderUserViewModel() : ViewModel() {
     // 인증 관련
     var nickname = MutableLiveData<String>()
@@ -21,12 +23,46 @@ class OrderUserViewModel() : ViewModel() {
     var addressData = MutableLiveData<AddressData>()
     var orderUserAddressList = MutableLiveData<MutableList<AddressData>>()
     var tempList = mutableListOf<AddressData>()
+    // 쿠폰 관련
+    val orderUserCouponList = MutableLiveData<MutableList<OrderUserCoupon>>()
+    var tempList2 = mutableListOf<OrderUserCoupon>()
+    val orderUserPossibleCouponList = MutableLiveData<MutableList<PossibleCoupon>>()
+    var tempList3 = mutableListOf<PossibleCoupon>()
 
+
+    fun getOrderUserPossibleCoupon(idx: String){
+        tempList3.clear()
+        OrderUserRepository.getOrderUserPossibleCoupon(idx){
+            for(c1 in it.result.children){
+                val possibleCoupon = PossibleCoupon(
+                    c1.child("idx").value as String,
+                    c1.child("categoryNum").value as String,
+                    c1.child("validData").value as String,
+                    c1.child("discountPercent").value as String,
+                    c1.child("verify").value as String == "true",
+                )
+                if(possibleCoupon.verify) tempList3.add(possibleCoupon)
+            }
+            orderUserPossibleCouponList.value = tempList3
+        }
+    }
+    fun getOrderUserCoupon(idx: String){
+        tempList2.clear()
+        OrderUserRepository.getOrderUserCoupon(idx){
+            for(c1 in it.result.children){
+                val orderUserCoupon = OrderUserCoupon(
+                    c1.child("couponIdx").value as String,
+                    c1.child("used").value as String == "true",
+                    c1.child("userIdx").value as String)
+                if(orderUserCoupon.used) tempList2.add(orderUserCoupon)
+            }
+            orderUserCouponList.value = tempList2
+        }
+    }
 
     fun setOrderUserAddress(num:Int){
         OrderUserRepository.orderUserSetAddress(orderUserAddressList.value!![num]){
             getOdderUserAddress(orderUserAddressList.value!![num].userIdx, num)
-
         }
     }
 

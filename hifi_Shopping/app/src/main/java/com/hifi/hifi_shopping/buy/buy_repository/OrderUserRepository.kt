@@ -4,9 +4,22 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.hifi.hifi_shopping.buy.buy_vm.AddressData
+import com.hifi.hifi_shopping.buy.buy_vm.OrderUserCoupon
+
 
 class OrderUserRepository {
     companion object{
+
+        fun getOrderUserPossibleCoupon(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userCoupontData = database.getReference("CouponData")
+            userCoupontData.orderByChild("idx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
+        fun getOrderUserCoupon(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userCoupontData = database.getReference("UserCouponData")
+            userCoupontData.orderByChild("userIdx").equalTo(userIdx).get().addOnCompleteListener(callback1)
+        }
         fun getOrderUser(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")

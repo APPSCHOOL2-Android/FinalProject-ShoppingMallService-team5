@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +21,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
+import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository.Companion.getOrderUserCoupon
+import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository.Companion.getOrderUserPossibleCoupon
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderProduct
+import com.hifi.hifi_shopping.buy.buy_vm.OrderUserCoupon
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
+import com.hifi.hifi_shopping.buy.buy_vm.PossibleCoupon
 import com.hifi.hifi_shopping.databinding.FragmentOrderBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
 import kotlin.concurrent.thread
@@ -52,6 +58,9 @@ class OrderFragment : Fragment() {
     private val installmentMonth = arrayOf(
         "일시불", "2개월", "3개월", "4개월", "5개월", "6개월", "12개월", "24개월", "36개월"
     )
+
+    private var userCouponList = mutableListOf<OrderUserCoupon>()
+    private var possibleCouponList = mutableListOf<PossibleCoupon>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -308,6 +317,9 @@ class OrderFragment : Fragment() {
                     builder.show()
                 }
             }
+
+
+
         }
     }
 
@@ -373,8 +385,22 @@ class OrderFragment : Fragment() {
                 fragmentOrderBinding.orderDeliverMemoEditText.setText(it.context)
             }
 
+            orderUserCouponList.observe(buyActivity){
+                userCouponList = it
+                Log.d("tttt", "$it")
+            }
+
+            orderUserPossibleCouponList.observe(buyActivity){
+                possibleCouponList = it
+                Log.d("tttt", "$it")
+            }
+
             getOdderUserAddress(orderUserIdx,0)
             orderUserAuthCheck(orderUserIdx)
+            getOrderUserCoupon(orderUserIdx)
+            for(coupon in userCouponList){
+                getOrderUserPossibleCoupon(coupon.couponIdx)
+            }
         }
     }
 
@@ -385,32 +411,36 @@ class OrderFragment : Fragment() {
             if(map[itemIdx] != null) {
                 orderProductList.add(map[itemIdx]!!)
                 getTotalCount(1, true)
-                getTotalPrice(map[itemIdx]!!.price, true )
+                getTotalPrice(map[itemIdx]!!.price, true)
 
                 rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
                 rowOrderItemListBinding.run{
                     rowOrderItemListName.text = map[itemIdx]!!.name
-                    rowOrderItemListPrice.text = map[itemIdx]!!.price
+                    var oriCount = rowOrderItemListCount.text.toString().toInt()
+                    rowOrderItemListPrice.text = changeWon(map[itemIdx]!!.price, 1)
                     if(map[itemIdx]!!.img != null){
                         rowOrderItemListImg.setImageBitmap(map[itemIdx]!!.img)
                     } else {
                         rowOrderItemListImg.setImageResource(R.drawable.product_sample)
                     }
                     rowOrderItemListBtnPlus.setOnClickListener {
-                        var oriCount = rowOrderItemListCount.text.toString().toInt()
                         oriCount++
                         rowOrderItemListCount.text = oriCount.toString()
-                        getTotalPrice(rowOrderItemListPrice.text.toString(), true)
+                        getTotalPrice(map[itemIdx]!!.price, true)
                         getTotalCount(1, true)
+                        rowOrderItemListPrice.text = changeWon(map[itemIdx]!!.price, oriCount)
                     }
                     rowOrderItemListBtnMinus.setOnClickListener {
-                        var oriCount = rowOrderItemListCount.text.toString().toInt()
                         if(oriCount > 1) {
                             oriCount--
-                            getTotalPrice(rowOrderItemListPrice.text.toString(), false)
+                            getTotalPrice(map[itemIdx]!!.price, false)
                             getTotalCount(1, false)
+                            rowOrderItemListPrice.text = changeWon(map[itemIdx]!!.price, oriCount)
                         }
                         rowOrderItemListCount.text = oriCount.toString()
+                    }
+                    rowOrderItemListBtnCoupon.setOnClickListener {
+
                     }
                 }
                 fragmentOrderBinding.orderItemListLayout.addView(rowOrderItemListBinding.root)
@@ -444,21 +474,39 @@ class OrderFragment : Fragment() {
         }
     }
 
-    fun getTotalPrice(Price: String, plus: Boolean){
+    private fun getTotalPrice(price: String, plus: Boolean){
         val sb = StringBuilder()
-        val sumPrice = if(plus) totalOrderProductPrice + Price.toInt() else totalOrderProductPrice - Price.toInt()
+        val sumPrice = if(plus) totalOrderProductPrice + price.toInt() else totalOrderProductPrice - price.toInt()
         totalOrderProductPrice = sumPrice
+
         if(sumPrice < 0) return
+
         sumPrice.toString().reversed().forEachIndexed { index, c ->
             sb.append("$c")
             if((index+1) % 3 == 0)sb.append(",")
         }
+
         if(sb.last() == ',') sb.deleteCharAt(sb.lastIndex)
+
         fragmentOrderBinding.orderPayBtnTotal.text = "${sb.reverse()}원"
     }
 
-    fun getTotalCount(num: Int, plus: Boolean){
+    private fun getTotalCount(num: Int, plus: Boolean){
         totalOrderProductCount = if(plus) totalOrderProductCount + num else totalOrderProductCount - num
         fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
+    }
+
+    private fun changeWon(price: String, count: Int): String{
+        val sb = StringBuilder()
+        val sumPrice = price.replace(",","").replace("원","").toInt() * count
+
+        sumPrice.toString().reversed().forEachIndexed { index, c ->
+            sb.append("$c")
+            if((index+1) % 3 == 0)sb.append(",")
+        }
+
+        if(sb.last() == ',') sb.deleteCharAt(sb.lastIndex)
+
+        return "${sb.reverse()}원"
     }
 }
