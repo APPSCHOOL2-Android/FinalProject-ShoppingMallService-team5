@@ -1,17 +1,22 @@
 package com.hifi.hifi_shopping.buy.fragment
 
 import android.content.ClipData.Item
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat.getColor
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -21,12 +26,13 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository.Companion.getOrderProductData
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderProduct
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
 import com.hifi.hifi_shopping.databinding.FragmentOrderBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
-
+import kotlin.concurrent.thread
 
 
 class OrderFragment : Fragment() {
@@ -66,66 +72,6 @@ class OrderFragment : Fragment() {
         return fragmentOrderBinding.root
     }
 
-    inner class ItemListAdapter(): RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
-        inner class ItemViewHolder(rowOrderItemListBinding: RowOrderItemListBinding): ViewHolder(rowOrderItemListBinding.root){
-            var rowOrderItemListImg = rowOrderItemListBinding.rowOrderItemListImg
-            var rowOrderItemListName = rowOrderItemListBinding.rowOrderItemListName
-            var rowOrderItemListPrice = rowOrderItemListBinding.rowOrderItemListPrice
-            var rowOrderItemListBtnMinus = rowOrderItemListBinding.rowOrderItemListBtnMinus
-            var rowOrderItemListCount = rowOrderItemListBinding.rowOrderItemListCount
-            var rowOrderItemListBtnPlus = rowOrderItemListBinding.rowOrderItemListBtnPlus
-            var rowOrderItemListBtnCoupon = rowOrderItemListBinding.rowOrderItemListBtnCoupon
-            var rowOrderItemListDiscountPrice = rowOrderItemListBinding.rowOrderItemListDiscountPrice
-
-            init{
-                rowOrderItemListBinding.run{
-                    rowOrderItemListBtnMinus.setOnClickListener {
-                        var oriCount = rowOrderItemListCount.text.toString().toInt()
-                        if(oriCount > 1) {
-                            oriCount--
-                            getTotalPrice(rowOrderItemListPrice.text.toString(), false)
-                            getTotalCount(1, false)
-                        }
-                        rowOrderItemListCount.text = oriCount.toString()
-                    }
-                }
-                rowOrderItemListBinding.run{
-                    rowOrderItemListBtnPlus.setOnClickListener {
-                        var oriCount = rowOrderItemListCount.text.toString().toInt()
-                        oriCount++
-                        rowOrderItemListCount.text = oriCount.toString()
-                        getTotalPrice(rowOrderItemListPrice.text.toString(), true)
-                        getTotalCount(1, true)
-                    }
-                }
-            }
-
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-            var rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
-            var itemViewHolder = ItemViewHolder(rowOrderItemListBinding)
-
-            rowOrderItemListBinding.root.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            return itemViewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return orderProductList.size
-        }
-
-        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-            holder.rowOrderItemListName.text = orderProductList[position].name
-            holder.rowOrderItemListPrice.text = orderProductList[position].price
-            if(orderProductList[position].img != null){
-                holder.rowOrderItemListImg.setImageBitmap(orderProductList[position].img)
-            }
-        }
-    }
 
     override fun onResume() {
         super.onResume()
@@ -235,7 +181,48 @@ class OrderFragment : Fragment() {
                 }
             }
 
+            orderDeliverBtnMemoSelect.run{
+                setOnClickListener{
+                    orderDeliverMemoEditText.isVisible = !orderDeliverMemoEditText.isVisible
+                    if(orderDeliverMemoEditText.isVisible){
+                        softInputVisible(orderDeliverMemoEditText, true)
+                        orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_less_24px)
+                    } else {
+                        softInputVisible(this, false)
+                        orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_more_24px)
+                    }
+                }
+            }
+            orderDeliverMemoVisibleBtn.run{
+                setOnClickListener{
+                    orderDeliverMemoEditText.isVisible = !orderDeliverMemoEditText.isVisible
+                    if(orderDeliverMemoEditText.isVisible){
+                        softInputVisible(orderDeliverMemoEditText, true)
+                        orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_less_24px)
+                    } else {
+                        softInputVisible(this, false)
+                        orderDeliverMemoVisibleBtn.setImageResource(R.drawable.expand_more_24px)
+                    }
+                }
+            }
+
         }
+    }
+
+    fun softInputVisible(view:View, visible: Boolean){
+        view.requestFocus()
+        if(visible){
+            val inputMethodManger = buyActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            thread {
+                SystemClock.sleep(200)
+                inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+            }
+        }else {
+            val inputMethodManager = buyActivity.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            view.clearFocus() // 뷰의 포커스를 해제합니다.
+            inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0) // 키보드를 숨깁니다.
+        }
+
     }
 
     private fun viewModelSetting(){
@@ -291,6 +278,67 @@ class OrderFragment : Fragment() {
 
             getOdderUserAddress(orderUserIdx,0)
             orderUserAuthCheck(orderUserIdx)
+        }
+    }
+
+    inner class ItemListAdapter(): RecyclerView.Adapter<ItemListAdapter.ItemViewHolder>() {
+        inner class ItemViewHolder(rowOrderItemListBinding: RowOrderItemListBinding): ViewHolder(rowOrderItemListBinding.root){
+            var rowOrderItemListImg = rowOrderItemListBinding.rowOrderItemListImg
+            var rowOrderItemListName = rowOrderItemListBinding.rowOrderItemListName
+            var rowOrderItemListPrice = rowOrderItemListBinding.rowOrderItemListPrice
+            var rowOrderItemListBtnMinus = rowOrderItemListBinding.rowOrderItemListBtnMinus
+            var rowOrderItemListCount = rowOrderItemListBinding.rowOrderItemListCount
+            var rowOrderItemListBtnPlus = rowOrderItemListBinding.rowOrderItemListBtnPlus
+            var rowOrderItemListBtnCoupon = rowOrderItemListBinding.rowOrderItemListBtnCoupon
+            var rowOrderItemListDiscountPrice = rowOrderItemListBinding.rowOrderItemListDiscountPrice
+
+            init{
+                rowOrderItemListBinding.run{
+                    rowOrderItemListBtnMinus.setOnClickListener {
+                        var oriCount = rowOrderItemListCount.text.toString().toInt()
+                        if(oriCount > 1) {
+                            oriCount--
+                            getTotalPrice(rowOrderItemListPrice.text.toString(), false)
+                            getTotalCount(1, false)
+                        }
+                        rowOrderItemListCount.text = oriCount.toString()
+                    }
+                }
+                rowOrderItemListBinding.run{
+                    rowOrderItemListBtnPlus.setOnClickListener {
+                        var oriCount = rowOrderItemListCount.text.toString().toInt()
+                        oriCount++
+                        rowOrderItemListCount.text = oriCount.toString()
+                        getTotalPrice(rowOrderItemListPrice.text.toString(), true)
+                        getTotalCount(1, true)
+                    }
+                }
+            }
+
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
+            var rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
+            var itemViewHolder = ItemViewHolder(rowOrderItemListBinding)
+
+            rowOrderItemListBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            return itemViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return orderProductList.size
+        }
+
+        override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
+            holder.rowOrderItemListName.text = orderProductList[position].name
+            holder.rowOrderItemListPrice.text = orderProductList[position].price
+            if(orderProductList[position].img != null){
+                holder.rowOrderItemListImg.setImageBitmap(orderProductList[position].img)
+            }
         }
     }
 
