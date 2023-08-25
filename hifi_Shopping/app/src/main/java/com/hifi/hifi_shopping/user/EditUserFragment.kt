@@ -2,7 +2,11 @@ package com.hifi.hifi_shopping.user
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
+import android.service.autofill.UserData
 import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -11,21 +15,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.FragmentEditUserBinding
 import com.hifi.hifi_shopping.search.SearchActivity
+import com.hifi.hifi_shopping.user.model.AddressDataClass
+import com.hifi.hifi_shopping.user.model.UserDataClass
+import com.hifi.hifi_shopping.user.repository.AddressRepository
+import com.hifi.hifi_shopping.user.repository.UserRepository
 import com.hifi.hifi_shopping.user.vm.AddressViewModel
-import com.hifi.hifi_shopping.user.vm.ProductViewModel
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
 class EditUserFragment : Fragment() {
 
     lateinit var fragmentEditUserBinding: FragmentEditUserBinding
     lateinit var userActivity : UserActivity
     lateinit var addressViewModel: AddressViewModel
+    lateinit var userProfileImgLauncher: ActivityResultLauncher<Intent>
     var isToggled = false
     var isVerify = false
+    var isNewImg = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +52,9 @@ class EditUserFragment : Fragment() {
         userActivity = activity as UserActivity
 
         val userTemp = userActivity.userTemp
+        var userProfileImgsrc = userTemp.profileImg
+
+        uploadProfileImg(userTemp)
 
         addressViewModel = ViewModelProvider(userActivity)[AddressViewModel::class.java]
 
@@ -50,7 +70,6 @@ class EditUserFragment : Fragment() {
             editUserToolbar.run {
                 setNavigationOnClickListener {
                     userActivity.removeFragment(UserActivity.MY_PAGE_FRAGMENT)
-
                 }
 
                 setOnMenuItemClickListener {
@@ -67,21 +86,47 @@ class EditUserFragment : Fragment() {
                 }
             }
 
-            editUserEditNick.setText(userTemp.nickname)
+            // 프로필 사진
+            editUserProfileImg.run {
+                getProfileImg(userTemp)
+                setOnClickListener {
+                    val newIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    newIntent.setType("image/*")
+                    val mimeType = arrayOf("image/*")
+                    newIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+                    userProfileImgLauncher.launch(newIntent)
+                }
+
+            }
+            // 프로필 닉네임
+            editUserEditNick.run {
+                setText(userTemp.nickname)
+                if(text.isNullOrBlank()){
+                    editUserEditNick.error = "필수 입력 요소"
+                }
+                userActivity.showSoftInput(this)
+            }
+
+
+            // 주소
             addressViewModel.getAddressListByUser(userTemp.idx)
 
+            // 비밀번호 토글
             editUserToChangePwdBtnToggle.setOnClickListener {
                 toggleButtonClick()
             }
 
+            // 핸드폰 본인인증
             editUserPhoneBtnCheck.setOnClickListener {
                 phoneCheck()
 
             }
+
             editUserPhoneBtnCheckVerify.setOnClickListener {
                 phoneVerify()
             }
 
+            // 비밀번호 변경
             editUserPwdEditTextSameCheck.setOnEditorActionListener(object : TextView.OnEditorActionListener {
                 override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
                     if (actionId == EditorInfo.IME_ACTION_DONE || (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)) {
@@ -92,6 +137,12 @@ class EditUserFragment : Fragment() {
                     return false
                 }
             })
+
+            editUserBtnComplete.setOnClickListener {
+                checkInfoOk()
+                //                userActivity.removeFragment(UserActivity.EDIT_USER_FRAGMENT)
+            }
+
 
 
         }
@@ -172,4 +223,151 @@ class EditUserFragment : Fragment() {
             }
         }
     }
+
+    fun uploadProfileImg(userTemp:UserDataClass){
+        val contract1 = ActivityResultContracts.StartActivityForResult()
+        userProfileImgLauncher = registerForActivityResult(contract1){
+            if(it?.resultCode == AppCompatActivity.RESULT_OK){
+                val storage = FirebaseStorage.getInstance()
+                val fileName = "user/${userTemp.idx}"
+
+                // 파일에 접근할 수 있는 객체를 가져온다.
+                val fileRef = storage.reference.child(fileName)
+                // 파일을 업로드한다.
+                isNewImg = true
+
+                fileRef.putFile(it.data?.data!!).addOnCompleteListener{  uploadTask ->
+                    if (uploadTask.isSuccessful) {
+                        fileRef.downloadUrl.addOnCompleteListener { downloadTask ->
+                            thread {
+                                if (downloadTask.isSuccessful) {
+                                    val url = URL(downloadTask.result.toString())
+                                    val httpURLConnection = url.openConnection() as HttpURLConnection
+                                    val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                                    userActivity.runOnUiThread {
+                                        fragmentEditUserBinding.editUserProfileImg.setImageBitmap(bitmap)
+                                    }
+                                } else {
+                                    Snackbar.make(fragmentEditUserBinding.root, "이미지 다운로드에 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                        Snackbar.make(fragmentEditUserBinding.root, "프로필 이미지 변경이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                    } else {
+                        Snackbar.make(fragmentEditUserBinding.root, "이미지 업로드를 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            }
+        }
+    }
+
+    fun getProfileImg(userTemp : UserDataClass){
+        val storage = FirebaseStorage.getInstance()
+        val fileName = if(userTemp.profileImg.isNullOrBlank()){
+            return
+        }else{
+            "user/${userTemp.idx}"
+        }
+        val fileRef = storage.reference.child(fileName)
+
+        // 데이터를 가져올 수 있는 경로를 가져온다.
+        fileRef.downloadUrl.addOnCompleteListener { downloadTask ->
+            thread {
+                // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                val url = URL(downloadTask.result.toString())
+                // 접속한다.
+                val httpURLConnection = url.openConnection() as HttpURLConnection
+                // 이미지 객체를 생성한다.
+                val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
+
+                userActivity.runOnUiThread {
+                    fragmentEditUserBinding.editUserProfileImg.setImageBitmap(bitmap)
+                }
+            }
+        }
+    }
+
+    fun checkInfoOk(){
+        fragmentEditUserBinding.run {
+            val idx = userActivity.userTemp.idx
+
+            val email = userActivity.userTemp.idx
+
+            var pw = if(editUserPwdEditTextSameCheck.text.isNullOrBlank()||editUserPwdEditTextSameCheck.error.isNotBlank()){
+
+                userActivity.userTemp.pw
+
+            }else{
+                editUserPwdEditTextSameCheck.text.toString()
+            }
+
+            var nickname = if(editUserEditNick.error.isNullOrBlank()){
+                editUserEditNick.text.toString()
+            } else{
+                userActivity.userTemp.nickname
+            }
+
+            var verify = if(isVerify){
+                isVerify.toString()
+            }else{
+                userActivity.userTemp.verify
+            }
+
+            var phoneNum = if(isVerify){
+                userActivity.userTemp.profileImg
+            }else{
+                userActivity.userTemp.phoneNum
+            }
+
+            var profileImg = if(isNewImg){
+                if(userActivity.userTemp.profileImg.isNullOrBlank()){
+                    userActivity.userTemp.idx
+                } else {
+                    userActivity.userTemp.profileImg
+                }
+            }else{
+                userActivity.userTemp.profileImg
+
+            }
+
+            val u = UserDataClass(idx, email, pw, nickname, verify, phoneNum, profileImg)
+
+            val addr = addressViewModel.addressDataList.value?.get(0)
+            val address = if(editUserAddrDetailEditText.text.isNullOrBlank()||editUserAddrEditText.text.isNullOrBlank()){
+                addr!!.address
+            }else{
+                "${editUserAddrEditText.text}/${editUserAddrDetailEditText.text}"
+
+            }
+
+            val newAddr=AddressDataClass(addr!!.idx,addr!!.userIdx,addr!!.receiver,addr!!.receiverPhoneNum,address, addr!!.context)
+            var userModifyOk = false
+            var addressModifyOk = false
+            UserRepository.modifyUserInfo(u){
+
+                if(it.isSuccessful){
+                    userModifyOk = true
+                }
+
+            }
+
+            AddressRepository.modifyAddressInfo(newAddr){
+                if(it.isSuccessful){
+                    addressModifyOk = true
+                }
+            }
+
+            if(userModifyOk&&addressModifyOk){
+                Snackbar.make(fragmentEditUserBinding.root, "정보 수정이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+            }
+
+
+
+
+        }
+    }
+
+
 }
