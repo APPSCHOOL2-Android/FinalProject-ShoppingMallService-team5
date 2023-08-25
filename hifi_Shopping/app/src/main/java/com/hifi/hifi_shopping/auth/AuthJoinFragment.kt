@@ -1,5 +1,7 @@
 package com.hifi.hifi_shopping.auth
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +14,13 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.model.UserDataClass
 import com.hifi.hifi_shopping.databinding.FragmentAuthJoinBinding
+import java.io.ByteArrayOutputStream
 import java.util.UUID
 
 
@@ -124,28 +130,46 @@ class AuthJoinFragment : Fragment() {
                                                     val user = firebaseAuth.currentUser
                                                     val userId = user?.uid ?: ""
                                                     val phoneNum = ""
-                                                    val userData = UserDataClass(
-                                                        idx = UUID.randomUUID().toString(),
-                                                        email = email,
-                                                        pw = password,
-                                                        nickname = nickname,
-                                                        verify = "false", // 초기 가입 시 본인 인증 여부는 false
-                                                        phoneNum = phoneNum,
-                                                        profileImg = ""
-                                                    )
 
-                                                    // Realtime Database에 UserData 추가
-                                                    val databaseReference =
-                                                        firebaseDatabase.getReference("UserData")
-                                                    databaseReference.child(userId)
-                                                        .setValue(userData).addOnSuccessListener {
-                                                            // 가입 성공 시 다이얼로그를 띄움
-                                                            showRegistrationSuccessDialog()
-                                                        }.addOnFailureListener { exception ->
-                                                            // 가입 실패 처리
-                                                            val errorMessage = "연결 중 오류가 발생했습니다."
-                                                            showErrorMessageDialog(errorMessage)
+                                                    // 이미지 업로드
+                                                    val imageByteArray = loadYourImageAsByteArray()
+                                                    val storageReference: StorageReference = FirebaseStorage.getInstance().reference
+                                                    val profileImgRef: StorageReference = storageReference.child("user/sample_img")
+                                                    val uploadTask: UploadTask = profileImgRef.putBytes(imageByteArray)
+
+                                                    uploadTask.addOnSuccessListener { taskSnapshot ->
+                                                        profileImgRef.downloadUrl.addOnCompleteListener { urlTask ->
+                                                            if (urlTask.isSuccessful) {
+                                                                val imageUrl = ("user/sample_img")
+
+                                                                val userData = UserDataClass(
+                                                                    idx = UUID.randomUUID().toString(),
+                                                                    email = email,
+                                                                    pw = password,
+                                                                    nickname = nickname,
+                                                                    verify = "false", // 초기 가입 시 본인 인증 여부는 false
+                                                                    phoneNum = phoneNum,
+                                                                    profileImg = imageUrl // 이미지의 URL을 저장
+                                                                )
+
+                                                                // Realtime Database에 UserData 추가
+                                                                val databaseReference = firebaseDatabase.getReference("UserData")
+                                                                databaseReference.child(userId).setValue(userData)
+                                                                    .addOnSuccessListener {
+                                                                        // 가입 성공 시 다이얼로그를 띄움
+                                                                        showRegistrationSuccessDialog()
+                                                                    }.addOnFailureListener { exception ->
+                                                                        // 가입 실패 처리
+                                                                        val errorMessage = "연결 중 오류가 발생했습니다."
+                                                                        showErrorMessageDialog(errorMessage)
+                                                                    }
+                                                            }
                                                         }
+                                                    }.addOnFailureListener { exception ->
+                                                        // 이미지 업로드 실패 처리
+                                                        val errorMessage = "이미지 업로드 중 오류가 발생했습니다."
+                                                        showErrorMessageDialog(errorMessage)
+                                                    }
                                                 } else {
                                                     // 회원 가입 실패 처리
                                                     val exception = task.exception
@@ -175,6 +199,17 @@ class AuthJoinFragment : Fragment() {
         }
     }
 
+    // 내 이미지를 바이트로 변환하는 함수
+    private fun loadYourImageAsByteArray(): ByteArray {
+        val imageResource = R.drawable.sample_img
+        val imageBitmap = BitmapFactory.decodeResource(resources, imageResource)
+
+        val stream = ByteArrayOutputStream()
+        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    // 가입 성공 다이얼로그를 보여주는 함수
     private fun showRegistrationSuccessDialog() {
         val view =
             requireActivity().layoutInflater.inflate(R.layout.dialog_join_success_message, null)
