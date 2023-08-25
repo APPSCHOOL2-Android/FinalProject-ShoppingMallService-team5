@@ -291,6 +291,8 @@ class OrderFragment : Fragment() {
                     rowOrderItemListPrice.text = map[itemIdx]!!.price
                     if(map[itemIdx]!!.img != null){
                         rowOrderItemListImg.setImageBitmap(map[itemIdx]!!.img)
+                    } else {
+                        rowOrderItemListImg.setImageResource(R.drawable.product_sample)
                     }
                     rowOrderItemListBtnPlus.setOnClickListener {
                         var oriCount = rowOrderItemListCount.text.toString().toInt()
