@@ -14,7 +14,7 @@ import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 
-class ProductListAdapter: ListAdapter<CategoryMainProduct, ProductListAdapter.ProductListViewHolder>(diffUtil) {
+class ProductListAdapter(val callback: (String) -> Unit): ListAdapter<CategoryMainProduct, ProductListAdapter.ProductListViewHolder>(diffUtil) {
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<CategoryMainProduct>() {
             override fun areItemsTheSame(oldItem: CategoryMainProduct, newItem: CategoryMainProduct): Boolean {
@@ -70,6 +70,10 @@ class ProductListAdapter: ListAdapter<CategoryMainProduct, ProductListAdapter.Pr
 
                 textViewItemProductCategoryDetailName.text = product.name
                 textViewItemProductCategoryDetailPrice.text = product.price
+
+                root.setOnClickListener {
+                    callback(product.idx)
+                }
             }
         }
     }

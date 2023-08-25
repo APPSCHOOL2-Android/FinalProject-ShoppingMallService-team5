@@ -106,6 +106,7 @@ class CategoryActivity : AppCompatActivity() {
                             categoryViewModel.setSearchSubCategory(false)
                         }
                         R.id.bottomMenuItemCategoryMain -> {
+                            categoryViewModel.setShowProductOrReview(ContentType.PRODUCT)
                             navController.navigate(R.id.actionToCategoryMainFragment)
                             categoryViewModel.setSearchSubCategory(false)
                         }

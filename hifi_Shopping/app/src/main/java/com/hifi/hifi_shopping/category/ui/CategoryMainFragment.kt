@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.category.CategoryViewModel
 import com.hifi.hifi_shopping.category.ContentType
@@ -56,7 +57,16 @@ class CategoryMainFragment : Fragment() {
         categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
         categoryViewModel = ViewModelProvider(categoryActivity)[CategoryViewModel::class.java]
 
-        val productListAdapter = ProductListAdapter()
+        val productListAdapter = ProductListAdapter { idx ->
+            val intent = Intent(categoryActivity, BuyActivity::class.java)
+
+            val buyProductList = ArrayList<String>()
+            buyProductList.add(idx)
+
+            intent.putStringArrayListExtra("buyProduct", buyProductList)
+
+            startActivity(intent)
+        }
 
         categoryNum = arguments?.getInt("categoryNum") ?: 0
 
