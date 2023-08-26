@@ -67,17 +67,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteList2"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewBuyOrderCompleteProduct"
+        <LinearLayout
+            android:id="@+id/layoutBuyOrderCompleteProduct"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="22dp"
-            android:paddingVertical="10dp"
             android:background="@drawable/grey_stroke_rounded_rectangle_background"
-            app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListProduct"
+            android:orientation="vertical"
+            android:paddingVertical="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListProduct"
             app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListProduct"
-            tools:listitem="@layout/item_product_buy_order_complete_list"/>
+            tools:listitem="@layout/item_product_buy_order_complete_list" />
 
         <TextView
             android:id="@+id/textViewBuyOrderCompleteListDelivery"
@@ -88,15 +89,15 @@
             android:textColor="@color/black"
             android:fontFamily="@font/notosanskr_bold"
             android:elegantTextHeight="true"
-            app:layout_constraintStart_toStartOf="@id/recyclerViewBuyOrderCompleteProduct"
-            app:layout_constraintTop_toBottomOf="@id/recyclerViewBuyOrderCompleteProduct" />
+            app:layout_constraintStart_toStartOf="@id/layoutBuyOrderCompleteProduct"
+            app:layout_constraintTop_toBottomOf="@id/layoutBuyOrderCompleteProduct" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayoutBuyOrderCompleteListDelivery"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="@id/textViewBuyOrderCompleteListDelivery"
-            app:layout_constraintEnd_toEndOf="@id/recyclerViewBuyOrderCompleteProduct"
+            app:layout_constraintEnd_toEndOf="@id/layoutBuyOrderCompleteProduct"
             app:layout_constraintTop_toBottomOf="@id/textViewBuyOrderCompleteListDelivery"
             android:background="@drawable/grey_stroke_rounded_rectangle_background"
             android:padding="16dp">

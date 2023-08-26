@@ -4,9 +4,16 @@ import android.graphics.Bitmap
 
 
 data class AddressData(var idx: String, var userIdx: String, var receiver: String, var receiverPhoneNum: String, var address: String, var context: String)
+
 data class OrderUserCoupon(val couponIdx: String, val used: Boolean, val userIdx: String)
+
 data class PossibleCoupon(val idx: String, val categoryNum: String, val validData: String, val discountPercent: String, val verify: Boolean)
+
 data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
+
+data class OrderData(var idx: String, val buyerIdx: String, val productIdx: String, val couponIdx: String, val address: String, val date: String, val price: String, val status: String)
+
+
 
 val categoryData = mapOf(
     //1차

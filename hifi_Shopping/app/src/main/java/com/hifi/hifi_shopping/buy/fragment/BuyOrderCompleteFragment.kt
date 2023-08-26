@@ -6,14 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.databinding.FragmentBuyOrderCompleteBinding
 
 class BuyOrderCompleteFragment : Fragment() {
 
+    lateinit var fragmentBuyOrderCompleteBinding: FragmentBuyOrderCompleteBinding
+    lateinit var buyActivity: BuyActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_buy_order_complete, container, false)
+
+        fragmentBuyOrderCompleteBinding = FragmentBuyOrderCompleteBinding.inflate(layoutInflater)
+        buyActivity = activity as BuyActivity
+
+        fragmentBuyOrderCompleteBinding.run{
+            buttonBuyOrderCompleteNext.run{
+                setOnClickListener {
+                    buyActivity.removeFragment(BuyActivity.BUY_ORDER_COMPLETE_FRAGMENT)
+                    buyActivity.replaceFragment(BuyActivity.BUY_ORDER_COMPLETELIST_FRAGMENT, false, null)
+                }
+            }
+        }
+        return fragmentBuyOrderCompleteBinding.root
     }
 }

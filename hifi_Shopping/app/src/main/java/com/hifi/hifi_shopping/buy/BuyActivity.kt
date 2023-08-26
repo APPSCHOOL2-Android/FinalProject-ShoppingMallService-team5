@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.datamodel.AddressData
 import com.hifi.hifi_shopping.buy.fragment.BuyOrderCompleteFragment
 import com.hifi.hifi_shopping.buy.fragment.BuyOrderCompleteListFragment
 import com.hifi.hifi_shopping.buy.fragment.DetailItemFragment
 import com.hifi.hifi_shopping.buy.fragment.OrderFragment
 import com.hifi.hifi_shopping.databinding.ActivityBuyBinding
+import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
 import kotlin.concurrent.thread
 
 class BuyActivity : AppCompatActivity() {
@@ -29,9 +31,12 @@ class BuyActivity : AppCompatActivity() {
 
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
-    var selProduct = ""
 
-    var orderCompleteProductList = mutableListOf<View>()
+    var orderCompleteProductList = mutableListOf<RowOrderItemListBinding>()
+    lateinit var orderCompleteAddress: AddressData
+    var totalOrderProductCount = 0
+    var totalOrderProductPrice = 0
+    var oriTotalOrderProductPrice = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +51,7 @@ class BuyActivity : AppCompatActivity() {
         startFragment()
 
     }
+
 
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
@@ -72,6 +78,20 @@ class BuyActivity : AppCompatActivity() {
                 replaceFragment(ORDER_FRAGMENT, true, bundle)
             }
         }
+    }
+
+    fun changeWon(price: String, count: Int): String{
+        val sb = StringBuilder()
+        val sumPrice = price.replace(",","").replace("원","").toInt() * count
+
+        sumPrice.toString().reversed().forEachIndexed { index, c ->
+            sb.append("$c")
+            if((index+1) % 3 == 0)sb.append(",")
+        }
+
+        if(sb.last() == ',') sb.deleteCharAt(sb.lastIndex)
+
+        return "${sb.reverse()}원"
     }
 
     fun replaceFragment(name:String, addToBackStack:Boolean, bundle:Bundle?){

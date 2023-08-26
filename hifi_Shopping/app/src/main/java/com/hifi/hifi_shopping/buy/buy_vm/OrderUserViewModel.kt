@@ -52,7 +52,6 @@ class OrderUserViewModel() : ViewModel() {
                             c1.child("discountPercent").value as String,
                             c1.child("verify").value as String == "true",
                         )
-                        Log.d("tttt", "$possibleCoupon")
                         if(possibleCoupon.verify) tempList3.add(possibleCoupon)
                     }
                     orderUserPossibleCouponList.value = tempList3

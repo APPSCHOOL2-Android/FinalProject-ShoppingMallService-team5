@@ -1,25 +1,17 @@
 package com.hifi.hifi_shopping.buy.fragment
 
 import android.app.AlertDialog
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.os.SystemClock
-import android.util.Log
-import android.util.TypedValue
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import android.widget.CheckedTextView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,12 +19,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
-import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository.Companion.getOrderProductData
-import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
-import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository.Companion.getOrderUserCoupon
-import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository.Companion.getOrderUserPossibleCoupon
+import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
+import com.hifi.hifi_shopping.buy.datamodel.OrderData
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
 import com.hifi.hifi_shopping.buy.datamodel.OrderUserCoupon
 import com.hifi.hifi_shopping.buy.datamodel.PossibleCoupon
@@ -40,7 +30,10 @@ import com.hifi.hifi_shopping.buy.datamodel.categoryData
 import com.hifi.hifi_shopping.databinding.FragmentOrderBinding
 import com.hifi.hifi_shopping.databinding.ItemByCouponListBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
-import kotlin.concurrent.thread
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.UUID
 
 
 class OrderFragment : Fragment() {
@@ -57,9 +50,6 @@ class OrderFragment : Fragment() {
     private lateinit var rowOrderItemListBinding: RowOrderItemListBinding
     private lateinit var itemByCouponListBinding: ItemByCouponListBinding
 
-    private var totalOrderProductCount = 0
-    private var totalOrderProductPrice = 0
-
     private var authCheck = true
 
     private val cardList = arrayOf(
@@ -73,7 +63,7 @@ class OrderFragment : Fragment() {
     private var possibleCouponList = mutableListOf<PossibleCoupon>()
 
     lateinit var dialog: AlertDialog
-    private var itemByCoupon = HashMap<String, PossibleCoupon>()
+    private var itemByCoupon = LinkedHashMap<String, PossibleCoupon>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,6 +84,7 @@ class OrderFragment : Fragment() {
         orderUserIdx = arguments?.getString("userIdx")!!
         orderItemList = arguments?.getStringArrayList("selProduct")!!
         fragmentOrderBinding.orderPayBtnCount.text = "Total ${orderProductList.size} Items"
+        itemByCoupon.clear()
     }
 
     private fun clickEventSetting(){
@@ -325,6 +316,49 @@ class OrderFragment : Fragment() {
                     builder.show()
                 }
             }
+
+            orderPayBtn.run{
+                setOnClickListener {
+
+                    if(orderDeliverEditName.text.isNullOrEmpty() || orderDeliverEditPhone.text.isNullOrEmpty() ||
+                        orderDeliverEditAddr.text.isNullOrEmpty() || orderDeliverEditAddrDetail.text.isNullOrEmpty()){
+                        Snackbar.make(fragmentOrderBinding.root, "배송지 정보를 입력 하십시오.", Snackbar.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    if(orderUserViewModel.addressData.value == null){
+                        Snackbar.make(fragmentOrderBinding.root, "배송지 정보를 입력 후 저장하십시오.", Snackbar.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    if(!orderUserViewModel.verify.value!!){
+                        Snackbar.make(fragmentOrderBinding.root, "본인 인증 회원만 구매가 가능 합니다.", Snackbar.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    buyActivity.orderCompleteAddress = orderUserViewModel.addressData.value!!
+
+                    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                    val writeDate = sdf.format(Date(System.currentTimeMillis()))
+
+                    buyActivity.orderCompleteProductList.forEach { product ->
+                        val itemIdx = product.rowOrderItemListName.tag as String
+                        repeat(product.rowOrderItemListCount.text.toString().toInt()){
+                            val orderData = OrderData(
+                                UUID.randomUUID().toString(), // 주문 인덱스
+                                orderUserIdx, // 주문자 인덱스
+                                itemIdx, // 제품 인덱스
+                                if(!itemByCoupon.containsKey(itemIdx)) "null" else itemByCoupon[itemIdx]!!.idx, // 적용 쿠폰 인덱스
+                                buyActivity.orderCompleteAddress.idx, // 배송지 인덱스
+                                writeDate, // 구매날짜
+                                product.rowOrderItemListPrice.text.toString().replace(",","").replace("원",""), // 결제 가격
+                                "PACKING" // 배송 상태
+                            )
+                            OrderItemRepository.setOrderData(orderData)
+                        }
+                    }
+                    buyActivity.removeFragment(BuyActivity.ORDER_FRAGMENT)
+                    buyActivity.replaceFragment(BuyActivity.BUY_ORDER_COMPLETE_FRAGMENT, false, null)
+                }
+            }
         }
     }
 
@@ -334,8 +368,9 @@ class OrderFragment : Fragment() {
 
         orderItemViewModel.run{
             productMap.observe(buyActivity){
-                totalOrderProductCount = 0
-                totalOrderProductPrice = 0
+                buyActivity.totalOrderProductCount = 0
+                buyActivity.totalOrderProductPrice = 0
+                buyActivity.oriTotalOrderProductPrice = 0
                 productViewSetting(it)
             }
 
@@ -392,8 +427,12 @@ class OrderFragment : Fragment() {
     private fun productViewSetting(map: LinkedHashMap<String, OrderProduct>){
         orderProductList.clear()
         fragmentOrderBinding.orderItemListLayout.removeAllViews()
+        buyActivity.orderCompleteProductList.clear()
+
         for(itemIdx in orderItemList){
+
             if(map[itemIdx] != null) {
+
                 orderProductList.add(map[itemIdx]!!)
                 getTotalCount(1, true)
                 var buyingPrice = map[itemIdx]!!.price
@@ -402,11 +441,10 @@ class OrderFragment : Fragment() {
                     buyingPrice = ((map[itemIdx]!!.price.toInt() * discount.toInt()) / 100).toString()
                 }
                 getTotalPrice(buyingPrice, true) // 제품가격
+                getTotalNotDiscountPrice(map[itemIdx]!!.price, true)
                 getTotalPrice("3000", true) // 배송비
 
                 val itemCouponList = possibleCouponList.filter {
-                    Log.d("tttt","it.categoryNum : ${it.categoryNum}")
-                    Log.d("tttt","map[itemIdx]!!.category.slice(0 until it.categoryNum.length) : ${map[itemIdx]!!.category.slice(0 until it.categoryNum.length)}")
                     it.categoryNum == map[itemIdx]!!.category.slice(0 until it.categoryNum.length)
                 }
 
@@ -414,9 +452,10 @@ class OrderFragment : Fragment() {
 
                 rowOrderItemListBinding.run{
                     rowOrderItemListName.text = map[itemIdx]!!.name
+                    rowOrderItemListName.tag = "$itemIdx"
 
                     var oriCount = rowOrderItemListCount.text.toString().toInt()
-                    rowOrderItemListPrice.text = changeWon(buyingPrice, 1)
+                    rowOrderItemListPrice.text = buyActivity.changeWon(buyingPrice, 1)
 
                     if(map[itemIdx]!!.img != null){
                         rowOrderItemListImg.setImageBitmap(map[itemIdx]!!.img)
@@ -428,16 +467,18 @@ class OrderFragment : Fragment() {
                         oriCount++
                         rowOrderItemListCount.text = oriCount.toString()
                         getTotalPrice(buyingPrice, true)
+                        getTotalNotDiscountPrice(map[itemIdx]!!.price, true)
                         getTotalCount(1, true)
-                        rowOrderItemListPrice.text = changeWon(buyingPrice, oriCount)
+                        rowOrderItemListPrice.text = buyActivity.changeWon(buyingPrice, oriCount)
                     }
 
                     rowOrderItemListBtnMinus.setOnClickListener {
                         if(oriCount > 1) {
                             oriCount--
                             getTotalPrice(buyingPrice, false)
+                            getTotalNotDiscountPrice(map[itemIdx]!!.price, false)
                             getTotalCount(1, false)
-                            rowOrderItemListPrice.text = changeWon(buyingPrice, oriCount)
+                            rowOrderItemListPrice.text = buyActivity.changeWon(buyingPrice, oriCount)
                         }
                         rowOrderItemListCount.text = oriCount.toString()
                     }
@@ -464,6 +505,7 @@ class OrderFragment : Fragment() {
                                     val key = coupon.categoryNum.slice(0 until coupon.categoryNum.length-1).toInt()
                                     val value = coupon.categoryNum.last() - '0' - 1
                                     val categoryName = categoryData[key]?.get(value)
+
                                     text = "$categoryName 카테고리 ${coupon.discountPercent}% 할인 쿠폰 적용"
                                     textSize = 16f
                                     gravity = android.view.Gravity.CENTER
@@ -487,15 +529,16 @@ class OrderFragment : Fragment() {
                                 itemByCouponListBinding.root.gravity = android.view.Gravity.CENTER
                             }
                             builder.setView(itemByCouponListBinding.root)
-
                             dialog = builder.show()
                         }
                     }
-
                 }
                 fragmentOrderBinding.orderItemListLayout.addView(rowOrderItemListBinding.root)
-                fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
+                buyActivity.orderCompleteProductList.add(rowOrderItemListBinding)
+                fragmentOrderBinding.orderPayBtnCount.text = "Total ${buyActivity.totalOrderProductCount} Items"
+
             }
+
         }
     }
 
@@ -526,8 +569,8 @@ class OrderFragment : Fragment() {
 
     private fun getTotalPrice(price: String, plus: Boolean){
         val sb = StringBuilder()
-        val sumPrice = if(plus) totalOrderProductPrice + price.toInt() else totalOrderProductPrice - price.toInt()
-        totalOrderProductPrice = sumPrice
+        val sumPrice = if(plus) buyActivity.totalOrderProductPrice + price.toInt() else buyActivity.totalOrderProductPrice - price.toInt()
+        buyActivity.totalOrderProductPrice = sumPrice
 
         if(sumPrice < 0) return
 
@@ -541,22 +584,16 @@ class OrderFragment : Fragment() {
         fragmentOrderBinding.orderPayBtnTotal.text = "${sb.reverse()}원"
     }
 
-    private fun getTotalCount(num: Int, plus: Boolean){
-        totalOrderProductCount = if(plus) totalOrderProductCount + num else totalOrderProductCount - num
-        fragmentOrderBinding.orderPayBtnCount.text = "Total $totalOrderProductCount Items"
-    }
-
-    private fun changeWon(price: String, count: Int): String{
+    private fun getTotalNotDiscountPrice(price: String, plus: Boolean){
         val sb = StringBuilder()
-        val sumPrice = price.replace(",","").replace("원","").toInt() * count
+        val sumPrice = if(plus) buyActivity.oriTotalOrderProductPrice + price.toInt() else buyActivity.oriTotalOrderProductPrice - price.toInt()
+        buyActivity.oriTotalOrderProductPrice = sumPrice
 
-        sumPrice.toString().reversed().forEachIndexed { index, c ->
-            sb.append("$c")
-            if((index+1) % 3 == 0)sb.append(",")
-        }
-
-        if(sb.last() == ',') sb.deleteCharAt(sb.lastIndex)
-
-        return "${sb.reverse()}원"
     }
+
+    private fun getTotalCount(num: Int, plus: Boolean){
+        buyActivity.totalOrderProductCount = if(plus) buyActivity.totalOrderProductCount + num else buyActivity.totalOrderProductCount - num
+        fragmentOrderBinding.orderPayBtnCount.text = "Total ${buyActivity.totalOrderProductCount} Items"
+    }
+
 }

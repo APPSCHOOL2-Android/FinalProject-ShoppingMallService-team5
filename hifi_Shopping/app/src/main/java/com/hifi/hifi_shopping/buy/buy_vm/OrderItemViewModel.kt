@@ -1,9 +1,6 @@
 package com.hifi.hifi_shopping.buy.buy_vm
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.os.SystemClock
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
