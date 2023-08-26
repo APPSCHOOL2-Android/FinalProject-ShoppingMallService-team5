@@ -52,16 +52,9 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/ViewPagerRankMain"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/toolbarBotRankMain"
+        android:layout_height="700dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TabLayoutRankMain" />
-
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarBotRankMain"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#756D25"
-        android:backgroundTint="#756D25"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
