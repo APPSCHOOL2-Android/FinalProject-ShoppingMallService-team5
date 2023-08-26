@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 
 class OrderItemRepository {
+
     companion object{
 
         fun getOrderProductData(idx: String, callback1: (Task<DataSnapshot>)-> Unit, callback2: (Task<DataSnapshot>)-> Unit){

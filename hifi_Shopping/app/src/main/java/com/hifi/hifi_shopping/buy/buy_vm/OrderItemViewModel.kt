@@ -8,11 +8,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
+import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
 
-data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
+
 class OrderItemViewModel: ViewModel() {
 
     var productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()

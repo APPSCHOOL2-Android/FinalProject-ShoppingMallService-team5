@@ -6,14 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
+import com.hifi.hifi_shopping.buy.datamodel.AddressData
+import com.hifi.hifi_shopping.buy.datamodel.OrderUserCoupon
+import com.hifi.hifi_shopping.buy.datamodel.PossibleCoupon
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-data class AddressData(var idx: String, var userIdx: String, var receiver: String, var receiverPhoneNum: String, var address: String, var context: String)
-data class OrderUserCoupon(val couponIdx: String, val used: Boolean, val userIdx: String)
-data class PossibleCoupon(val idx: String, val categoryNum: String, val validData: String, val discountPercent: String, val verify: Boolean)
 class OrderUserViewModel() : ViewModel() {
     // 인증 관련
     var nickname = MutableLiveData<String>()
@@ -61,8 +61,17 @@ class OrderUserViewModel() : ViewModel() {
         })
     }
 
+    fun setOrderUserCoupon(idx: String, userIdx: String){
+        OrderUserRepository.setOrderUserCoupon(idx){
+            getOrderUserCoupon(userIdx)
+        }
+    }
+
     fun setOrderUserAddress(num:Int){
         OrderUserRepository.orderUserSetAddress(orderUserAddressList.value!![num]){
+            for(a1 in it.result.children){
+                a1.ref.child("used").setValue("false")
+            }
             getOdderUserAddress(orderUserAddressList.value!![num].userIdx, num)
         }
     }

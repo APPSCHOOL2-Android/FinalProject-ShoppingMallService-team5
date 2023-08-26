@@ -3,8 +3,7 @@ package com.hifi.hifi_shopping.buy.buy_repository
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
-import com.hifi.hifi_shopping.buy.buy_vm.AddressData
-import com.hifi.hifi_shopping.buy.buy_vm.OrderUserCoupon
+import com.hifi.hifi_shopping.buy.datamodel.AddressData
 
 
 class OrderUserRepository {
@@ -20,6 +19,16 @@ class OrderUserRepository {
             val userCoupontDataRef = database.getReference("UserCouponData")
             userCoupontDataRef.orderByChild("userIdx").equalTo(userIdx).get().addOnCompleteListener(callback1)
                 .addOnCompleteListener(callback2)
+        }
+
+        fun setOrderUserCoupon(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userCoupontDataRef = database.getReference("UserCouponData")
+            userCoupontDataRef.orderByChild("couponIdx").equalTo(idx).get().addOnCompleteListener{
+                for(a1 in it.result.children){
+                    a1.ref.child("used").setValue("false")
+                }
+            }.addOnCompleteListener(callback1)
         }
         fun getOrderUser(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()

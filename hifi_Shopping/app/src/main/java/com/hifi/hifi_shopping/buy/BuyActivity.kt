@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.fragment.BuyOrderCompleteFragment
+import com.hifi.hifi_shopping.buy.fragment.BuyOrderCompleteListFragment
 import com.hifi.hifi_shopping.buy.fragment.DetailItemFragment
 import com.hifi.hifi_shopping.buy.fragment.OrderFragment
 import com.hifi.hifi_shopping.databinding.ActivityBuyBinding
@@ -28,6 +30,9 @@ class BuyActivity : AppCompatActivity() {
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
     var selProduct = ""
+
+    var orderCompleteProductList = mutableListOf<View>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -85,6 +90,8 @@ class BuyActivity : AppCompatActivity() {
         newFragment = when(name){
             DETAIL_ITEM_FRAGMENT -> DetailItemFragment()
             ORDER_FRAGMENT -> OrderFragment()
+            BUY_ORDER_COMPLETELIST_FRAGMENT -> BuyOrderCompleteListFragment()
+            BUY_ORDER_COMPLETE_FRAGMENT -> BuyOrderCompleteFragment()
             else -> Fragment()
         }
 
