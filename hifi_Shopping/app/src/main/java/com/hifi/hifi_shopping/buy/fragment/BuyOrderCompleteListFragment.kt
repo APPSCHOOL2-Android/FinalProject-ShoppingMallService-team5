@@ -71,12 +71,12 @@ class BuyOrderCompleteListFragment : Fragment() {
 
     private fun buyInfoSetting(){
         fragmentBuyOrderCompleteListBinding.run {
-            val productsPrice = buyActivity.totalOrderProductPrice - 3000 * buyActivity.orderCompleteProductList.size
-            textViewBuyOrderCompleteListProductPrice.text = buyActivity.changeWon(productsPrice.toString(),1)
-            textViewBuyOrderCompleteListDeliveryPrice.text = buyActivity.changeWon("3000", buyActivity.orderCompleteProductList.size)
+            val productsPrice = buyActivity.oriTotalOrderProductPrice - 3000 * buyActivity.orderCompleteProductList.size
+            textViewBuyOrderCompleteListProductPrice.text = buyActivity.changeWon(productsPrice.toString(),1) // 순수 상품의 가격
+            textViewBuyOrderCompleteListDeliveryPrice.text = buyActivity.changeWon("3000", buyActivity.orderCompleteProductList.size) // 배송비
 
             val gabPrice = buyActivity.oriTotalOrderProductPrice - buyActivity.totalOrderProductPrice
-            textViewBuyOrderCompleteListDiscount.text = buyActivity.changeWon(gabPrice.toString(), 1)
+            textViewBuyOrderCompleteListDiscount.text = buyActivity.changeWon(gabPrice.toString(), 1) // 할인 받은 금액
             textViewBuyOrderCompleteListTotalPrice.text = buyActivity.changeWon(buyActivity.totalOrderProductPrice.toString(), 1)
         }
     }

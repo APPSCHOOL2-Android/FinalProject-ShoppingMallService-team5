@@ -428,6 +428,7 @@ class OrderFragment : Fragment() {
         orderProductList.clear()
         fragmentOrderBinding.orderItemListLayout.removeAllViews()
         buyActivity.orderCompleteProductList.clear()
+        fragmentOrderBinding.orderPayBtn.isEnabled = false
 
         for(itemIdx in orderItemList){
 
@@ -486,7 +487,8 @@ class OrderFragment : Fragment() {
 
                     rowOrderItemListBtnCoupon.run{
                         if(itemCouponList.isEmpty()){
-                            visibility = View.GONE
+                            visibility = View.INVISIBLE
+                            isEnabled = true
                         }
                         setOnClickListener {
 
@@ -539,8 +541,8 @@ class OrderFragment : Fragment() {
                 fragmentOrderBinding.orderPayBtnCount.text = "Total ${buyActivity.totalOrderProductCount} Items"
 
             }
-
         }
+        fragmentOrderBinding.orderPayBtn.isEnabled = true
     }
 
     private fun viewSetting(){
@@ -586,10 +588,8 @@ class OrderFragment : Fragment() {
     }
 
     private fun getTotalNotDiscountPrice(price: String, plus: Boolean){
-        val sb = StringBuilder()
         val sumPrice = if(plus) buyActivity.oriTotalOrderProductPrice + price.toInt() else buyActivity.oriTotalOrderProductPrice - price.toInt()
         buyActivity.oriTotalOrderProductPrice = sumPrice
-
     }
 
     private fun getTotalCount(num: Int, plus: Boolean){

@@ -21,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -35,15 +35,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/rowOrderItemListName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:elegantTextHeight="true"
                     android:fontFamily="@font/notosanskr_regular"
                     android:text="TMA-2 Comfort Wireless "
@@ -52,8 +51,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
                     <TextView
@@ -61,7 +59,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_bold"
                         android:text="20000원" />
@@ -69,9 +66,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
+                        android:layout_gravity="start|center_vertical"
                         android:layout_marginLeft="5dp"
-                        android:layout_weight="1"
+                        android:gravity="start|center_vertical"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -87,10 +84,11 @@
                             android:id="@+id/rowOrderItemListCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="start"
-                            android:layout_marginLeft="5dp"
+                            android:layout_gravity="start|center_vertical"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_regular"
+                            android:gravity="start|center_vertical"
+                            android:padding="5dp"
                             android:text="1"
                             android:textSize="16sp" />
 
@@ -100,7 +98,6 @@
                             android:layout_width="15dp"
                             android:layout_height="15dp"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="5dp"
                             android:filterTouchesWhenObscured="false"
                             app:srcCompat="@drawable/add_box_24px" />
 
@@ -110,9 +107,7 @@
                         android:id="@+id/rowOrderItemListBtnCoupon"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="1"
+                        android:layout_marginLeft="5dp"
                         android:backgroundTint="#C8A4A4"
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_regular"
