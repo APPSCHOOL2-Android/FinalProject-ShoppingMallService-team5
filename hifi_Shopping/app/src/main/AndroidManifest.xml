@@ -21,9 +21,6 @@
             android:name=".user.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".subscribe.SubscribeActivity"
-            android:exported="false" />
-        <activity
             android:name=".search.SearchActivity"
             android:exported="false" />
         <activity
@@ -48,7 +45,7 @@
             android:name=".auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".subscribe.SubscribeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
