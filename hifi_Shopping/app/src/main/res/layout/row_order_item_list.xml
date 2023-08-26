@@ -8,11 +8,16 @@
     android:padding="5dp"
     android:transitionGroup="true">
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rowOrderItemCardView"
+        style="@style/Widget.Material3.CardView.Outlined"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:transitionGroup="true"
-        app:strokeWidth="2dp">
+        app:cardBackgroundColor="@color/material_on_primary_emphasis_high_type"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp"
+        app:cardMaxElevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,24 +35,25 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/rowOrderItemListName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:elegantTextHeight="true"
                     android:fontFamily="@font/notosanskr_regular"
                     android:text="TMA-2 Comfort Wireless "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
@@ -55,6 +61,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_bold"
                         android:text="20000원" />
@@ -62,8 +69,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
+                        android:layout_gravity="start"
                         android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
                         <ImageButton
@@ -79,11 +87,12 @@
                             android:id="@+id/rowOrderItemListCount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="start"
                             android:layout_marginLeft="5dp"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_regular"
-                            android:text="1" />
+                            android:text="1"
+                            android:textSize="16sp" />
 
                         <ImageButton
                             android:id="@+id/rowOrderItemListBtnPlus"
@@ -103,6 +112,7 @@
                         android:layout_height="40dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="10dp"
+                        android:layout_weight="1"
                         android:backgroundTint="#C8A4A4"
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_regular"
@@ -119,6 +129,7 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/rowOrderItemDeliverPriceInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:elegantTextHeight="true"
@@ -146,6 +157,6 @@
             </LinearLayout>
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </LinearLayout>
