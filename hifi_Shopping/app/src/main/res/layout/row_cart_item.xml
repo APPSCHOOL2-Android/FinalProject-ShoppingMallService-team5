@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/rowCartItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1">
@@ -20,11 +21,12 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
-            android:layout_marginLeft="5dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="15dp"
+            app:cardUseCompatPadding="true"
             app:strokeWidth="0dp">
 
             <LinearLayout
