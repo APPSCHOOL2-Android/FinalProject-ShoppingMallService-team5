@@ -1,7 +1,7 @@
 package com.hifi.hifi_shopping.auth.model
 
 data class UserDataClass(
-    val idx: String, // 유저 인덱스
+    var idx: String, // 유저 인덱스
     val email: String, // 유저 아이디(email)
     val pw: String, // 유저 비밀번호
     val nickname: String, // 유저 닉네임

@@ -18,7 +18,6 @@ import kotlin.concurrent.thread
 class AuthActivity : AppCompatActivity() {
 
     lateinit var activityAuthBinding: ActivityAuthBinding
-    private lateinit var authViewModel: AuthViewModel
 
     var newFragment: Fragment? = null
     var oldFragment: Fragment? = null
