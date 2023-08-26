@@ -7,7 +7,6 @@ import com.hifi.hifi_shopping.user.repository.ProductRepository
 
 class ProductViewModel : ViewModel() {
     var productDataList = MutableLiveData<MutableList<ProductDataClass>>()
-    var productDataFiveList = MutableLiveData<MutableList<ProductDataClass>>()
     var productDataByIdx = MutableLiveData<ProductDataClass>()
 
     fun getProductList() {
