@@ -410,10 +410,6 @@ class OrderFragment : Fragment() {
                     it.categoryNum == map[itemIdx]!!.category.slice(0 until it.categoryNum.length)
                 }
 
-
-                val key = map[itemIdx]!!.category.slice(0 until map[itemIdx]!!.category.length-1).toInt()
-                val index = map[itemIdx]!!.category[map[itemIdx]!!.category.length-1].toString().toInt()-1
-
                 rowOrderItemListBinding = RowOrderItemListBinding.inflate(layoutInflater)
 
                 rowOrderItemListBinding.run{
@@ -453,7 +449,6 @@ class OrderFragment : Fragment() {
                         setOnClickListener {
 
                             val builder = AlertDialog.Builder(buyActivity)
-                            val categoryName = categoryData[key]?.get(index)
 
                             builder.setTitle("적용 가능 쿠폰 리스트")
                             builder.setMessage("선택 하였을 경우 변경 및 취소가 불가능 합니다.\n그래도 적용 하시겠습니까?")
@@ -466,7 +461,10 @@ class OrderFragment : Fragment() {
                             itemCouponList.forEach { coupon ->
                                 val textView = TextView(buyActivity)
                                 textView.run {
-                                    text = "${categoryName} 카테고리 ${coupon.discountPercent}% 할인 쿠폰 적용"
+                                    val key = coupon.categoryNum.slice(0 until coupon.categoryNum.length-1).toInt()
+                                    val value = coupon.categoryNum.last() - '0' - 1
+                                    val categoryName = categoryData[key]?.get(value)
+                                    text = "$categoryName 카테고리 ${coupon.discountPercent}% 할인 쿠폰 적용"
                                     textSize = 16f
                                     gravity = android.view.Gravity.CENTER
                                     setBackgroundColor(Color.WHITE)
@@ -474,10 +472,9 @@ class OrderFragment : Fragment() {
                                         ViewGroup.LayoutParams.WRAP_CONTENT,
                                         ViewGroup.LayoutParams.WRAP_CONTENT
                                     )
-                                    tag = "${coupon.idx}"
 
                                     setOnClickListener {
-                                        orderUserViewModel.setOrderUserCoupon(it.tag.toString(), orderUserIdx)
+                                        orderUserViewModel.setOrderUserCoupon(coupon.idx, orderUserIdx)
                                         orderItemList.forEach {
                                             orderItemViewModel.getOrderProductData(it)
                                         }
