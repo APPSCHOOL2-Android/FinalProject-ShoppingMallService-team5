@@ -40,6 +40,9 @@ android {
 }
 
 dependencies {
+    // viewModels 함수용 모듈
+    implementation "androidx.fragment:fragment-ktx:1.6.1"
+
     //firebase Authentication
     implementation 'com.google.android.gms:play-services-ads-base:22.2.0'
     implementation 'com.google.firebase:firebase-auth-ktx'
