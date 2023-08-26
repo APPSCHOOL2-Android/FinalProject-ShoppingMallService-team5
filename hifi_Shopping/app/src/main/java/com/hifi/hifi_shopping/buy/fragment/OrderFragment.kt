@@ -443,6 +443,7 @@ class OrderFragment : Fragment() {
                 getTotalPrice(buyingPrice, true) // 제품가격
                 getTotalNotDiscountPrice(map[itemIdx]!!.price, true)
                 getTotalPrice("3000", true) // 배송비
+                getTotalNotDiscountPrice("3000", true)
 
                 val itemCouponList = possibleCouponList.filter {
                     it.categoryNum == map[itemIdx]!!.category.slice(0 until it.categoryNum.length)

@@ -24,6 +24,8 @@ class BuyOrderCompleteListFragment : Fragment() {
         buyActivity = activity as BuyActivity
 
         productInfoSetting()
+        addressInfoSetting()
+        buyInfoSetting()
 
         return fragmentBuyOrderCompleteListBinding.root
     }
@@ -55,7 +57,27 @@ class BuyOrderCompleteListFragment : Fragment() {
             fragmentBuyOrderCompleteListBinding.layoutBuyOrderCompleteProduct
                 .addView(rowOrderItemListBinding.root)
         }
-
     }
 
+    private fun addressInfoSetting(){
+        fragmentBuyOrderCompleteListBinding.run{
+            textViewBuyOrderCompleteListReceiver.text = buyActivity.orderCompleteAddress.receiver
+            textViewBuyOrderCompleteListPhone.text = buyActivity.orderCompleteAddress.receiverPhoneNum
+            textViewBuyOrderCompleteListAddress.text = """${buyActivity.orderCompleteAddress.address.split("/")[0]}
+                |${buyActivity.orderCompleteAddress.address.split("/")[1]}
+            """.trimMargin()
+        }
+    }
+
+    private fun buyInfoSetting(){
+        fragmentBuyOrderCompleteListBinding.run {
+            val productsPrice = buyActivity.totalOrderProductPrice - 3000 * buyActivity.orderCompleteProductList.size
+            textViewBuyOrderCompleteListProductPrice.text = buyActivity.changeWon(productsPrice.toString(),1)
+            textViewBuyOrderCompleteListDeliveryPrice.text = buyActivity.changeWon("3000", buyActivity.orderCompleteProductList.size)
+
+            val gabPrice = buyActivity.oriTotalOrderProductPrice - buyActivity.totalOrderProductPrice
+            textViewBuyOrderCompleteListDiscount.text = buyActivity.changeWon(gabPrice.toString(), 1)
+            textViewBuyOrderCompleteListTotalPrice.text = buyActivity.changeWon(buyActivity.totalOrderProductPrice.toString(), 1)
+        }
+    }
 }
