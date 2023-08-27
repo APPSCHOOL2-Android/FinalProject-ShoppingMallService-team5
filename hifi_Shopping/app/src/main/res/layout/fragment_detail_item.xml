@@ -321,6 +321,17 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
+                            <TextView
+                                android:id="@+id/normalReviewCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="일반 리뷰"
+                                android:textColor="@color/brown"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/nomalReviewRecyclerView"
                                 android:layout_width="match_parent"
@@ -346,7 +357,18 @@
                             app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
                             <TextView
-                                android:id="@+id/textView13223"
+                                android:id="@+id/qnaCountTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="문의 글"
+                                android:textColor="@color/brown"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="문의 글"
@@ -361,7 +383,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView13223"
+                                app:layout_constraintTop_toBottomOf="@+id/qnaCountTextView"
                                 tools:itemCount="1"
                                 tools:listitem="@layout/row_detail_review" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -418,7 +440,7 @@
                 app:strokeColor="@color/brown" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/view5"
+                android:id="@+id/buyRightBtn"
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"

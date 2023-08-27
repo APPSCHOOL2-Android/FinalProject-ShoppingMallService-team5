@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.buy.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.databinding.FragmentBuyOrderCompleteListBinding
+import com.hifi.hifi_shopping.subscribe.SubscribeActivity
 
 
 class BuyOrderCompleteListFragment : Fragment() {
@@ -26,6 +28,7 @@ class BuyOrderCompleteListFragment : Fragment() {
         productInfoSetting()
         addressInfoSetting()
         buyInfoSetting()
+        clickEventSetting()
 
         return fragmentBuyOrderCompleteListBinding.root
     }
@@ -78,6 +81,14 @@ class BuyOrderCompleteListFragment : Fragment() {
             val gabPrice = buyActivity.oriTotalOrderProductPrice - buyActivity.totalOrderProductPrice
             textViewBuyOrderCompleteListDiscount.text = buyActivity.changeWon(gabPrice.toString(), 1) // 할인 받은 금액
             textViewBuyOrderCompleteListTotalPrice.text = buyActivity.changeWon(buyActivity.totalOrderProductPrice.toString(), 1)
+        }
+    }
+
+    private fun clickEventSetting(){
+        fragmentBuyOrderCompleteListBinding.run{
+            buttonBuyOrderCompleteConfirm.setOnClickListener {
+                buyActivity.finish()
+            }
         }
     }
 }
