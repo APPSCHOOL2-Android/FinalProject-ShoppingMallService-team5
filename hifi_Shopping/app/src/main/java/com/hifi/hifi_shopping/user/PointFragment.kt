@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.user
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentPointBinding
 import com.hifi.hifi_shopping.databinding.RowPointBinding
+import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.user.vm.PointViewModel
 
 class PointFragment : Fragment() {
@@ -45,6 +48,26 @@ class PointFragment : Fragment() {
         }
 
         fragmentPointBinding.run {
+
+            pointToolbar.run {
+                setNavigationOnClickListener {
+                    userActivity.removeFragment(UserActivity.CART_FRAGMENT)
+                }
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_item_search -> {
+                            val intent = Intent(userActivity, SearchActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.id.menu_item_cart -> {
+                            userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
+                        }
+                    }
+                    true
+                }
+
+            }
+
             pointGuideBtnToggle.setOnClickListener {
                 toggleButtonClick(pointGuideBtnToggle,pointGuideTextView)
             }
@@ -57,7 +80,7 @@ class PointFragment : Fragment() {
         return fragmentPointBinding.root
     }
 
-    inner class PointRecyclerViewAdapter() :
+    inner class PointRecyclerViewAdapter:
         RecyclerView.Adapter<PointRecyclerViewAdapter.PointRecyclerViewHolder>() {
 
         inner class PointRecyclerViewHolder(rowPointBinding: RowPointBinding) :
