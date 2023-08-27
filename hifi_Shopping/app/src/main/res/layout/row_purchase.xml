@@ -46,12 +46,12 @@
 
                 <TextView
                     android:id="@+id/rowPurchaseName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elegantTextHeight="true"
                     android:fontFamily="@font/notosanskr_regular"
                     android:text="TMA-2 Comfort Wireless "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black" />
 
                 <LinearLayout
@@ -66,7 +66,7 @@
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_bold"
                         android:text="20000원"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 </LinearLayout>
 
