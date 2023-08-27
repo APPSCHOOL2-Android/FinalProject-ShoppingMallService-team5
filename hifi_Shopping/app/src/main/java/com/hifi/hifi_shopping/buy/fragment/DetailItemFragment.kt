@@ -68,6 +68,17 @@ class DetailItemFragment : Fragment() {
                 layoutManager = LinearLayoutManager(buyActivity)
             }
 
+            buyRightBtn.run{
+                setOnClickListener {
+                    val bundle = Bundle()
+                    var productList = ArrayList<String>()
+                    productList.add(productIdx)
+                    bundle.putStringArrayList("selProduct", productList)
+                    bundle.putString("userIdx", orderUserIdx) // 유저 인덱스
+                    buyActivity.replaceFragment(BuyActivity.ORDER_FRAGMENT, false, bundle)
+                }
+            }
+
             tab1TextView.run{
                 setOnClickListener {
                     itemInfoLine.setBackgroundColor(buyActivity.getColor(R.color.brown))
@@ -140,6 +151,7 @@ class DetailItemFragment : Fragment() {
             normalReviewMap.observe(buyActivity){
                 normalReviewKey = it.keys.toList()
                 productNormalReviewMap = it
+                fragmenDetailItemtBinding.normalReviewCount.text = "${normalReviewKey.size}개의 리뷰"
                 fragmenDetailItemtBinding.nomalReviewRecyclerView.adapter?.notifyDataSetChanged()
             }
 
