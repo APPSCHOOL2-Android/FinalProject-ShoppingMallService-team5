@@ -169,7 +169,7 @@
                 android:layout_gravity="center"
                 android:elegantTextHeight="true"
                 android:fontFamily="@font/notosanskr_bold"
-                android:text="00000원"
+                android:text="0원"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white" />
         </LinearLayout>
