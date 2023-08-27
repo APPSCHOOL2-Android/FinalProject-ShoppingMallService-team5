@@ -2,20 +2,23 @@ package com.hifi.hifi_shopping.user
 
 import android.Manifest
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
 import com.hifi.hifi_shopping.user.model.UserDataClass
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.concurrent.thread
 
 class UserActivity : AppCompatActivity() {
@@ -25,7 +28,7 @@ class UserActivity : AppCompatActivity() {
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
 
-    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "")
+    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "e8fa83ce-5341-4f10-9929-5521d9c5fe82")
 
     val permissionList = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -47,10 +50,12 @@ class UserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityUserBinding = ActivityUserBinding.inflate(layoutInflater)
         setContentView(activityUserBinding.root)
+
         requestPermissions(permissionList,0)
 
         replaceFragment(MY_PAGE_FRAGMENT, false, null)
 //        replaceFragment(EDIT_USER_FRAGMENT, false, null)
+//        replaceFragment(CART_FRAGMENT, false, null)
     }
 
     // 지정한 Fragment를 보여주는 메서드
@@ -125,6 +130,33 @@ class UserActivity : AppCompatActivity() {
     fun hideKeyboard(view: View) {
         val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    fun getUserProfileImg(userTemp: UserDataClass, imgView: ImageView){
+        val storage = FirebaseStorage.getInstance()
+        val fileName = if(userTemp.profileImg.isNullOrBlank()){
+            "user/sample_img.png"
+        }else{
+            "user/${userTemp.idx}"
+        }
+        Log.d("fileName",fileName.toString())
+        val fileRef = storage.reference.child(fileName)
+
+        // 데이터를 가져올 수 있는 경로를 가져온다.
+        fileRef.downloadUrl.addOnCompleteListener { downloadTask ->
+            thread {
+                // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                val url = URL(downloadTask.result.toString())
+                // 접속한다.
+                val httpURLConnection = url.openConnection() as HttpURLConnection
+                // 이미지 객체를 생성한다.
+                val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
+
+                this@UserActivity.runOnUiThread {
+                    imgView.setImageBitmap(bitmap)
+                }
+            }
+        }
     }
 
 

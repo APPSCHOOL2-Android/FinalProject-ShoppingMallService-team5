@@ -2,11 +2,9 @@ package com.hifi.hifi_shopping.user
 
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.service.autofill.UserData
 import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
@@ -88,7 +86,7 @@ class EditUserFragment : Fragment() {
 
             // 프로필 사진
             editUserProfileImg.run {
-                getProfileImg(userTemp)
+                userActivity.getUserProfileImg(userTemp,this)
                 setOnClickListener {
                     val newIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                     newIntent.setType("image/*")
@@ -253,38 +251,13 @@ class EditUserFragment : Fragment() {
                             }
                         }
                         Snackbar.make(fragmentEditUserBinding.root, "프로필 이미지 변경이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                        userTemp.profileImg = userTemp.idx
                     } else {
                         Snackbar.make(fragmentEditUserBinding.root, "이미지 업로드를 실패하였습니다.", Snackbar.LENGTH_SHORT).show()
                     }
 
                 }
 
-            }
-        }
-    }
-
-    fun getProfileImg(userTemp : UserDataClass){
-        val storage = FirebaseStorage.getInstance()
-        val fileName = if(userTemp.profileImg.isNullOrBlank()){
-            return
-        }else{
-            "user/${userTemp.idx}"
-        }
-        val fileRef = storage.reference.child(fileName)
-
-        // 데이터를 가져올 수 있는 경로를 가져온다.
-        fileRef.downloadUrl.addOnCompleteListener { downloadTask ->
-            thread {
-                // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
-                val url = URL(downloadTask.result.toString())
-                // 접속한다.
-                val httpURLConnection = url.openConnection() as HttpURLConnection
-                // 이미지 객체를 생성한다.
-                val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
-
-                userActivity.runOnUiThread {
-                    fragmentEditUserBinding.editUserProfileImg.setImageBitmap(bitmap)
-                }
             }
         }
     }
@@ -339,7 +312,6 @@ class EditUserFragment : Fragment() {
                 addr!!.address
             }else{
                 "${editUserAddrEditText.text}/${editUserAddrDetailEditText.text}"
-
             }
 
             val newAddr=AddressDataClass(addr!!.idx,addr!!.userIdx,addr!!.receiver,addr!!.receiverPhoneNum,address, addr!!.context)
