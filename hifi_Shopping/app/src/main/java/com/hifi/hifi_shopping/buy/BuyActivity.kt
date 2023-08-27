@@ -10,12 +10,18 @@ class BuyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("cartProducts")) {
-            val cartProductsList = receivedIntent.getStringArrayListExtra("cartProducts")
             // 장바구니에서 선택된 아이템들만 가져오기
-            Log.d("장바구니 테스트",cartProductsList.toString())
+            val cartProductsList = receivedIntent.getStringArrayListExtra("cartProducts")
+            // 클릭한 아이템의 인덱스
 
-        } else {
-            // 데이터를 전달받지 못한 경우 또는 키가 일치하지 않는 경우의 처리
+            Log.d("구매장바구니",cartProductsList.toString())
+
+        }
+
+        if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
+            val productIdx = receivedIntent.getStringExtra("productIdx")
+            Log.d("구매장바구니2",productIdx.toString())
+
         }
 
         setContentView(R.layout.activity_buy)

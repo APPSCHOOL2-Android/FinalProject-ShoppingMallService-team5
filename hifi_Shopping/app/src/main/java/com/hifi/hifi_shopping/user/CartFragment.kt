@@ -88,15 +88,18 @@ class CartFragment : Fragment() {
                             rowCartItemPrice.text = it.price
                             // 제품 이미지
                             getCartProductImg(it.idx, rowCartItemImg)
+                            rowCartItemImg.setOnClickListener {
+                                val intent = Intent(userActivity, BuyActivity::class.java)
+                                intent.putExtra("productIdx", rowCartItemIdx.text.toString())
+                                startActivity(intent)
+                            }
                         }
                         cartItemLayout.addView(rowCartItemBinding.root)
-                        rowCartItemBindingList.add(rowCartItemBinding) // 리스트에 추가
+                        rowCartItemBindingList.add(rowCartItemBinding)
                     }
 
                     Log.d("제품 추가3", rowCartItemBindingList.toString())
 
-                    // 임시로 전체 체크박스 제거
-//                    cartCheckBoxAll.visibility = View.GONE
 
                     // 전체 체크박스 상태 변경 시 장바구니 아이템 체크박스 상태 처리
                     cartCheckBoxAll.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -105,7 +108,6 @@ class CartFragment : Fragment() {
                         }
                     }
 
-                    // 각 체크박스의 상태 관찰
                     var itemsPrice = 0
                     var itemsCount = 0
                     rowCartItemBindingList.forEach { itemBinding ->
@@ -225,7 +227,7 @@ class CartFragment : Fragment() {
             holder.rowCartRecommendImg.run {
                 setOnClickListener {
                     val intent = Intent(userActivity, BuyActivity::class.java)
-                    intent.putExtra("cartRecommendProductIdx", productidx)
+                    intent.putExtra("productIdx", productidx)
                     startActivity(intent)
                 }
                 getCartProductImg(productidx,this)
@@ -283,7 +285,6 @@ class CartFragment : Fragment() {
                 cartPayBtnCount.text = "Total 0 Items"
                 cartPayBtnTotal.text="0원"
             }
-
 
         }
     }
