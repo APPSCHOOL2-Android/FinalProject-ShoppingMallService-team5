@@ -1,11 +1,15 @@
 package com.hifi.hifi_shopping.buy.buy_vm
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
+import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
+import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -16,8 +20,38 @@ class OrderItemViewModel: ViewModel() {
     var productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()
     val tempHashMap =  LinkedHashMap<String, OrderProduct>()
 
-    fun getOrderProductData(idx: String){
+    var productNoTitleImgMap = MutableLiveData<HashMap<String, Bitmap>>()
+    val tempHashMap2 = HashMap<String, Bitmap>()
 
+    var normalReviewMap = MutableLiveData<HashMap<String,ProductNormalReview>>()
+    val tempReviewMap = HashMap<String, ProductNormalReview>()
+
+    fun getProductReviewUserInfo(idx: String){
+        OrderUserRepository.getOrderUser(idx){
+            for(c1 in it.result.children){
+                tempReviewMap[c1.child("idx").value as String]?.nickname = c1.child("nickname").value as String
+            }
+            normalReviewMap.value = tempReviewMap
+        }
+    }
+    fun getProductNormalReview(idx: String){
+        tempReviewMap.clear()
+        OrderItemRepository.getProductNormalReview(idx,{
+            for(c1 in it.result.children){
+                val productNormalReview = ProductNormalReview(
+                    c1.child("writerIdx").value as String,
+                    null,
+                    c1.child("context").value as String
+                )
+                tempReviewMap[c1.child("writerIdx").value as String] = productNormalReview
+            }
+        },{
+            tempReviewMap.keys.forEach {
+                getProductReviewUserInfo(it)
+            }
+        })
+    }
+    fun getOrderProductData(idx: String){
 
         OrderItemRepository.getOrderProductData(idx, {
             for (i1 in it.result.children) {
@@ -52,10 +86,23 @@ class OrderItemViewModel: ViewModel() {
                                 productMap.postValue(tempHashMap)
                             }
                         }
+                    } else {
+                        OrderItemRepository.getProductImg(c1.child("imgSrc").value as String){
+                            thread {
+                                // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                                val url = URL(it.result.toString())
+                                // 접속한다.
+                                val httpURLConnection =
+                                    url.openConnection() as HttpURLConnection
+                                val bitmap =
+                                    BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                                tempHashMap2[c1.child("omgOrder").value as String] = bitmap
+                                productNoTitleImgMap.postValue(tempHashMap2)
+                            }
+                        }
                     }
                 }
             }
-
         })
     }
 

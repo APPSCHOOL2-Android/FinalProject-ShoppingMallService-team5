@@ -13,6 +13,9 @@ data class OrderProduct(var idx: String, var name: String, var price: String, va
 
 data class OrderData(var idx: String, val buyerIdx: String, val productIdx: String, val couponIdx: String, val address: String, val date: String, val price: String, val status: String)
 
+data class SubscribeUserInfo(var idx: String, var nickname: String, var profileImgSrc: String, var profileImg: Bitmap?, var review: String?)
+
+data class ProductNormalReview(var userIdx: String, var nickname: String?, var review: String)
 
 
 val categoryData = mapOf(

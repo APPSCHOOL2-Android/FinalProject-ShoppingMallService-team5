@@ -1,14 +1,40 @@
 package com.hifi.hifi_shopping.buy.buy_repository
 
+import android.net.Uri
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.buy.datamodel.AddressData
 
 
 class OrderUserRepository {
     companion object{
 
+        fun getOrderUserSubscribeUserImg(imgSrc: String, callback1: (Task<Uri>) -> Unit){
+            val storage = FirebaseStorage.getInstance()
+            val fileRef = storage.getReference("user").child(imgSrc)
+            // 데이터를 가져올 수 있는 경로를 가져온다.
+            fileRef.downloadUrl.addOnCompleteListener(callback1)
+        }
+
+        fun getOrderUserSubscribeUserReview(subUserIdx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val reviewDataRef = database.getReference("ReviewData")
+            reviewDataRef.orderByChild("writerIdx").equalTo(subUserIdx).get().addOnCompleteListener(callback1)
+        }
+        fun getOrderUserSubscribeUser(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val subscribeDataRef = database.getReference("SubscribeData")
+            subscribeDataRef.orderByChild("userIdx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
+
+        fun getOrderUser(idx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit, callback3: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userDataRef = database.getReference("UserData")
+            userDataRef.orderByChild("idx").equalTo(idx).get().addOnCompleteListener(callback1).addOnCompleteListener(callback2)
+                .addOnCompleteListener(callback3)
+        }
         fun getOrderUserPossibleCoupon(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
             val couponDataRef = database.getReference("CouponData")
@@ -71,8 +97,6 @@ class OrderUserRepository {
             val addressDataRef = database.getReference("AddressData")
             addressDataRef.push().setValue(addressData).addOnCompleteListener(callback1)
         }
-
-
 
     }
 }

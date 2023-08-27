@@ -8,7 +8,6 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/buyContainer"
-        android:name="com.hifi.hifi_shopping.buy.fragment.DetailItemFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

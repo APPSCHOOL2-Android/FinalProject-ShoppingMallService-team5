@@ -57,26 +57,19 @@ class BuyActivity : AppCompatActivity() {
     private fun startFragment(){
         //val buyProductList = intent.getStringArrayListExtra("buyProduct")
         val buyProductList = ArrayList<String>()// 테스트용
-        for(i in 5 .. 8){
-            buyProductList.add("$i")
-        }
-        for(i in 36 .. 38){
-            buyProductList.add("$i")
-        }
-        val bundle = Bundle()
+
+        buyProductList.add("0")
+
+        var bundle = Bundle()
 
         if(buyProductList?.size == 1){
-            bundle.putString("selProduct", buyProductList?.first()) // 상품 인덱스
-            bundle.putString("userIdx", "e8fa83ce-5341-4f10-9929-5521d9c5fe82") // 유저 인덱스
-            activityBuyBinding.run{
-                replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
-            }
+            bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
+            bundle.putString("userIdx", "0") // 유저 인덱스
+            replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
         } else {
             bundle.putStringArrayList("selProduct", buyProductList)
-            bundle.putString("userIdx", "e8fa83ce-5341-4f10-9929-5521d9c5fe82")
-            activityBuyBinding.run{
-                replaceFragment(ORDER_FRAGMENT, true, bundle)
-            }
+            bundle.putString("userIdx", "0")
+            replaceFragment(ORDER_FRAGMENT, true, bundle)
         }
     }
 

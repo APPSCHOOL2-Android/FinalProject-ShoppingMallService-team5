@@ -439,7 +439,7 @@ class OrderFragment : Fragment() {
                 var buyingPrice = map[itemIdx]!!.price
                 if(itemByCoupon.containsKey(itemIdx)){ // 쿠폰 적용에 따른 가격
                     val discount = itemByCoupon[itemIdx]!!.discountPercent
-                    buyingPrice = ((map[itemIdx]!!.price.toInt() * discount.toInt()) / 100).toString()
+                    buyingPrice = ((map[itemIdx]!!.price.toInt() * (100 - discount.toInt())) / 100).toString()
                 }
                 getTotalPrice(buyingPrice, true) // 제품가격
                 getTotalNotDiscountPrice(map[itemIdx]!!.price, true)

@@ -49,16 +49,17 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/productTitleImg"
                             android:layout_width="360dp"
                             android:layout_height="360dp"
+                            android:scaleType="fitXY"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/test_image22" />
+                            app:srcCompat="@drawable/product_sample" />
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/productTitleName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -67,16 +68,16 @@
                             android:textColor="@color/brown"
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                            app:layout_constraintTop_toBottomOf="@+id/productTitleImg" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/productUsePercent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="72% 남자들이 사용하고 있어요"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView" />
+                            app:layout_constraintTop_toBottomOf="@+id/productTitleName" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,9 +104,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerView"
+                            android:id="@+id/subscribeUserListRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView7"
                             tools:itemCount="1"
@@ -121,10 +123,10 @@
                             android:background="@drawable/my_subscribe_review"
                             android:padding="12dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+                            app:layout_constraintTop_toBottomOf="@+id/subscribeUserListRecyclerView">
 
                             <TextView
-                                android:id="@+id/textView9"
+                                android:id="@+id/subscrobeReviewUserNickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/notosans_black"
@@ -134,7 +136,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/textView10"
+                                android:id="@+id/subscrobeUserReviewContext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -142,7 +144,7 @@
                                 android:text="리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. "
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                                app:layout_constraintTop_toBottomOf="@+id/subscrobeReviewUserNickname" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -243,7 +245,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="8dp"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -283,15 +285,16 @@
                                     app:layout_constraintTop_toBottomOf="@+id/productInfoTextView" />
                             </LinearLayout>
 
-                            <ImageView
-                                android:id="@+id/productInfoImageView"
+                            <LinearLayout
+                                android:id="@+id/productInfoImageLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/productInfoTextViewContainer"
-                                app:srcCompat="@drawable/prepare" />
+                                app:layout_constraintTop_toBottomOf="@+id/productInfoTextViewContainer" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -301,7 +304,7 @@
                             android:layout_marginTop="8dp"
                             android:background="@drawable/edittext_rounded_corner_rectangle"
                             android:padding="12dp"
-                            android:visibility="invisible"
+                            android:visibility="visible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -319,6 +322,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/nomalReviewRecyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
@@ -335,7 +339,7 @@
                             android:layout_marginTop="8dp"
                             android:background="@drawable/edittext_rounded_corner_rectangle"
                             android:padding="12dp"
-                            android:visibility="invisible"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
