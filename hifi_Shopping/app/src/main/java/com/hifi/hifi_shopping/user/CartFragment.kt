@@ -9,17 +9,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentCartBinding
 import com.hifi.hifi_shopping.databinding.RowCartItemBinding
+import com.hifi.hifi_shopping.databinding.RowCartRecommendBinding
+import com.hifi.hifi_shopping.user.model.ProductDataClass
 import com.hifi.hifi_shopping.user.repository.CartRepository
 import com.hifi.hifi_shopping.user.repository.ProductImgRepository
+import com.hifi.hifi_shopping.user.vm.ProductViewModel
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -28,6 +34,7 @@ class CartFragment : Fragment() {
     lateinit var fragmentCartBinding: FragmentCartBinding
     lateinit var userActivity: UserActivity
     lateinit var cartViewModel: CartViewModel
+    lateinit var productViewModel: ProductViewModel
 
     // rowCartItemBinding 객체들을 저장하는 리스트
     private val rowCartItemBindingList = mutableListOf<RowCartItemBinding>()
@@ -39,8 +46,27 @@ class CartFragment : Fragment() {
         fragmentCartBinding = FragmentCartBinding.inflate(layoutInflater)
         userActivity = activity as UserActivity
         val userTemp = userActivity.userTemp
-        cartViewModel = ViewModelProvider(userActivity)[CartViewModel::class.java]
+        productViewModel = ViewModelProvider(userActivity)[ProductViewModel::class.java]
 
+        productViewModel.run {
+            getProductList()
+            productDataList.observe(userActivity){
+                val itemList = productDataList.value?.subList(0,5) as MutableList
+
+                fragmentCartBinding.run {
+                    if(itemList.size>0){
+                        cartRecommendTextViewEmpty.visibility = View.GONE
+                    }
+                    cartRecommendRecyclerView.run {
+                        visibility = View.VISIBLE
+                        adapter = CartRecommendRecyclerViewAdapter(itemList)
+                        layoutManager = LinearLayoutManager(userActivity, LinearLayoutManager.HORIZONTAL, false)
+                    }
+                }
+            }
+        }
+
+        cartViewModel = ViewModelProvider(userActivity)[CartViewModel::class.java]
         cartViewModel.run {
             getCartProductList(userTemp.idx)
             cartProductList.observe(viewLifecycleOwner, Observer { newDataList ->
@@ -161,6 +187,54 @@ class CartFragment : Fragment() {
 
         return fragmentCartBinding.root
     }
+
+    inner class CartRecommendRecyclerViewAdapter(val itemList : MutableList<ProductDataClass>) : RecyclerView.Adapter<CartRecommendRecyclerViewAdapter.CartRecommendRecyclerViewHolder>(){
+        inner class CartRecommendRecyclerViewHolder(rowCartRecommendBinding: RowCartRecommendBinding) : RecyclerView.ViewHolder(rowCartRecommendBinding.root){
+
+            val rowCartRecommendPrice: TextView
+            val rowCartRecommendName: TextView
+            val rowCartRecommendImg: ImageView
+
+            init{
+                rowCartRecommendPrice = rowCartRecommendBinding.rowCartRecommendPrice
+                rowCartRecommendName = rowCartRecommendBinding.rowCartRecommendName
+                rowCartRecommendImg = rowCartRecommendBinding.rowCartRecommendImg
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartRecommendRecyclerViewHolder {
+            val rowCartRecommendBinding = RowCartRecommendBinding.inflate(layoutInflater)
+            val allViewHolder = CartRecommendRecyclerViewHolder(rowCartRecommendBinding)
+
+            rowCartRecommendBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            return allViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return itemList.size
+        }
+
+        override fun onBindViewHolder(holder: CartRecommendRecyclerViewHolder, position: Int) {
+            val productidx = itemList.get(position).idx
+            holder.rowCartRecommendName.text = itemList.get(position).name
+            holder.rowCartRecommendPrice.text = itemList.get(position).price
+            holder.rowCartRecommendImg.run {
+                setOnClickListener {
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    intent.putExtra("cartRecommendProductIdx", productidx)
+                    startActivity(intent)
+                }
+                getCartProductImg(productidx,this)
+            }
+
+        }
+    }
+
+
 
     fun getCartProductImg(productidx: String, imgView: ImageView) {
         ProductImgRepository.getProductImgInfoByProductIdx(productidx) {
