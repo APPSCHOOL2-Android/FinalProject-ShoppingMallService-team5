@@ -27,7 +27,7 @@ class CouponRepository {
         fun getCouponInfo(couponIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val postDataRef = database.getReference("CouponData")
-            postDataRef.orderByChild("couponIdx").equalTo(couponIdx).get()
+            postDataRef.orderByChild("idx").equalTo(couponIdx).get()
                 .addOnCompleteListener(callback1)
         }
     }
