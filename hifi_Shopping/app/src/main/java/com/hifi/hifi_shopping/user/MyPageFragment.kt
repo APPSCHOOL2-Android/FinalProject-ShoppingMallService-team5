@@ -144,7 +144,7 @@ class MyPageFragment : Fragment() {
             myPageToPoint.run {
 //                Log.d("포인트",pointSum.toString())
 //                myPagePointCount.text = pointSum.toString()
-                pointViewModel.getPointList(userTemp.idx)
+                pointViewModel.getPointListByUser(userTemp.idx)
 
                 setOnClickListener {
                     userActivity.replaceFragment(UserActivity.POINT_FRAGMENT, true, null)
