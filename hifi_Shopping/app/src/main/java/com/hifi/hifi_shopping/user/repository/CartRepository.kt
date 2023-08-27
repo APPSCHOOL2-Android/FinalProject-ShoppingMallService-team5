@@ -14,5 +14,14 @@ class CartRepository {
                 .addOnCompleteListener(callback1)
 
         }
+
+        fun getCartAllByProductIdx(productIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
+            val database = FirebaseDatabase.getInstance()
+            val cartDataRef = database.getReference("CartData")
+
+            cartDataRef.orderByChild("productIdx").equalTo(productIdx).get()
+                .addOnCompleteListener(callback1)
+
+        }
     }
 }
