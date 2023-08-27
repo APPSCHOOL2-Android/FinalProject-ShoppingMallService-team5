@@ -1,60 +1,151 @@
 package com.hifi.hifi_shopping.user
 
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.databinding.FragmentUserPageItemBinding
+import com.hifi.hifi_shopping.databinding.FragmentUserPageReviewBinding
+import com.hifi.hifi_shopping.databinding.RowUserPageItemBinding
+import com.hifi.hifi_shopping.databinding.RowUserPageReviewBinding
+import com.hifi.hifi_shopping.user.repository.ProductImgRepository
+import com.hifi.hifi_shopping.user.repository.ProductRepository
+import com.hifi.hifi_shopping.user.vm.OrderViewModel
+import com.hifi.hifi_shopping.user.vm.ReviewViewModel
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [UserPageReviewFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class UserPageReviewFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    lateinit var userActivity: UserActivity
+    lateinit var fragmentUserPageReviewBinding : FragmentUserPageReviewBinding
+    lateinit var reviewViewModel: ReviewViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_page_review, container, false)
-    }
+        fragmentUserPageReviewBinding = FragmentUserPageReviewBinding.inflate(layoutInflater)
+        userActivity = activity as UserActivity
+        reviewViewModel = ViewModelProvider(userActivity)[ReviewViewModel::class.java]
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UserPageReviewFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UserPageReviewFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val userLogin = userActivity.userTemp
+        val userPagesUser= userActivity.userTemp
+        //        val userPagesUser = UserDataClass("2", "alohalo98@naver.com", "1222", "테스트계정", "false", "010-2222-2222", "")
+
+        reviewViewModel.run {
+            getReviewListByUser(userPagesUser.idx)
+            reviewDataList.observe(userActivity){
+                fragmentUserPageReviewBinding.run {
+                    userPageReviewRecyclerView.run {
+                        adapter = UserPageReviewRecyclerViewAdapter()
+                        layoutManager = LinearLayoutManager(userActivity, LinearLayoutManager.HORIZONTAL, false)
+                    }
                 }
             }
+        }
+        return fragmentUserPageReviewBinding.root
+    }
+
+    inner class UserPageReviewRecyclerViewAdapter() : RecyclerView.Adapter<UserPageReviewRecyclerViewAdapter.UserPageReviewRecyclerViewHolder>(){
+
+        inner class UserPageReviewRecyclerViewHolder(rowUserPageReviewBinding: RowUserPageReviewBinding) : RecyclerView.ViewHolder(rowUserPageReviewBinding.root){
+
+            val rowUserPageReviewContext: TextView
+            val rowUserPageReviewRecommendCount: TextView
+            val rowPurchaseName: TextView
+            val rowPurchasePrice: TextView
+            val rowPurchaseImg: ImageView
+
+
+
+            init{
+                rowUserPageReviewContext = rowUserPageReviewBinding.rowPurchaseReview
+                rowUserPageReviewRecommendCount = rowUserPageReviewBinding.rowPurchaseRecommendCount
+                rowPurchaseName = rowUserPageReviewBinding.rowPurchaseName
+                rowPurchasePrice = rowUserPageReviewBinding.rowPurchasePrice
+                rowPurchaseImg = rowUserPageReviewBinding.rowPurchaseImg
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPageReviewRecyclerViewHolder {
+            val rowUserPageReviewBinding = RowUserPageReviewBinding.inflate(layoutInflater)
+            val allViewHolder = UserPageReviewRecyclerViewHolder(rowUserPageReviewBinding)
+
+            rowUserPageReviewBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            return allViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return reviewViewModel.reviewDataList.value?.size!!
+        }
+
+
+        override fun onBindViewHolder(holder: UserPageReviewRecyclerViewHolder, position: Int) {
+            val productidx = reviewViewModel.reviewDataList.value?.get(position)?.productIdx!!
+            holder.rowUserPageReviewContext.text = reviewViewModel.reviewDataList.value?.get(position)?.context
+            holder.rowUserPageReviewRecommendCount.text = reviewViewModel.reviewDataList.value?.get(position)?.likeCnt
+            ProductRepository.getProductInfoByIdx(productidx){
+                for(c1 in it.result.children){
+                    holder.rowPurchaseName.text = c1.child("name").value as String
+                    holder.rowPurchasePrice.text = c1.child("price").value as String + "원"
+                }
+            }
+            holder.rowPurchaseImg.run {
+                setOnClickListener {
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    intent.putExtra("productIdx", productidx)
+                    startActivity(intent)
+                }
+                getProductImg(productidx,this)
+            }
+
+        }
+    }
+
+    fun getProductImg(productidx: String, imgView: ImageView) {
+        ProductImgRepository.getProductImgInfoByProductIdx(productidx) {
+            for (c1 in it.result.children) {
+                val imgSrc = c1.child("imgSrc").value as String
+                val default = c1.child("default").value as String
+
+                if (default == "true") {
+                    val storage = FirebaseStorage.getInstance()
+                    val fileRef = storage.reference.child("product/${imgSrc}")
+
+                    // 데이터를 가져올 수 있는 경로를 가져온다.
+                    fileRef.downloadUrl.addOnCompleteListener {
+                        thread {
+                            // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                            val url = URL(it.result.toString())
+                            // 접속한다.
+                            val httpURLConnection = url.openConnection() as HttpURLConnection
+                            // 이미지 객체를 생성한다.
+                            val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                            userActivity.runOnUiThread {
+                                imgView.setImageBitmap(bitmap)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
