@@ -52,7 +52,7 @@ class UserPageReviewFragment : Fragment() {
                 fragmentUserPageReviewBinding.run {
                     userPageReviewRecyclerView.run {
                         adapter = UserPageReviewRecyclerViewAdapter()
-                        layoutManager = LinearLayoutManager(userActivity, LinearLayoutManager.HORIZONTAL, false)
+                        layoutManager = LinearLayoutManager(userActivity, LinearLayoutManager.VERTICAL, false)
                     }
                 }
             }
