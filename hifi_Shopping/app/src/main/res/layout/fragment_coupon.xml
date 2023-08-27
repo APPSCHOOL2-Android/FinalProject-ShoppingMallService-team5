@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             app:tabIndicatorColor="@color/black"
             app:tabMode="fixed"
-            app:tabTextColor="@color/design_default_color_on_primary"></com.google.android.material.tabs.TabLayout>
+            app:tabTextColor="@color/black"></com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/couponViewPager"
