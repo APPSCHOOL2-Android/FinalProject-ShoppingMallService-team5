@@ -16,7 +16,7 @@ class PointRepository {
             pointDataRef.push().setValue(pointData).addOnCompleteListener(callback1)
         }
 
-        fun getPointListByUserEmail(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
+        fun getPointListByUserIdx(userIdx: String, callback1: (Task<DataSnapshot>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val pointDataRef = database.getReference("PointData")
             pointDataRef.orderByChild("userIdx").equalTo(userIdx).get()

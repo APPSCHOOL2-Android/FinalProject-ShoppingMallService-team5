@@ -12,11 +12,10 @@ class PointViewModel  : ViewModel() {
 
     var pointDataList = MutableLiveData<MutableList<PointDataClass>>()
 
-    fun getPointList(userIdx : String){
-
+    fun getPointListByUser(userIdx : String){
         val tempList = mutableListOf<PointDataClass>()
 
-        PointRepository.getPointListByUserEmail(userIdx) {
+        PointRepository.getPointListByUserIdx(userIdx) {
             for(c1 in it.result.children) {
                 val userIdx = c1.child("userIdx").value as String
                 val amount = c1.child("amount").value as String
