@@ -18,6 +18,7 @@ import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentCartBinding
 import com.hifi.hifi_shopping.databinding.RowCartItemBinding
+import com.hifi.hifi_shopping.user.repository.CartRepository
 import com.hifi.hifi_shopping.user.repository.ProductImgRepository
 import java.net.HttpURLConnection
 import java.net.URL
@@ -109,6 +110,11 @@ class CartFragment : Fragment() {
                             if (it.rowCartItemCheckBox.isChecked) {
                                 cartItemLayout.removeView(it.root)
                                 cartRemoveItemList.add(it)
+                                CartRepository.getCartAllByProductIdx(it.rowCartItemIdx.text.toString()){
+                                    for(a1 in it.result.children){
+                                        a1.ref.removeValue()
+                                    }
+                                }
                             }
                         }
                         initCartData()
