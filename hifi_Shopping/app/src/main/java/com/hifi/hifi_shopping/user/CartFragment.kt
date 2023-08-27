@@ -223,7 +223,7 @@ class CartFragment : Fragment() {
         override fun onBindViewHolder(holder: CartRecommendRecyclerViewHolder, position: Int) {
             val productidx = itemList.get(position).idx
             holder.rowCartRecommendName.text = itemList.get(position).name
-            holder.rowCartRecommendPrice.text = itemList.get(position).price
+            holder.rowCartRecommendPrice.text = itemList.get(position).price + "원"
             holder.rowCartRecommendImg.run {
                 setOnClickListener {
                     val intent = Intent(userActivity, BuyActivity::class.java)
