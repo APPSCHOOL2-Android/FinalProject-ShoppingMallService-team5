@@ -37,13 +37,20 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/rowPointReviewName2"
+                    android:id="@+id/rowPointReviewDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elegantTextHeight="true"
                     android:fontFamily="@font/notosanskr_regular"
                     android:textColor="@color/black"
                     android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/rowPointReviewIdx"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/rowPointReviewName"
@@ -78,9 +85,8 @@
 
                     <Button
                         android:id="@+id/rowPointReviewBtnReview"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
                         android:backgroundTint="#85C8A4A4"
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_bold"
