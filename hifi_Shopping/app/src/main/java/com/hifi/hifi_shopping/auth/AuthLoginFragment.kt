@@ -2,6 +2,7 @@ package com.hifi.hifi_shopping.auth
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentAuthLoginBinding
@@ -18,6 +21,8 @@ class AuthLoginFragment : Fragment() {
     lateinit var fragmentAuthLoginBinding: FragmentAuthLoginBinding
     lateinit var authActivity: AuthActivity
     private val authViewModel: AuthViewModel by viewModels()
+    lateinit var authTestViewModel: AuthTestViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,18 +34,38 @@ class AuthLoginFragment : Fragment() {
         // UI 요소에 대한 리스너 설정
         setupUiListeners()
 
+        authTestViewModel = ViewModelProvider(authActivity)[AuthTestViewModel::class.java]
+        // UI 요소에 대한 리스너 설정
+        setupUiListeners()
+
         // 로그인 결과를 관찰하여 UI 업데이트
-        authViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
-            if (isSuccess) {
-                // 로그인 성공 다이얼로그 표시
-                showLoginSuccessDialog()
-                val intent = Intent(context, CategoryActivity::class.java)
-                startActivity(intent)
-            } else {
-                // 로그인 실패 다이얼로그 표시
-                showLoginFailureDialog()
+        authTestViewModel.run{
+            _loginResult.observe(viewLifecycleOwner){ isSuccess ->
+                if (isSuccess) {
+                    // 로그인 성공 다이얼로그 표시
+                    showLoginSuccessDialog()
+                } else {
+                    // 로그인 실패 다이얼로그 표시
+                    showLoginFailureDialog()
+                }
             }
-        })
+        }
+
+
+        // 로그인 결과를 관찰하여 UI 업데이트
+//        authViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
+//            if (isSuccess) {
+//                // 로그인 성공 다이얼로그 표시
+//                showLoginSuccessDialog()
+//                val intent = Intent(context, CategoryActivity::class.java)
+//                startActivity(intent)
+//            } else {
+//                // 로그인 실패 다이얼로그 표시
+//                showLoginFailureDialog()
+//            }
+//        })
+
+
 
         return fragmentAuthLoginBinding.root
     }

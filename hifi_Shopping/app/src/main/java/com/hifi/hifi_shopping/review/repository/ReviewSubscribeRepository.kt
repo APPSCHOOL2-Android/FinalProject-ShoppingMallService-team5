@@ -27,7 +27,7 @@ class ReviewSubscribeRepository {
 
         suspend fun getUserProfileImgByFilename(fileName: String): Uri? = withContext(Dispatchers.IO) {
             val storage = FirebaseStorage.getInstance()
-            val fileRef: StorageReference = storage.reference.child(fileName)
+            val fileRef: StorageReference = storage.reference.child("user/$fileName")
 
             return@withContext try {
                 fileRef.downloadUrl.await()

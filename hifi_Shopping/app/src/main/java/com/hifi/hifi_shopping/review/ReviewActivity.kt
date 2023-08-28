@@ -2,6 +2,7 @@ package com.hifi.hifi_shopping.review
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,9 +21,19 @@ class ReviewActivity : AppCompatActivity() {
     lateinit var activityReviewBinding: ActivityReviewBinding
     lateinit var reviewProductViewModel:ReviewProductViewModel
     lateinit var reviewSubscribeViewModel: ReviewSubscribeViewModel
+    lateinit var productIdx: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_review)
+
+        activityReviewBinding = ActivityReviewBinding.inflate(layoutInflater)
+        setContentView(activityReviewBinding.root)
+
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
+            productIdx = receivedIntent.getStringExtra("productIdx")!!
+            Log.d("리뷰 데이터",productIdx.toString())
+
+        }
 
         reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
         reviewSubscribeViewModel = ViewModelProvider(this)[ReviewSubscribeViewModel::class.java]
@@ -46,7 +57,7 @@ class ReviewActivity : AppCompatActivity() {
 
         activityReviewBinding.run{
             // todo : 해당 상품 idx 입력 연결
-            reviewProductViewModel.getProductByIdx("1")
+            reviewProductViewModel.getProductByIdx(productIdx)
             reviewSubscribeViewModel.getSubscribeListByUserIdx("0")
             reviewWriteToolbar.run{
                 setNavigationOnClickListener {

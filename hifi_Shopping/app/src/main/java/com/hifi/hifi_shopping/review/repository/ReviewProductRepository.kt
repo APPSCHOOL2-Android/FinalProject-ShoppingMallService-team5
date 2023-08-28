@@ -26,7 +26,7 @@ class ReviewProductRepository {
 
         suspend fun getProductImgByFilename(fileName: String): Uri? = withContext(Dispatchers.IO) {
             val storage = FirebaseStorage.getInstance()
-            val fileRef: StorageReference = storage.reference.child(fileName)
+            val fileRef: StorageReference = storage.reference.child("product/$fileName")
 
             return@withContext try {
                 fileRef.downloadUrl.await()

@@ -11,6 +11,7 @@ import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
+import com.hifi.hifi_shopping.parcel.ParcelActivity
 import com.hifi.hifi_shopping.recommend.RecommendActivity
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.subscribe.SubscribeActivity
@@ -177,27 +178,27 @@ class MyPageFragment : Fragment() {
             // 배송 현황
             myPageDeliverStatusPacking.run {
                 setOnClickListener{
-                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    val intent = Intent(userActivity, ParcelActivity::class.java)
                     startActivity(intent)
                 }
             }
             myPageDeliverStatusShipping.run {
                 setOnClickListener{
-                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    val intent = Intent(userActivity, ParcelActivity::class.java)
                     startActivity(intent)
 
                 }
             }
             myPageDeliverStatusArriving.run {
                 setOnClickListener{
-                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    val intent = Intent(userActivity, ParcelActivity::class.java)
                     startActivity(intent)
 
                 }
             }
             myPageDeliverStatusSuccess.run {
                 setOnClickListener{
-                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    val intent = Intent(userActivity, ParcelActivity::class.java)
                     startActivity(intent)
                 }
             }

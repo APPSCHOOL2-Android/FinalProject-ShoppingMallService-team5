@@ -1,8 +1,14 @@
 package com.hifi.hifi_shopping.auth.repository
 
 import android.content.Context
+import android.service.autofill.UserData
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.auth.model.UserDataClass
@@ -13,13 +19,38 @@ class AuthRepository(private val context: Context) {
     private val databaseReference = FirebaseDatabase.getInstance().getReference("UserData")
     private val storageReference = FirebaseStorage.getInstance().reference
 
+    companion object{
+
+        fun getUserByAuth(
+            callback1: (Task<DataSnapshot>) -> Unit,
+        ) {
+            val auth = FirebaseAuth.getInstance()
+            // 현재 로그인한 사용자 가져오기
+            val currentUser: FirebaseUser? = auth.currentUser
+            val database = FirebaseDatabase.getInstance()
+            val userDataRef = database.getReference("UserData")
+            if (currentUser != null) {
+                val email = currentUser.email
+                userDataRef.orderByChild("email").equalTo(email).get()
+                    .addOnCompleteListener(callback1)
+
+            }
+        }
+
+        fun registerUserData(email: String, password: String, callback1:(AuthResult) -> Unit) {
+            val auth = FirebaseAuth.getInstance()
+            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(callback1)
+        }
+    }
+
+
+
     fun loginUser(email: String, password: String, callback: (Boolean) -> Unit) {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 callback(task.isSuccessful)
             }
     }
-
     fun registerUser(
         email: String,
         password: String,
