@@ -1,10 +1,10 @@
-package com.hifi.hifi_shopping.parcel.vm
+package com.hifi.hifi_shopping.review.vm
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.hifi.hifi_shopping.parcel.repository.ReviewProductRepository
+import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
 import com.hifi.hifi_shopping.subscribe.repository.ReviewBySubscribeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -45,7 +45,7 @@ class ReviewProductViewModel() : ViewModel() {
         }
 
         val productImgBitmapDeferred = async(Dispatchers.IO) {
-            ReviewBySubscribeRepository.getProductImgByFilename(fileName)
+            ReviewProductRepository.getProductImgByFilename(fileName)
         }
 
         val productImgBitmapResult = productImgBitmapDeferred.await()
