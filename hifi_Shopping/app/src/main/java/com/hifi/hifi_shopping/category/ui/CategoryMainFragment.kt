@@ -35,7 +35,7 @@ class CategoryMainFragment : Fragment() {
 
     lateinit var categoryMainViewModel: CategoryMainViewModel
     lateinit var categoryViewModel: CategoryViewModel
-    lateinit var authViewModel: AuthViewModel
+//    lateinit var authViewModel: AuthViewModel
 
     var categoryList: Array<String>? = null
     var categoryNum = 0
@@ -56,14 +56,14 @@ class CategoryMainFragment : Fragment() {
 
         categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
         categoryViewModel = ViewModelProvider(categoryActivity)[CategoryViewModel::class.java]
-        authViewModel = ViewModelProvider(categoryActivity)[AuthViewModel::class.java]
+//        authViewModel = ViewModelProvider(categoryActivity)[AuthViewModel::class.java]
 
-        authViewModel.run {
-            userData.observe(viewLifecycleOwner) {
-                Log.d("brudenell", "뷰모델 테스트")
-                categoryMainViewModel.currentUserIdx = it.idx
-            }
-        }
+//        authViewModel.run {
+//            userData.observe(viewLifecycleOwner) {
+//                Log.d("brudenell", "뷰모델 테스트")
+//                categoryMainViewModel.currentUserIdx = it.idx
+//            }
+//        }
 
         val profileClickCallback: () -> Unit = {
             val intent = Intent(categoryActivity, UserActivity::class.java)
@@ -83,7 +83,7 @@ class CategoryMainFragment : Fragment() {
 
         val productListAdapter = ProductListAdapter(categoryMainViewModel, productClickCallback)
 
-        val reviewListAdapter = ReviewListAdapter(this, categoryMainViewModel, profileClickCallback, productClickCallback)
+        val reviewListAdapter = ReviewListAdapter(categoryViewModel, this, categoryMainViewModel, profileClickCallback, productClickCallback)
 
         categoryNum = arguments?.getInt("categoryNum") ?: 0
 

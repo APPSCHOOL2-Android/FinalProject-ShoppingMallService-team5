@@ -18,8 +18,6 @@ class CategoryMainViewModel: ViewModel() {
     var productWorth = 0
     var productCount = 0
 
-    var currentUserIdx = ""
-
     val categoryMainRepository = CategoryMainRepository()
 
     var updateSubscribeData = MutableLiveData<Boolean>()
@@ -58,7 +56,7 @@ class CategoryMainViewModel: ViewModel() {
         categoryMainRepository.getUser(userIdx, callback)
     }
 
-    fun getUserFollowerCnt(userIdx: String, callback: (Int, Boolean) -> Unit) {
+    fun getUserFollowerCnt(currentUserIdx: String, userIdx: String, callback: (Int, Boolean) -> Unit) {
         categoryMainRepository.getUserFollowerCnt(userIdx, currentUserIdx, callback)
     }
 
@@ -78,7 +76,7 @@ class CategoryMainViewModel: ViewModel() {
         categoryMainRepository.getProductRatingInfo(productIdx, callback)
     }
 
-    fun setSubscribe(userIdx: String, subscribing: Boolean, callback: () -> Unit) {
+    fun setSubscribe(currentUserIdx: String, userIdx: String, subscribing: Boolean, callback: () -> Unit) {
         val callbackViewModel: () -> Unit = {
             val value = updateSubscribeData.value ?: false
             updateSubscribeData.value = !value

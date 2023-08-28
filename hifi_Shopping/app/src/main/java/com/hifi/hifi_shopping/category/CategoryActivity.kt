@@ -50,18 +50,19 @@ class CategoryActivity : AppCompatActivity() {
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
+
         authViewModel = ViewModelProvider(this@CategoryActivity)[AuthViewModel::class.java]
         authViewModel.run{
-            getUserByAuth()
             userData.observe(this@CategoryActivity){
                 Log.d("tttt1", "${authViewModel.userData.value}")
                 //userDataClass = it
+                categoryViewModel.currentUserIdx = it.idx
+                Log.d("tttt1", categoryViewModel.currentUserIdx)
             }
+            getUserByAuth()
             Log.d("tttt2", "${authViewModel.userData.value}")
         }
-
-
-        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
@@ -89,6 +90,9 @@ class CategoryActivity : AppCompatActivity() {
                 categoryViewModel.setNavControllerDestination(navController.currentDestination?.id ?: R.id.categoryMainFragment)
             }
         })
+
+        val navigateTo = intent.getIntExtra("navigateTo", R.id.bottomMenuItemCategoryMain)
+        navigateToFragment(navigateTo)
 
         binding.run {
             bottomNavigationViewCategory.run {
@@ -129,29 +133,30 @@ class CategoryActivity : AppCompatActivity() {
                 }
 
                 setOnItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.bottomMenuItemRankMain -> {
-                            navController.navigate(R.id.actionToRankMainFragment)
-                            categoryViewModel.setSearchSubCategory(false)
-                        }
-                        R.id.bottomMenuItemRecommend -> {
-                            navController.navigate(R.id.actionToRecommendFragment)
-                            categoryViewModel.setSearchSubCategory(false)
-                        }
-                        R.id.bottomMenuItemCategoryMain -> {
-                            categoryViewModel.setShowProductOrReview(ContentType.PRODUCT)
-                            navController.navigate(R.id.actionToCategoryMainFragment)
-                            categoryViewModel.setSearchSubCategory(false)
-                        }
-                        R.id.bottomMenuItemMyPage -> {
-                            val intent = Intent(this@CategoryActivity, UserActivity::class.java)
-                            startActivity(intent)
-                        }
-                        R.id.bottomMenuItemWish -> {
-                            navController.navigate(R.id.actionToWishFragment)
-                            categoryViewModel.setSearchSubCategory(false)
-                        }
-                    }
+//                    when (it.itemId) {
+//                        R.id.bottomMenuItemRankMain -> {
+//                            navController.navigate(R.id.actionToRankMainFragment)
+//                            categoryViewModel.setSearchSubCategory(false)
+//                        }
+//                        R.id.bottomMenuItemRecommend -> {
+//                            navController.navigate(R.id.actionToRecommendFragment)
+//                            categoryViewModel.setSearchSubCategory(false)
+//                        }
+//                        R.id.bottomMenuItemCategoryMain -> {
+//                            categoryViewModel.setShowProductOrReview(ContentType.PRODUCT)
+//                            navController.navigate(R.id.actionToCategoryMainFragment)
+//                            categoryViewModel.setSearchSubCategory(false)
+//                        }
+//                        R.id.bottomMenuItemMyPage -> {
+//                            val intent = Intent(this@CategoryActivity, UserActivity::class.java)
+//                            startActivity(intent)
+//                        }
+//                        R.id.bottomMenuItemWish -> {
+//                            navController.navigate(R.id.actionToWishFragment)
+//                            categoryViewModel.setSearchSubCategory(false)
+//                        }
+//                    }
+                    navigateToFragment(it.itemId)
                     true
                 }
             }
@@ -178,6 +183,32 @@ class CategoryActivity : AppCompatActivity() {
                         bottomNav.itemTextColor = colorList
                     }
                 }
+            }
+        }
+    }
+
+    fun navigateToFragment(navigateTo: Int) {
+        when (navigateTo) {
+            R.id.bottomMenuItemRankMain -> {
+                navController.navigate(R.id.actionToRankMainFragment)
+                categoryViewModel.setSearchSubCategory(false)
+            }
+            R.id.bottomMenuItemRecommend -> {
+                navController.navigate(R.id.actionToRecommendFragment)
+                categoryViewModel.setSearchSubCategory(false)
+            }
+            R.id.bottomMenuItemCategoryMain -> {
+                categoryViewModel.setShowProductOrReview(ContentType.PRODUCT)
+                navController.navigate(R.id.actionToCategoryMainFragment)
+                categoryViewModel.setSearchSubCategory(false)
+            }
+            R.id.bottomMenuItemMyPage -> {
+                val intent = Intent(this@CategoryActivity, UserActivity::class.java)
+                startActivity(intent)
+            }
+            R.id.bottomMenuItemWish -> {
+                navController.navigate(R.id.actionToWishFragment)
+                categoryViewModel.setSearchSubCategory(false)
             }
         }
     }
