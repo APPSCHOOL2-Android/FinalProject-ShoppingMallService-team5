@@ -7,20 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.parcel.ParcelActivity
+import com.hifi.hifi_shopping.rank.RankActivity
 import com.hifi.hifi_shopping.recommend.RecommendActivity
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.subscribe.SubscribeActivity
+import com.hifi.hifi_shopping.user.model.UserDataClass
+import com.hifi.hifi_shopping.user.repository.UserRepository
 import com.hifi.hifi_shopping.user.vm.OrderViewModel
 import com.hifi.hifi_shopping.user.vm.PointViewModel
 import com.hifi.hifi_shopping.user.vm.ProductViewModel
 import com.hifi.hifi_shopping.user.vm.ReviewViewModel
 import com.hifi.hifi_shopping.user.vm.SubscribeViewModel
 import com.hifi.hifi_shopping.user.vm.UserCouponViewModel
+import com.hifi.hifi_shopping.wish.WishActivity
 
 class MyPageFragment : Fragment() {
 
@@ -32,6 +37,7 @@ class MyPageFragment : Fragment() {
     lateinit var subscribeViewModel: SubscribeViewModel
     lateinit var orderViewModel: OrderViewModel
     lateinit var productViewModel: ProductViewModel
+    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "")
 
 
     override fun onCreateView(
@@ -41,8 +47,25 @@ class MyPageFragment : Fragment() {
         fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
         userActivity = activity as UserActivity
 
+        val auth = FirebaseAuth.getInstance()
+        UserRepository.getUserInfoByUserEmail(auth.currentUser?.email!!){
+            for(c1 in it.result.children) {
+                val idx = c1.child("idx").value as String
+                val email = c1.child("email").value as String
+                val pw = c1.child("pw").value as String
+                val nickname = c1.child("nickname").value as String
+                val verify = c1.child("verify").value as String
+                val phoneNum = c1.child("phoneNum").value as String
+                val profileImg = c1.child("profileImg").value as String
 
-        val userTemp = userActivity.userTemp
+                // 데이터 클래스 객체 생성 및 리스트에 추가
+                userTemp = UserDataClass(idx, email, pw, nickname, verify, phoneNum, profileImg)
+            }
+
+            onResume()
+        }
+
+//        val userTemp = userActivity.userTemp
         pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
         userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
         reviewViewModel = ViewModelProvider(userActivity)[ReviewViewModel::class.java]
@@ -236,28 +259,31 @@ class MyPageFragment : Fragment() {
             }
 
             userBottomNavigationView.run {
-//                selectedItemId = R.id.userFragment
-//                setOnItemSelectedListener {
-//                    when (it.itemId) {
-//                        R.id.userFragment -> {
-//
-//
-//                        }
-//                        R.id.rankFragment ->{
-//
-//
-//                        }
-//                        R.id.categoryFragment->{
-//                            val intent = Intent(userActivity, CategoryActivity::class.java)
-//                            startActivity(intent)
-//
-//                        }
-//                        R.id.recommendFragment ->{
-//
-//                        }
-//                    }
-//                    return@setOnItemSelectedListener true
-//                }
+                selectedItemId = R.id.bottomMenuItemMyPage
+                setOnItemSelectedListener {
+                    when (it.itemId) {
+
+                        R.id.bottomMenuItemRankMain ->{
+                            val intent = Intent(userActivity, RankActivity::class.java)
+                            startActivity(intent)
+
+                        }
+                        R.id.bottomMenuItemCategoryMain->{
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            startActivity(intent)
+
+                        }
+                        R.id.bottomMenuItemRecommend ->{
+                            val intent = Intent(userActivity, RecommendActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.id.bottomMenuItemWish ->{
+                            val intent = Intent(userActivity, WishActivity::class.java)
+                            startActivity(intent)
+                        }
+                    }
+                    return@setOnItemSelectedListener true
+                }
             }
 
 
@@ -272,3 +298,4 @@ class MyPageFragment : Fragment() {
 
 
 }
+
