@@ -39,7 +39,7 @@
             android:name=".rank.RankActivity"
             android:exported="false" />
         <activity
-            android:name=".pacel.PacelActivity"
+            android:name=".parcel.ParcelActivity"
             android:exported="false" />
         <activity
             android:name=".notice.NoticeActivity"

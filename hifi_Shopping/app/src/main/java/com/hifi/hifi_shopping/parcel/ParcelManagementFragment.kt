@@ -1,32 +1,28 @@
-package com.hifi.hifi_shopping.pacel
+package com.hifi.hifi_shopping.parcel
 
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.databinding.ActivityPacelBinding
+import com.hifi.hifi_shopping.databinding.FragmentParcelManagementBinding
 import com.hifi.hifi_shopping.databinding.PacelRecycItemBinding
-import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
 
-class PacelActivity : AppCompatActivity() {
+class ParcelManagementFragment : Fragment() {
+    lateinit var fragmentParcelManagementBinding:FragmentParcelManagementBinding
+    lateinit var parcelActivity: ParcelActivity
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        fragmentParcelManagementBinding = FragmentParcelManagementBinding.inflate(inflater)
+        parcelActivity = activity as ParcelActivity
 
-    lateinit var activityPacelBinding: ActivityPacelBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        uiSetting()
-    }
-
-    fun uiSetting(){
-        activityPacelBinding = ActivityPacelBinding.inflate(layoutInflater)
-        setContentView(activityPacelBinding.root)
-
-        activityPacelBinding.run{
+        fragmentParcelManagementBinding.run{
             pacelMaterialToolbar.run{
                 title = "배송 관리"
                 setNavigationIcon(R.drawable.chevron_left_24px)
@@ -58,9 +54,10 @@ class PacelActivity : AppCompatActivity() {
 
             pacelItemRecycView.run{
                 adapter = RecyclerViewAdapter()
-                layoutManager = LinearLayoutManager(this@PacelActivity)
+                layoutManager = LinearLayoutManager(context)
             }
         }
+        return fragmentParcelManagementBinding.root
     }
 
     inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
@@ -71,6 +68,16 @@ class PacelActivity : AppCompatActivity() {
             var pacelItemPriceTextView = pacelRecycItemBinding.pacelItemPriceTextView
             var pacelOderChangeButton = pacelRecycItemBinding.pacelOderChangeButton
             var pacelOderCancelButton = pacelRecycItemBinding.pacelOderCancelButton
+
+            init{
+                pacelRecycItemBinding.root.setOnClickListener {
+                    // 항목 번째 객체에서 글 번호를 가져온다.
+//                    val readPostIdx = postViewModel.postDataList.value?.get(adapterPosition)?.postIdx
+//                    val newBundle = Bundle()
+//                    newBundle.putLong("readPostIdx", readPostIdx!!)
+                    parcelActivity.replaceFragment(ParcelActivity.REVIEW_WRITE_FRAGMENT, true, null)
+                }
+            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -90,11 +97,10 @@ class PacelActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.pacelItemImageView.setImageResource(R.drawable.couple)
+            // holder.pacelItemImageView.setImageResource(R.drawable.couple)
             holder.pacelItemNametextView.text = "TMA-2 Comfort Wireless"
             holder.pacelItemStatustextView.text = "배송지 도착"
             holder.pacelItemPriceTextView.text = "20,000 원"
         }
     }
-
 }
