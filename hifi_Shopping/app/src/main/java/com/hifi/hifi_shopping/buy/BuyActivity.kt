@@ -44,10 +44,6 @@ class BuyActivity : AppCompatActivity() {
         activityBuyBinding = ActivityBuyBinding.inflate(layoutInflater)
         setContentView(activityBuyBinding.root)
 
-        //selProduct = intent.getStringExtra("buyProduct")!!
-//        activityBuyBinding.run{
-//            replaceFragment(DETAIL_ITEM_FRAGMENT, true, null)
-//        }
         startFragment()
 
     }
@@ -55,10 +51,9 @@ class BuyActivity : AppCompatActivity() {
 
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
-        //val buyProductList = intent.getStringArrayListExtra("buyProduct")
-        val buyProductList = ArrayList<String>()// 테스트용
+        val buyProductList = intent.getStringArrayListExtra("buyProduct")
+        val userIdx = intent.getStringExtra("userIdx")
 
-        buyProductList.add("0")
 
         var bundle = Bundle()
 
@@ -141,17 +136,6 @@ class BuyActivity : AppCompatActivity() {
     // Fragment를 BackStack에서 제거한다.
     fun removeFragment(name:String){
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-    }
-
-    // 입력 요소에 포커스를 주는 메서드
-    fun showSoftInput(view: View){
-        view.requestFocus()
-
-        val inputMethodManger = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        thread {
-            SystemClock.sleep(200)
-            inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-        }
     }
 
     fun softInputVisible(view:View, visible: Boolean){

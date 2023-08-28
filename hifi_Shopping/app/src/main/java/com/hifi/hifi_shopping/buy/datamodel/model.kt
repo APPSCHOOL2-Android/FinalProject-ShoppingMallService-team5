@@ -17,6 +17,8 @@ data class SubscribeUserInfo(var idx: String, var nickname: String, var profileI
 
 data class ProductNormalReview(var userIdx: String, var nickname: String?, var review: String)
 
+data class ProductFAQData(var userIdx: String, var nickname: String?, var context: String)
+
 
 val categoryData = mapOf(
     //1차

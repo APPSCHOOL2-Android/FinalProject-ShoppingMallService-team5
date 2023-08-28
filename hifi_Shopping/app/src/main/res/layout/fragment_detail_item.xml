@@ -245,7 +245,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginTop="8dp"
-                            android:visibility="gone"
+                            android:visibility="visible"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -304,7 +304,7 @@
                             android:layout_marginTop="8dp"
                             android:background="@drawable/edittext_rounded_corner_rectangle"
                             android:padding="12dp"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -325,7 +325,7 @@
                                 android:id="@+id/normalReviewCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="일반 리뷰"
+                                android:text="n개의 리뷰"
                                 android:textColor="@color/brown"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
@@ -357,7 +357,7 @@
                             app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
                             <TextView
-                                android:id="@+id/qnaCountTextView"
+                                android:id="@+id/faqCountTextView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="문의 글"
@@ -379,11 +379,12 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/faqListRecyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/qnaCountTextView"
+                                app:layout_constraintTop_toBottomOf="@+id/faqCountTextView"
                                 tools:itemCount="1"
                                 tools:listitem="@layout/row_detail_review" />
                         </androidx.constraintlayout.widget.ConstraintLayout>

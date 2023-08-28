@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
+import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
 import java.net.HttpURLConnection
 import java.net.URL
@@ -26,6 +27,35 @@ class OrderItemViewModel: ViewModel() {
     var normalReviewMap = MutableLiveData<HashMap<String,ProductNormalReview>>()
     val tempReviewMap = HashMap<String, ProductNormalReview>()
 
+    var productFAQ = MutableLiveData<HashMap<String,ProductFAQData>>()
+    val tempFAQMap = HashMap<String, ProductFAQData>()
+
+    fun getProductFAQUserInfo(idx: String){
+        OrderUserRepository.getOrderUser(idx){
+            for(c1 in it.result.children){
+                tempFAQMap[c1.child("idx").value as String]?.nickname = c1.child("nickname").value as String
+            }
+            productFAQ.value = tempFAQMap
+        }
+    }
+
+    fun getProductFAQ(idx: String){
+        tempFAQMap.clear()
+        OrderItemRepository.getProductFAQData(idx,{
+            for(c1 in it.result.children){
+                val productFAQData = ProductFAQData(
+                    c1.child("writerIdx").value as String,
+                    null,
+                    c1.child("context").value as String
+                )
+                tempFAQMap[c1.child("writerIdx").value as String] = productFAQData
+            }
+        },{
+            tempFAQMap.keys.forEach {
+                getProductFAQUserInfo(it)
+            }
+        })
+    }
     fun getProductReviewUserInfo(idx: String){
         OrderUserRepository.getOrderUser(idx){
             for(c1 in it.result.children){

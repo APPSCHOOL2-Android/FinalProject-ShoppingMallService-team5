@@ -11,6 +11,12 @@ class OrderItemRepository {
 
     companion object{
 
+        fun getProductFAQData(idx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val FAQDataRef = database.getReference("FAQData")
+            FAQDataRef.orderByChild("productIdx").equalTo(idx).get().addOnCompleteListener(callback1).addOnCompleteListener(callback2)
+        }
+
         fun getProductNormalReview(idx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
             val reviewDataRef = database.getReference("ReviewData")

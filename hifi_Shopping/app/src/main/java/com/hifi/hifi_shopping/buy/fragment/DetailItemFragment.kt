@@ -16,6 +16,7 @@ import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository.Companion.getProductNormalReview
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
+import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
 import com.hifi.hifi_shopping.buy.datamodel.SubscribeUserInfo
 import com.hifi.hifi_shopping.databinding.FragmentDetailItemBinding
@@ -35,6 +36,9 @@ class DetailItemFragment : Fragment() {
 
     var normalReviewKey = listOf<String>()
     var productNormalReviewMap = HashMap<String, ProductNormalReview>()
+
+    var productFAQKey = listOf<String>()
+    var productFAQMap = HashMap<String, ProductFAQData>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,6 +69,11 @@ class DetailItemFragment : Fragment() {
 
             nomalReviewRecyclerView.run{
                 adapter = NomalReviewAdapter()
+                layoutManager = LinearLayoutManager(buyActivity)
+            }
+
+            faqListRecyclerView.run{
+                adapter = FAQListAdapter()
                 layoutManager = LinearLayoutManager(buyActivity)
             }
 
@@ -151,8 +160,19 @@ class DetailItemFragment : Fragment() {
             normalReviewMap.observe(buyActivity){
                 normalReviewKey = it.keys.toList()
                 productNormalReviewMap = it
-                fragmenDetailItemtBinding.normalReviewCount.text = "${normalReviewKey.size}개의 리뷰"
+                if(normalReviewKey.isEmpty()){
+                    fragmenDetailItemtBinding.normalReviewCount.text = "처음으로 리뷰를 달아보세요."
+                } else {
+                    fragmenDetailItemtBinding.normalReviewCount.text = "${normalReviewKey.size}개의 리뷰"
+                }
                 fragmenDetailItemtBinding.nomalReviewRecyclerView.adapter?.notifyDataSetChanged()
+            }
+
+            productFAQ.observe(buyActivity){
+                productFAQKey = it.keys.toList()
+                productFAQMap = it
+                fragmenDetailItemtBinding.faqCountTextView.text = "${productFAQKey.size}개의 문의"
+                fragmenDetailItemtBinding.faqListRecyclerView.adapter?.notifyDataSetChanged()
             }
 
         }
@@ -182,6 +202,38 @@ class DetailItemFragment : Fragment() {
         orderItemViewModel.getOrderProductData(productIdx)
         orderUserViewModel.getOrderUserSubUser(orderUserIdx)
         orderItemViewModel.getProductNormalReview(productIdx)
+        orderItemViewModel.getProductFAQ(productIdx)
+
+    }
+
+    inner class FAQListAdapter(): RecyclerView.Adapter<FAQListAdapter.FAQListViewHolder>(){
+        inner class FAQListViewHolder(rowDetailReviewBinding: RowDetailReviewBinding): ViewHolder(rowDetailReviewBinding.root){
+            val rowDetailReviewTextViewName = rowDetailReviewBinding.rowDetailReviewTextViewName
+            val rowDetailReviewTextViewContext = rowDetailReviewBinding.rowDetailReviewTextViewContext
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FAQListViewHolder {
+            val rowDetailReviewBinding = RowDetailReviewBinding.inflate(layoutInflater)
+            val nomalReviewViewHolder = FAQListViewHolder(rowDetailReviewBinding)
+
+            rowDetailReviewBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            return nomalReviewViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return productFAQKey.size
+        }
+
+        override fun onBindViewHolder(holder: FAQListViewHolder, position: Int) {
+            if(productFAQMap[productFAQKey[position]]?.nickname != null ){
+                holder.rowDetailReviewTextViewName.text = productFAQMap[productFAQKey[position]]?.nickname
+            }
+            holder.rowDetailReviewTextViewContext.text = productFAQMap[productFAQKey[position]]?.context
+        }
 
     }
 
