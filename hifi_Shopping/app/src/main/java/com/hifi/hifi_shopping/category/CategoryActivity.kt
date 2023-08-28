@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.service.autofill.UserData
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher
@@ -16,12 +17,18 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.repository.AuthRepository.Companion.getUserByAuth
+import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.category.ui.CategoryMainFragment
 import com.hifi.hifi_shopping.databinding.ActivityCategoryBinding
 import com.hifi.hifi_shopping.rank.RankMainFragment
 import com.hifi.hifi_shopping.recommend.RecommendFragment
 import com.hifi.hifi_shopping.user.UserActivity
+import com.hifi.hifi_shopping.user.model.UserDataClass
+import com.hifi.hifi_shopping.user.repository.UserRepository
 import com.hifi.hifi_shopping.wish.WishFragment
 
 class CategoryActivity : AppCompatActivity() {
@@ -32,11 +39,23 @@ class CategoryActivity : AppCompatActivity() {
 
     lateinit var navHostFragment: NavHostFragment
     lateinit var navController: NavController
-
+    lateinit var authViewModel: AuthViewModel
+    lateinit var userDataClass: UserDataClass
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        authViewModel = ViewModelProvider(this@CategoryActivity)[AuthViewModel::class.java]
+        authViewModel.run{
+            getUserByAuth()
+            userData.observe(this@CategoryActivity){
+                Log.d("tttt1", "${authViewModel.userData.value}")
+                //userDataClass = it
+            }
+            Log.d("tttt2", "${authViewModel.userData.value}")
+        }
+
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 

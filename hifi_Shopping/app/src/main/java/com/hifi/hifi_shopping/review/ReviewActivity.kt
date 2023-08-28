@@ -1,43 +1,68 @@
 package com.hifi.hifi_shopping.review
 
-
-import android.annotation.SuppressLint
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.CalendarContract.Colors
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.graphics.toColor
-import androidx.core.view.forEach
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide.init
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityReviewBinding
 import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
-
+import com.hifi.hifi_shopping.review.vm.ReviewProductViewModel
+import com.hifi.hifi_shopping.review.vm.ReviewSubscribeViewModel
+import java.text.NumberFormat
+import java.util.Locale
 
 class ReviewActivity : AppCompatActivity() {
-
     lateinit var activityReviewBinding: ActivityReviewBinding
-
+    lateinit var reviewProductViewModel:ReviewProductViewModel
+    lateinit var reviewSubscribeViewModel: ReviewSubscribeViewModel
+    lateinit var productIdx: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         activityReviewBinding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(activityReviewBinding.root)
 
-        activityReviewBinding.run{
-            reviewWriteActivityToolbar.run{
-                title = "후기 작성"
-                setNavigationIcon(R.drawable.chevron_left_24px)
-                inflateMenu(R.menu.review_write_menu)
-                isTitleCentered = true
-            }
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
+            productIdx = receivedIntent.getStringExtra("productIdx")!!
+            Log.d("리뷰 데이터",productIdx.toString())
 
-            reviewWriteItemImageView.run{
-                clipToOutline = true
+        }
+
+        reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
+        reviewSubscribeViewModel = ViewModelProvider(this)[ReviewSubscribeViewModel::class.java]
+        reviewProductViewModel.run{
+            productName.observe(this@ReviewActivity){
+                activityReviewBinding.reviewWriteItemTitleTextView.text = it
+            }
+            productPrice.observe(this@ReviewActivity){
+                activityReviewBinding.reviewWriteItemPricetextView.text = formatPrice(it)
+            }
+            productImg.observe(this@ReviewActivity){
+                activityReviewBinding.reviewWriteItemImageView.setImageBitmap(it)
+            }
+        }
+
+        reviewSubscribeViewModel.run{
+            subscribeList.observe(this@ReviewActivity){
+                activityReviewBinding.reviewWriteItemRecommendHumanRecyclerView.adapter?.notifyDataSetChanged()
+            }
+        }
+
+        activityReviewBinding.run{
+            // todo : 해당 상품 idx 입력 연결
+            reviewProductViewModel.getProductByIdx(productIdx)
+            reviewSubscribeViewModel.getSubscribeListByUserIdx("0")
+            reviewWriteToolbar.run{
+                setNavigationOnClickListener {
+
+                }
             }
 
             reviewWriteItemRecommendHumanRecyclerView.run{
@@ -46,7 +71,6 @@ class ReviewActivity : AppCompatActivity() {
             }
         }
     }
-
     inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
         inner class ViewHolder(reviewRycItemBinding: ReviewRycItemBinding) : RecyclerView.ViewHolder(reviewRycItemBinding.root){
             var profile : ImageView
@@ -70,13 +94,23 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return 10
+            return reviewSubscribeViewModel.subscribeList.value?.size!!
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.profile.setImageResource(R.drawable.couple)
-            holder.nickname.text = "${position}번"
+            if(reviewSubscribeViewModel.subscribeList.value?.get(position)?.profile == null) {
+                holder.profile.setImageResource(R.drawable.empty_photo)
+            }else{
+                holder.profile.setImageBitmap(reviewSubscribeViewModel.subscribeList.value?.get(position)?.profile)
+            }
+            holder.nickname.text = reviewSubscribeViewModel.subscribeList.value?.get(position)?.nickname
         }
     }
 
+    fun formatPrice(priceStr: String): String {
+        val price = priceStr.toIntOrNull() ?: return "Invalid Input"
+        val formatter = NumberFormat.getNumberInstance(Locale("ko", "KR"))
+        val formattedAmount = formatter.format(price)
+        return "$formattedAmount 원"
+    }
 }

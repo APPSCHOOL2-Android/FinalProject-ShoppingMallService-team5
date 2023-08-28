@@ -1,60 +1,131 @@
 package com.hifi.hifi_shopping.user
 
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hifi.hifi_shopping.R
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.storage.FirebaseStorage
+import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.databinding.FragmentUserPageItemBinding
+import com.hifi.hifi_shopping.databinding.RowUserPageItemBinding
+import com.hifi.hifi_shopping.user.repository.ProductImgRepository
+import com.hifi.hifi_shopping.user.vm.OrderViewModel
+import java.net.HttpURLConnection
+import java.net.URL
+import kotlin.concurrent.thread
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [UserPageItemFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class UserPageItemFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var userActivity:UserActivity
+    lateinit var fragmentUserPageItemBinding: FragmentUserPageItemBinding
+    lateinit var orderViewModel : OrderViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_page_item, container, false)
-    }
+        fragmentUserPageItemBinding = FragmentUserPageItemBinding.inflate(layoutInflater)
+        userActivity = activity as UserActivity
+        orderViewModel = ViewModelProvider(userActivity)[OrderViewModel::class.java]
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UserPageItemFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            UserPageItemFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        val userLogin = userActivity.userTemp
+        val userPagesUser= userActivity.userTemp
+        //        val userPagesUser = UserDataClass("2", "alohalo98@naver.com", "1222", "테스트계정", "false", "010-2222-2222", "")
+
+        orderViewModel.run {
+            getOrderListByUser(userLogin.idx)
+            productDataList.observe(userActivity){
+                fragmentUserPageItemBinding.run {
+                    userPageItemRecyclerView.run {
+                        adapter = UserPageItemRecyclerViewAdapter()
+                        layoutManager = GridLayoutManager(userActivity, 3)
+                    }
                 }
             }
+        }
+        return fragmentUserPageItemBinding.root
     }
+
+    inner class UserPageItemRecyclerViewAdapter() : RecyclerView.Adapter<UserPageItemRecyclerViewAdapter.UserPageItemRecyclerViewHolder>(){
+
+        inner class UserPageItemRecyclerViewHolder(rowUserPageItemBinding: RowUserPageItemBinding) : RecyclerView.ViewHolder(rowUserPageItemBinding.root){
+
+            val rowUserPageItemName: TextView
+            val rowUserPageItemImg: ImageView
+
+
+            init{
+                rowUserPageItemName = rowUserPageItemBinding.rowUserPageItemName
+                rowUserPageItemImg = rowUserPageItemBinding.rowUserPageItemImg
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserPageItemRecyclerViewHolder {
+            val rowUserPageItemBinding = RowUserPageItemBinding.inflate(layoutInflater)
+            val allViewHolder = UserPageItemRecyclerViewHolder(rowUserPageItemBinding)
+
+            rowUserPageItemBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            return allViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return orderViewModel.productDataList.value?.size!!
+        }
+
+        override fun onBindViewHolder(holder: UserPageItemRecyclerViewHolder, position: Int) {
+            val productidx = orderViewModel.productDataList.value?.get(position)?.idx!!
+            holder.rowUserPageItemName.text = orderViewModel.productDataList.value?.get(position)?.name
+            holder.rowUserPageItemImg.run {
+                setOnClickListener {
+                    val intent = Intent(userActivity, BuyActivity::class.java)
+                    intent.putExtra("productIdx", productidx)
+                    startActivity(intent)
+                }
+                getProductImg(productidx,this)
+            }
+
+        }
+    }
+
+    fun getProductImg(productidx: String, imgView: ImageView) {
+        ProductImgRepository.getProductImgInfoByProductIdx(productidx) {
+            for (c1 in it.result.children) {
+                val imgSrc = c1.child("imgSrc").value as String
+                val default = c1.child("default").value as String
+
+                if (default == "true") {
+                    val storage = FirebaseStorage.getInstance()
+                    val fileRef = storage.reference.child("product/${imgSrc}")
+
+                    // 데이터를 가져올 수 있는 경로를 가져온다.
+                    fileRef.downloadUrl.addOnCompleteListener {
+                        thread {
+                            // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                            val url = URL(it.result.toString())
+                            // 접속한다.
+                            val httpURLConnection = url.openConnection() as HttpURLConnection
+                            // 이미지 객체를 생성한다.
+                            val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                            userActivity.runOnUiThread {
+                                imgView.setImageBitmap(bitmap)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
 }

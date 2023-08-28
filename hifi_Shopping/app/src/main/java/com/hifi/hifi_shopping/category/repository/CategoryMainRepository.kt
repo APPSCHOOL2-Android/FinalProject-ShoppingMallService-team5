@@ -19,13 +19,13 @@ class CategoryMainRepository {
     fun getProduct(categoryNum: String, callback: (List<CategoryMainProduct>) -> Unit) {
         val database = FirebaseDatabase.getInstance().getReference("ProductData")
 
-        database.orderByChild("categoryNum").startAt(categoryNum).endAt(categoryNum + "\uf8ff").get().addOnCompleteListener {
+        database.orderByChild("category").startAt(categoryNum).endAt(categoryNum + "\uf8ff").get().addOnCompleteListener {
             allProductList = it.result.children.map { product ->
                 CategoryMainProduct(
                     product.child("idx").value as String,
                     product.child("name").value as String,
                     product.child("price").value as String,
-                    product.child("categoryNum").value as String,
+                    product.child("category").value as String,
                     ""
                 )
             }
@@ -66,7 +66,7 @@ class CategoryMainRepository {
 
             database.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
                 it.result.children.forEach {
-                    if ("true" == it.child("default").value as String && "1" == it.child("imgOrder").value as String) {
+                    if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
                         allProductList[i].imgSrc = it.child("imgSrc").value as String
                     }
                 }
@@ -79,7 +79,7 @@ class CategoryMainRepository {
 
 //            database.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
 //                it.result.children.forEach {
-//                    if ("true" == it.child("default").value as String && "1" == it.child("imgOrder").value as String) {
+//                    if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
 //                        val filename = it.child("imgSrc").value as String
 //                        val storage = FirebaseStorage.getInstance()
 //                        val fileRef = storage.reference.child(filename)
@@ -116,9 +116,9 @@ class CategoryMainRepository {
 
         databaseImg.orderByChild("productIdx").equalTo(allProductList[idx].idx).get().addOnCompleteListener {
             it.result.children.forEach {
-                if ("true" == it.child("default").value as String && "1" == it.child("imgOrder").value as String) {
+                if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
                     val filename = it.child("imgSrc").value as String
-                    val fileRef = storage.reference.child(filename)
+                    val fileRef = storage.reference.child("product/$filename")
                     fileRef.downloadUrl.addOnCompleteListener {
                         allProductList[idx].imgSrc = it.result.toString()
                         callback(it.result.toString())
@@ -171,7 +171,7 @@ class CategoryMainRepository {
                     productIdx,
                     product.child("name").value as String,
                     product.child("price").value as String,
-                    product.child("categoryNum").value as String,
+                    product.child("category").value as String,
                     ""
                 )
             }
@@ -215,7 +215,7 @@ class CategoryMainRepository {
                     ""
                 )
 
-                val filename = it.child("profileImg").value as String
+                val filename = "user/" + it.child("profileImg").value as String
                 val fileRef = storage.reference.child(filename)
                 fileRef.downloadUrl.addOnCompleteListener {
                     categoryMainUser.profileImg = it.result.toString()
@@ -266,8 +266,8 @@ class CategoryMainRepository {
         } else {
             databaseImg.orderByChild("productIdx").equalTo(productIdx).get().addOnCompleteListener {
                 it.result.children.forEach {
-                    if ("true" == it.child("default").value as String && "1" == it.child("imgOrder").value as String) {
-                        val filename = it.child("imgSrc").value as String
+                    if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
+                        val filename = "product/" + it.child("imgSrc").value as String
                         val fileRef = storage.reference.child(filename)
                         fileRef.downloadUrl.addOnCompleteListener {
                             productMap[productIdx]?.imgSrc = it.result.toString()

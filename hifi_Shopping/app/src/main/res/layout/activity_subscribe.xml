@@ -15,17 +15,21 @@
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:menu="@menu/toolbar_menu_basic"
+        app:navigationIcon="@drawable/chevron_left_24px"
         app:navigationIconTint="@color/brown"
-        app:titleTextAppearance="@style/CategoryDetialToolbarTitleTextAppearance"
+        app:subtitleCentered="false"
+        app:title="구독 리스트"
+        app:titleCentered="true"
         app:titleTextColor="@color/lstBasicFontColor" />
 
-    <LinearLayout
+    <view
+        android:id="@+id/view2"
+        class="com.google.android.material.divider.MaterialDivider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lstBasicFontColor"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/brown"
+        app:dividerThickness="2dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subscribeUserRecyclerView"
@@ -39,4 +43,5 @@
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"
         android:padding="10dp" />
+
 </LinearLayout>

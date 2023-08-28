@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/rowPurchaseDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elegantTextHeight="true"
@@ -16,11 +16,11 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:layout_weight="1"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="15dp"
-        app:cardElevation="15dp"
+        app:cardElevation="3dp"
+        app:cardUseCompatPadding="true"
         app:strokeWidth="0dp">
 
         <LinearLayout
@@ -35,7 +35,7 @@
                 android:layout_height="84dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:srcCompat="@drawable/empty_photo" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,12 +46,12 @@
 
                 <TextView
                     android:id="@+id/rowPurchaseName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:elegantTextHeight="true"
                     android:fontFamily="@font/notosanskr_regular"
                     android:text="TMA-2 Comfort Wireless "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textColor="@color/black" />
 
                 <LinearLayout
@@ -66,7 +66,7 @@
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_bold"
                         android:text="20000원"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
                 </LinearLayout>
 
@@ -76,7 +76,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/button3"
+                        android:id="@+id/rowPurchaseBtnReview"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -90,7 +90,7 @@
                         app:cornerRadius="5dp" />
 
                     <Button
-                        android:id="@+id/button5"
+                        android:id="@+id/rowPurchaseBtnOrder"
                         style="@style/Widget.Material3.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -114,6 +114,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/rowPurchaseReviewGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
