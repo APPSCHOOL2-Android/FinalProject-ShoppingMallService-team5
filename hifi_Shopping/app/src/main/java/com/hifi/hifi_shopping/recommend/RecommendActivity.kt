@@ -26,22 +26,22 @@ class RecommendActivity : AppCompatActivity() {
         setContentView(activityRecommendBinding.root)
 
         activityRecommendBinding.run{
-            recommendActivityCategoryToolbar.run{
-                title = "추천 리스트"
-                setNavigationIcon(R.drawable.chevron_left_24px)
-                inflateMenu(R.menu.toolbar_menu_basic)
-                isTitleCentered = true
-            }
-
-            recommendCategoryRecyclerView.run{
-                adapter = CategoryListAdapter()
-                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            }
-
-            recommendInfoRecyclerView.run{
-                adapter = InfoListAdapter()
-                layoutManager = LinearLayoutManager(context)
-            }
+//            recommendActivityCategoryToolbar.run{
+//                title = "추천 리스트"
+//                setNavigationIcon(R.drawable.chevron_left_24px)
+//                inflateMenu(R.menu.toolbar_menu_basic)
+//                isTitleCentered = true
+//            }
+//
+//            recommendCategoryRecyclerView.run{
+//                adapter = CategoryListAdapter()
+//                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//            }
+//
+//            recommendInfoRecyclerView.run{
+//                adapter = InfoListAdapter()
+//                layoutManager = LinearLayoutManager(context)
+//            }
 
         }
     }

@@ -8,35 +8,35 @@
     tools:context=".recommend.RecommendActivity">
 
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/recommendActivityCategoryToolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:navigationIconTint="@color/brown"
-        app:titleTextAppearance="@style/CategoryDetialToolbarTitleTextAppearance"
-        app:titleTextColor="@color/lstBasicFontColor" />
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:id="@+id/recommendActivityCategoryToolbar"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@color/white"-->
+<!--        android:minHeight="?attr/actionBarSize"-->
+<!--        android:theme="?attr/actionBarTheme"-->
+<!--        app:navigationIconTint="@color/brown"-->
+<!--        app:titleTextAppearance="@style/CategoryDetialToolbarTitleTextAppearance"-->
+<!--        app:titleTextColor="@color/lstBasicFontColor" />-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/brown"
-        android:orientation="vertical"></LinearLayout>
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="1dp"-->
+<!--        android:background="@color/brown"-->
+<!--        android:orientation="vertical"></LinearLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recommendCategoryRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp" />
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recommendCategoryRecyclerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="5dp" />-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recommendInfoRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/recommendInfoRecyclerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp">-->
 
-    </androidx.recyclerview.widget.RecyclerView>
+<!--    </androidx.recyclerview.widget.RecyclerView>-->
 
 </LinearLayout>
