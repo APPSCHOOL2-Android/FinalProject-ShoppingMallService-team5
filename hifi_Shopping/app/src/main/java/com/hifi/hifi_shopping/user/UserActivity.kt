@@ -12,9 +12,13 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.AuthActivity
+import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import java.net.HttpURLConnection
@@ -24,6 +28,7 @@ import kotlin.concurrent.thread
 class UserActivity : AppCompatActivity() {
 
     lateinit var activityUserBinding : ActivityUserBinding
+    val auth = FirebaseAuth.getInstance()
 
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
@@ -54,6 +59,7 @@ class UserActivity : AppCompatActivity() {
         requestPermissions(permissionList,0)
 
         replaceFragment(MY_PAGE_FRAGMENT, false, null)
+        // authTestViewModel = ViewModelProvider()
 //        replaceFragment(EDIT_USER_FRAGMENT, false, null)
 //        replaceFragment(CART_FRAGMENT, false, null)
     }

@@ -105,11 +105,12 @@ class AuthJoinFragment : Fragment() {
 
                                                 // Repository를 활용하여 데이터 처리
                                                 val imageByteArray = loadYourImageAsByteArray()
-                                                authViewModel.registerUserData(
+                                                authViewModel.registerUser(
                                                     email,
                                                     password,
                                                     nickname,
-                                                    ""
+                                                    passwordCheck,
+                                                    imageByteArray
                                                 )
                                             }
                                         }

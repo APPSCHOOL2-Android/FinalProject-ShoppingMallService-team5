@@ -1,23 +1,13 @@
 package com.hifi.hifi_shopping.auth.vm
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.auth.model.UserDataClass
 import com.hifi.hifi_shopping.auth.repository.AuthTestRepository
 
 class AuthTestViewModel() : ViewModel() {
     val userData = MutableLiveData<UserDataClass>()
-    lateinit var authViewModel: AuthTestViewModel
-    var _loginResult = MutableLiveData<Boolean>()
-
-
-    private val _registrationResult = MutableLiveData<Boolean>()
-    val registrationResult: LiveData<Boolean> = _registrationResult
 
     private val INVALID_NICKNAME_CHARACTERS = listOf(
         "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "[", "]", "{", "}",
@@ -27,7 +17,22 @@ class AuthTestViewModel() : ViewModel() {
     // AuthLoginFragment의 로그인 함수
     fun loginUser(email: String, password: String) {
         AuthTestRepository.loginUser(email, password) {
-            _loginResult.value = it.isSuccessful
+            val userUid = it.user?.email
+            Log.d("testaaa", "${userUid}")
+            if(userUid != null) {
+                AuthTestRepository.getUserInfoByUserId(userUid) { currentUser ->
+                    val userIdx = currentUser.result.child("idx").value as String
+                    val userNickname = currentUser.result.child("idx").value as String
+                    val userPhoneNum = currentUser.result.child("idx").value as String
+                    val userProfileImg = currentUser.result.child("idx").value as String
+                    val userVerify = currentUser.result.child("idx").value as String
+                    val loginUser = UserDataClass(
+                        userIdx, email, password, userNickname, userVerify,
+                        userPhoneNum, userProfileImg
+                    )
+                    userData.value = loginUser
+                }
+            }
         }
     }
 

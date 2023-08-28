@@ -8,11 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
-import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentAuthLoginBinding
 
@@ -20,7 +17,6 @@ class AuthLoginFragment : Fragment() {
 
     lateinit var fragmentAuthLoginBinding: FragmentAuthLoginBinding
     lateinit var authActivity: AuthActivity
-    private val authViewModel: AuthViewModel by viewModels()
     lateinit var authTestViewModel: AuthTestViewModel
 
 
@@ -33,40 +29,16 @@ class AuthLoginFragment : Fragment() {
 
         // UI 요소에 대한 리스너 설정
         setupUiListeners()
-
         authTestViewModel = ViewModelProvider(authActivity)[AuthTestViewModel::class.java]
-        // UI 요소에 대한 리스너 설정
-        setupUiListeners()
 
         // 로그인 결과를 관찰하여 UI 업데이트
         authTestViewModel.run{
-            _loginResult.observe(viewLifecycleOwner){ isSuccess ->
-                if (isSuccess) {
-                    // 로그인 성공 다이얼로그 표시
-                    showLoginSuccessDialog()
-                } else {
-                    // 로그인 실패 다이얼로그 표시
-                    showLoginFailureDialog()
-                }
+            userData.observe(viewLifecycleOwner){
+                Log.d("testaaa", "${it.idx}")
+                val intent = Intent(authActivity, CategoryActivity::class.java)
+                startActivity(intent)
             }
         }
-
-
-        // 로그인 결과를 관찰하여 UI 업데이트
-//        authViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
-//            if (isSuccess) {
-//                // 로그인 성공 다이얼로그 표시
-//                showLoginSuccessDialog()
-//                val intent = Intent(context, CategoryActivity::class.java)
-//                startActivity(intent)
-//            } else {
-//                // 로그인 실패 다이얼로그 표시
-//                showLoginFailureDialog()
-//            }
-//        })
-
-
-
         return fragmentAuthLoginBinding.root
     }
 
@@ -110,7 +82,7 @@ class AuthLoginFragment : Fragment() {
             }
         } else {
             // 이메일과 비밀번호가 입력되었다면 로그인 처리 함수 호출
-            authViewModel.loginUser(email, password)
+            authTestViewModel.loginUser(email, password)
             // 포커스와 키보드 클리어
             fragmentAuthLoginBinding.textInputEditTextLoginUserId.clearFocus()
             fragmentAuthLoginBinding.textInputEditTextLoginUserPw.clearFocus()

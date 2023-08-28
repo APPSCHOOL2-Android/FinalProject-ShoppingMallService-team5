@@ -34,7 +34,7 @@ class ReviewActivity : AppCompatActivity() {
             Log.d("리뷰 데이터",productIdx.toString())
 
         }
-
+        activityReviewBinding = ActivityReviewBinding.inflate(layoutInflater)
         reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
         reviewSubscribeViewModel = ViewModelProvider(this)[ReviewSubscribeViewModel::class.java]
         reviewProductViewModel.run{

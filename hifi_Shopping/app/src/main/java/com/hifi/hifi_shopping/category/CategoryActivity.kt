@@ -20,7 +20,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.auth.repository.AuthRepository.Companion.getUserByAuth
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.category.ui.CategoryMainFragment
 import com.hifi.hifi_shopping.databinding.ActivityCategoryBinding
@@ -47,15 +46,6 @@ class CategoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         authViewModel = ViewModelProvider(this@CategoryActivity)[AuthViewModel::class.java]
-        authViewModel.run{
-            getUserByAuth()
-            userData.observe(this@CategoryActivity){
-                Log.d("tttt1", "${authViewModel.userData.value}")
-                //userDataClass = it
-            }
-            Log.d("tttt2", "${authViewModel.userData.value}")
-        }
-
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
