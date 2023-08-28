@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.category.CategoryActivity
@@ -34,8 +35,12 @@ class AuthLoginFragment : Fragment() {
         // 로그인 결과를 관찰하여 UI 업데이트
         authTestViewModel.run{
             userData.observe(viewLifecycleOwner){
-                Log.d("testaaa", "${it.idx}")
                 val intent = Intent(authActivity, CategoryActivity::class.java)
+                intent.putExtra("userEmail", it.email)
+                intent.putExtra("userIdx", it.idx)
+                intent.putExtra("userNickname", it.nickname)
+                intent.putExtra("userPw", it.pw)
+                intent.putExtra("userProfileImg", it.profileImg)
                 startActivity(intent)
             }
         }

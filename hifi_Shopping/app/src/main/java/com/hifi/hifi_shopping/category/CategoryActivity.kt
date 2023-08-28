@@ -2,33 +2,21 @@ package com.hifi.hifi_shopping.category
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
-import com.hifi.hifi_shopping.category.ui.CategoryMainFragment
 import com.hifi.hifi_shopping.databinding.ActivityCategoryBinding
-import com.hifi.hifi_shopping.rank.RankMainFragment
-import com.hifi.hifi_shopping.recommend.RecommendFragment
 import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.UserDataClass
-import com.hifi.hifi_shopping.user.repository.UserRepository
-import com.hifi.hifi_shopping.wish.WishFragment
+
 
 class CategoryActivity : AppCompatActivity() {
 
@@ -46,6 +34,23 @@ class CategoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         authViewModel = ViewModelProvider(this@CategoryActivity)[AuthViewModel::class.java]
+
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("userEmail")) {
+            val email = receivedIntent.getStringExtra("userEmail")!!
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
+                "false", "", userProfileImg)
+            userDataClass = newUserData
+        }
+        Log.d("UserData", "Email: ${userDataClass.email}")
+        Log.d("UserData", "UserIdx: ${userDataClass.idx}")
+        Log.d("UserData", "UserNickname: ${userDataClass.nickname}")
+        Log.d("UserData", "UserPw: ${userDataClass.pw}")
+        Log.d("UserData", "UserProfileImg: ${userDataClass.profileImg}")
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 

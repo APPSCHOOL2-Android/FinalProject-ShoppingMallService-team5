@@ -39,15 +39,14 @@ class AuthActivity : AppCompatActivity() {
         activityAuthBinding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(activityAuthBinding.root)
 
-        replaceFragment(AUTH_LOGIN_FRAGMENT, false, null)
-
         // auth 객체 초기화 (Authentication)
-        auth = FirebaseAuth.getInstance()
-        if(auth != null){
-            val intent = Intent(this, CategoryActivity::class.java)
-            startActivity(intent)
-            auth!!.signOut()
-        }
+  //      auth = FirebaseAuth.getInstance()
+//        if(auth != null){
+//            val intent = Intent(this, CategoryActivity::class.java)
+//            startActivity(intent)
+//        }
+
+        replaceFragment(AUTH_LOGIN_FRAGMENT, false, null)
     }
 
 

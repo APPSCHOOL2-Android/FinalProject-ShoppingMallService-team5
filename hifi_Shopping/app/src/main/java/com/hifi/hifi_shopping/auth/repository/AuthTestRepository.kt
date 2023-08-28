@@ -48,10 +48,10 @@ class AuthTestRepository() {
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener(callback1)
         }
 
-        fun addUserInfo(userClass: UserDataClass, callback1: (Task<Void>) -> Unit) {
+        fun addUserInfo(userIdx:String, userClass: UserDataClass, callback1: (Task<Void>) -> Unit) {
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
-            userDataRef.push().setValue(userClass).addOnCompleteListener(callback1)
+            userDataRef.child(userIdx).setValue(userClass).addOnCompleteListener(callback1)
         }
         // 사용자 아이디를 통해 사용자 정보를 가져온다.
         fun getUserInfoByUserId(loginUserEmail:String, callback1: (Task<DataSnapshot>) -> Unit){

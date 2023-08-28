@@ -2,12 +2,15 @@ package com.hifi.hifi_shopping.user
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.AuthActivity
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
@@ -32,6 +35,7 @@ class MyPageFragment : Fragment() {
     lateinit var subscribeViewModel: SubscribeViewModel
     lateinit var orderViewModel: OrderViewModel
     lateinit var productViewModel: ProductViewModel
+    val auth = FirebaseAuth.getInstance()
 
 
     override fun onCreateView(
@@ -139,6 +143,19 @@ class MyPageFragment : Fragment() {
             myPageBtnToEditUser.setOnClickListener {
                 userActivity.replaceFragment(UserActivity.EDIT_USER_FRAGMENT,true,null)
             }
+
+            // todo : 로그아웃
+//            myPageBtnToSignOut.setOnClickListener{
+//                if(auth == null){
+//                    Log.d("teataaa", "not")
+//                } else{
+//                    Log.d("teataaa", "${auth.currentUser?.email}")
+//                    auth.signOut()
+//                }
+//                val intent = Intent(userActivity, AuthActivity::class.java)
+//                startActivity(intent)
+//                userActivity.finish()
+//            }
 
             myPageUserNick.text = userTemp.nickname
 

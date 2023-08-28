@@ -17,15 +17,15 @@ class AuthTestViewModel() : ViewModel() {
     // AuthLoginFragment의 로그인 함수
     fun loginUser(email: String, password: String) {
         AuthTestRepository.loginUser(email, password) {
-            val userUid = it.user?.email
+            val userUid = it.user?.uid
             Log.d("testaaa", "${userUid}")
             if(userUid != null) {
                 AuthTestRepository.getUserInfoByUserId(userUid) { currentUser ->
                     val userIdx = currentUser.result.child("idx").value as String
-                    val userNickname = currentUser.result.child("idx").value as String
-                    val userPhoneNum = currentUser.result.child("idx").value as String
-                    val userProfileImg = currentUser.result.child("idx").value as String
-                    val userVerify = currentUser.result.child("idx").value as String
+                    val userNickname = currentUser.result.child("nickname").value as String
+                    val userPhoneNum = currentUser.result.child("phoneNum").value as String
+                    val userProfileImg = currentUser.result.child("profileImg").value as String
+                    val userVerify = currentUser.result.child("verify").value as String
                     val loginUser = UserDataClass(
                         userIdx, email, password, userNickname, userVerify,
                         userPhoneNum, userProfileImg
@@ -40,11 +40,11 @@ class AuthTestViewModel() : ViewModel() {
     fun registerUser(email: String, password: String, nickname:String, phoneNum:String){
         AuthTestRepository.registerUser(email, password){
             val user = it.user
-            val userId = user?.uid ?: ""
+            val userId = user?.uid ?:""
             val profileImgRef = "sample_img"
             val verify = "false"
             val newUser = UserDataClass(userId, email, password, nickname, verify, phoneNum, profileImgRef)
-            AuthTestRepository.addUserInfo(newUser){
+            AuthTestRepository.addUserInfo(userId, newUser){
                 Log.d("testaaa", "로그인 성공")
             }
             userData.value = newUser
