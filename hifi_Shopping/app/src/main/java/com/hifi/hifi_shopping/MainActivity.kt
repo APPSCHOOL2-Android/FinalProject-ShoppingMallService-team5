@@ -15,7 +15,5 @@ class MainActivity : AppCompatActivity() {
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
 
-        var intent = Intent(baseContext, BuyActivity::class.java)
-        startActivity(intent)
     }
 }
