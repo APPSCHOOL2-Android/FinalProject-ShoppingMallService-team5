@@ -2,6 +2,7 @@ package com.hifi.hifi_shopping.category.ui
 
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -87,8 +88,11 @@ class ProductListAdapter(
                 }
 
                 categoryMainViewModel.getProductRatingInfo(product.idx) { rating, reviewCnt ->
-                    textViewItemProductCategoryDetailRating.text = String.format("평점 %.1f/5", rating)
-                    textViewItemProductCategoryDetailReviewCount.text = "(${reviewCnt})"
+                    Log.d("brudenell", rating.toString())
+                    if (reviewCnt != 0L) {
+                        textViewItemProductCategoryDetailRating.text = String.format("평점 %.1f/5", rating)
+                        textViewItemProductCategoryDetailReviewCount.text = "(${reviewCnt})"
+                    }
                 }
             }
         }
