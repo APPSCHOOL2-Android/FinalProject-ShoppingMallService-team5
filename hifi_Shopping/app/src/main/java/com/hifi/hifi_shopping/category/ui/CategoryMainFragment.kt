@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.category.CategoryViewModel
@@ -34,6 +35,7 @@ class CategoryMainFragment : Fragment() {
 
     lateinit var categoryMainViewModel: CategoryMainViewModel
     lateinit var categoryViewModel: CategoryViewModel
+    lateinit var authViewModel: AuthViewModel
 
     var categoryList: Array<String>? = null
     var categoryNum = 0
@@ -54,9 +56,13 @@ class CategoryMainFragment : Fragment() {
 
         categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
         categoryViewModel = ViewModelProvider(categoryActivity)[CategoryViewModel::class.java]
+        authViewModel = ViewModelProvider(categoryActivity)[AuthViewModel::class.java]
 
-        val userActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
+        authViewModel.run {
+            userData.observe(viewLifecycleOwner) {
+                Log.d("brudenell", "뷰모델 테스트")
+                categoryMainViewModel.currentUserIdx = it.idx
+            }
         }
 
         val profileClickCallback: () -> Unit = {
@@ -77,7 +83,7 @@ class CategoryMainFragment : Fragment() {
 
         val productListAdapter = ProductListAdapter(categoryMainViewModel, productClickCallback)
 
-        val reviewListAdapter = ReviewListAdapter(this, categoryMainViewModel, profileClickCallback, productClickCallback)
+        val reviewListAdapter = ReviewListAdapter(categoryMainViewModel, profileClickCallback, productClickCallback)
 
         categoryNum = arguments?.getInt("categoryNum") ?: 0
 

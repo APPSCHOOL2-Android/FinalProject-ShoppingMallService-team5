@@ -17,8 +17,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.repository.AuthRepository.Companion.getUserByAuth
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel

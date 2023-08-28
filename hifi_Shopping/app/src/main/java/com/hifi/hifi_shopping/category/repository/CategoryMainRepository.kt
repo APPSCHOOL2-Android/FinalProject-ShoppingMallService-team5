@@ -244,10 +244,15 @@ class CategoryMainRepository {
 
     fun getUserItemCnt(userIdx: String, callback: (Int) -> Unit) {
         // 주문 정보 조회하는 걸로 교체
-        val reviewRef = FirebaseDatabase.getInstance().getReference("ReviewData")
+        val orderRef = FirebaseDatabase.getInstance().getReference("OrderData")
 
-        reviewRef.orderByChild("writerIdx").equalTo(userIdx).get().addOnCompleteListener {
-            callback(it.result.children.toList().size)
+        orderRef.orderByChild("buyerIdx").equalTo(userIdx).get().addOnCompleteListener {
+            val productSet = mutableSetOf<String>()
+
+            it.result.children.forEach {
+                productSet.add(it.child("productIdx").value as String)
+            }
+            callback(productSet.size)
         }
     }
 

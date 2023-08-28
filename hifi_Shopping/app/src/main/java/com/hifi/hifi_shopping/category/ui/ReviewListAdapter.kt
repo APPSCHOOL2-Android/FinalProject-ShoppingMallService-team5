@@ -19,7 +19,6 @@ import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 import com.hifi.hifi_shopping.databinding.ItemReviewCategoryDetailBinding
 
 class ReviewListAdapter(
-    val categoryMainFragment: CategoryMainFragment,
     val categoryMainViewModel: CategoryMainViewModel,
     val profileClickCallback: () -> Unit,
     val productClickCallback: (String) -> Unit

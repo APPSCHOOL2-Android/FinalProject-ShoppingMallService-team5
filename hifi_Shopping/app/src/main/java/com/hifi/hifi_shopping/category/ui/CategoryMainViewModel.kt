@@ -18,7 +18,7 @@ class CategoryMainViewModel: ViewModel() {
     var productWorth = 0
     var productCount = 0
 
-    var currentUserIdx = "5"
+    var currentUserIdx = ""
 
     val categoryMainRepository = CategoryMainRepository()
 

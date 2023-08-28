@@ -39,31 +39,31 @@ class AuthLoginFragment : Fragment() {
         setupUiListeners()
 
         // 로그인 결과를 관찰하여 UI 업데이트
-        authTestViewModel.run{
-            _loginResult.observe(viewLifecycleOwner){ isSuccess ->
-                if (isSuccess) {
-                    // 로그인 성공 다이얼로그 표시
-                    showLoginSuccessDialog()
-                } else {
-                    // 로그인 실패 다이얼로그 표시
-                    showLoginFailureDialog()
-                }
-            }
-        }
+//        authTestViewModel.run{
+//            _loginResult.observe(viewLifecycleOwner){ isSuccess ->
+//                if (isSuccess) {
+//                    // 로그인 성공 다이얼로그 표시
+//                    showLoginSuccessDialog()
+//                } else {
+//                    // 로그인 실패 다이얼로그 표시
+//                    showLoginFailureDialog()
+//                }
+//            }
+//        }
 
 
         // 로그인 결과를 관찰하여 UI 업데이트
-//        authViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
-//            if (isSuccess) {
-//                // 로그인 성공 다이얼로그 표시
-//                showLoginSuccessDialog()
-//                val intent = Intent(context, CategoryActivity::class.java)
-//                startActivity(intent)
-//            } else {
-//                // 로그인 실패 다이얼로그 표시
-//                showLoginFailureDialog()
-//            }
-//        })
+        authViewModel.loginResult.observe(viewLifecycleOwner, Observer { isSuccess ->
+            if (isSuccess) {
+                // 로그인 성공 다이얼로그 표시
+                showLoginSuccessDialog()
+                val intent = Intent(context, CategoryActivity::class.java)
+                startActivity(intent)
+            } else {
+                // 로그인 실패 다이얼로그 표시
+                showLoginFailureDialog()
+            }
+        })
 
 
 
