@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".user.PurchaseFragment" >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/purchaseAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/purchaseToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="#846058"
+            app:menu="@menu/menu_search_cart"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:title="내가 구매한 아이템"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+        <View
+            android:id="@+id/purchaseToolbarDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/brown2" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/purchaseBtnTotal"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="71dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="전체"
+                android:textColor="#727272"
+                android:textIsSelectable="false"
+                android:textSize="12sp"
+                app:strokeColor="#D9D9D9"
+                app:strokeWidth="1.5dp" />
+
+            <Button
+                android:id="@+id/purchaseBtnHealth"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="건강관리"
+                android:textColor="#727272"
+                android:textIsSelectable="false"
+                android:textSize="12sp"
+                app:strokeColor="#D9D9D9"
+                app:strokeWidth="1.5dp" />
+
+            <Button
+                android:id="@+id/purchaseBtnWearable"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="웨어러블"
+                android:textColor="#727272"
+                android:textIsSelectable="false"
+                android:textSize="12sp"
+                app:strokeColor="#D9D9D9"
+                app:strokeWidth="1.5dp" />
+
+            <Button
+                android:id="@+id/purchaseBtnMorning"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="아침 준비"
+                android:textColor="#727272"
+                android:textIsSelectable="false"
+                android:textSize="12sp"
+                app:strokeColor="#D9D9D9"
+                app:strokeWidth="1.5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/purchaseRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
