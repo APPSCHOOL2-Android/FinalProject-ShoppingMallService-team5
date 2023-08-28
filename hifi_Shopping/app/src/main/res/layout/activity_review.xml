@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".review.ReviewActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/reviewWriteToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        app:menu="@menu/review_write_menu"
+        app:navigationIcon="@drawable/chevron_left_24px"
+        app:navigationIconTint="@color/lstBasicFontColor"
+        app:title="후기 작성"
+        app:titleCentered="true"
+        app:titleTextColor="@color/lstBasicFontColor" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:transitionGroup="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionGroup="true">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/reviewWriteMaterialCardView"
+                android:layout_width="360dp"
+                android:layout_height="96dp"
+                android:layout_marginTop="25dp"
+                android:elevation="8dp"
+                android:transitionGroup="true"
+                app:cardElevation="5dp"
+                app:cardUseCompatPadding="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <ImageView
+                            android:id="@+id/reviewWriteItemImageView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            app:srcCompat="@drawable/empty_photo" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/reviewWriteItemTitleTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/notosans_regular"
+                            android:singleLine="true"
+                            android:text="갤럭시S 23 울트라"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/reviewWriteItemPricetextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/slogan_font"
+                            android:text="1,860,000 원"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/reviewWriteQuestionItemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="상품은 만족하셨나요?"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteMaterialCardView" />
+
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/reviewWriteQuestionItemRatingBar"
+                android:layout_width="240dp"
+                android:layout_height="47dp"
+                android:layout_marginTop="16dp"
+                android:max="5"
+                android:numStars="5"
+                android:progressTint="#FFEB3B"
+                android:rating="5"
+                android:stepSize="1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteQuestionItemTextView" />
+
+            <LinearLayout
+                android:layout_width="240dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/reviewWriteColor"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteQuestionItemRatingBar">
+
+            </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/reviewWriteHowQuestionItemTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="어떤 점이 좋았나요?"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteQuestionItemRatingBar" />
+
+            <Button
+                android:id="@+id/reviewWritePictureAddButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="310dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/lstBtnClickColor"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:text="사진 등록"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:icon="@drawable/photo_camera_24px"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteReviewContentEditTextText" />
+
+            <Button
+                android:id="@+id/reviewWriteAddReviewButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="310dp"
+                android:layout_height="65dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/reviewWriteColor"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:text="리뷰 등록"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:iconGravity="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWritePictureAddButton" />
+
+            <EditText
+                android:id="@+id/reviewWriteReviewContentEditTextText"
+                android:layout_width="310dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/edit_text_custom_backround"
+                android:ems="10"
+                android:gravity="start"
+                android:hint="최소 10자 이상 입력해주세요."
+                android:inputType="text|textMultiLine"
+                android:padding="8dp"
+                android:scrollbars="vertical"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteHowQuestionItemTextView" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="240dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/reviewWriteColor"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/reviewWriteAddReviewButton"></LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/notosans_extrabold"
+                android:text="이 상품을 추천한 사람"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reviewWriteItemRecommendHumanRecyclerView"
+                android:layout_width="288dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.495"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</LinearLayout>
