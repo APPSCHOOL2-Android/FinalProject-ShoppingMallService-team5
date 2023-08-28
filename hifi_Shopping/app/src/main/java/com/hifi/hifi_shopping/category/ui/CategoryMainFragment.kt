@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -54,8 +55,16 @@ class CategoryMainFragment : Fragment() {
         categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
         categoryViewModel = ViewModelProvider(categoryActivity)[CategoryViewModel::class.java]
 
-        Log.d("brudenell", "fefefefefefef")
-        val productListAdapter = ProductListAdapter(categoryMainViewModel) { idx ->
+        val userActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+
+        }
+
+        val profileClickCallback: () -> Unit = {
+            val intent = Intent(categoryActivity, UserActivity::class.java)
+            startActivity(intent)
+        }
+
+        val productClickCallback: (String) -> Unit = { idx ->
             val intent = Intent(categoryActivity, BuyActivity::class.java)
 
             val buyProductList = ArrayList<String>()
@@ -66,13 +75,21 @@ class CategoryMainFragment : Fragment() {
             startActivity(intent)
         }
 
+        val productListAdapter = ProductListAdapter(categoryMainViewModel, productClickCallback)
+
+        val reviewListAdapter = ReviewListAdapter(this, categoryMainViewModel, profileClickCallback, productClickCallback)
+
         categoryNum = arguments?.getInt("categoryNum") ?: 0
+
+        var submitListFlag = false
 
         categoryMainViewModel.run {
             if (categoryNum == 0) {
                 getProduct("")
+                getReview("")
             } else {
                 getProduct(categoryNum.toString())
+                getReview(categoryNum.toString())
             }
 
             allProductList.observe(viewLifecycleOwner) {
@@ -81,7 +98,19 @@ class CategoryMainFragment : Fragment() {
             }
 
             productList.observe(viewLifecycleOwner) {
-                productListAdapter.submitList(it)
+                if (!submitListFlag) {
+                    Log.d("brudenell", "다시 그려")
+                    productListAdapter.submitList(it)
+                    submitListFlag = true
+                }
+            }
+
+            reviewList.observe(viewLifecycleOwner) {
+                reviewListAdapter.submitList(it)
+            }
+
+            updateSubscribeData.observe(viewLifecycleOwner) {
+                reviewListAdapter.notifyDataSetChanged()
             }
         }
 
@@ -150,8 +179,8 @@ class CategoryMainFragment : Fragment() {
                 categoryMainViewModel.run {
                     if (productCount > productWorth + 6) {
                         productWorth += 6
-                        Log.d("brudenell", "upbutton")
                     }
+                    submitListFlag = false
 //                    getProductWithWorth()
                     getProductWithWorthJustInfo()
                 }
@@ -161,8 +190,8 @@ class CategoryMainFragment : Fragment() {
                 categoryMainViewModel.run {
                     if (productWorth > 0) {
                         productWorth -= 6
-                        Log.d("brudenell","downbutton")
                     }
+                    submitListFlag = false
 //                    getProductWithWorth()
                     getProductWithWorthJustInfo()
                 }
@@ -170,7 +199,7 @@ class CategoryMainFragment : Fragment() {
 
             // 리뷰 리스트
             recyclerViewCategoryMainReview.run {
-                adapter = ReviewListAdapter()
+                adapter = reviewListAdapter
                 layoutManager = LinearLayoutManager(categoryActivity)
                 addItemDecoration(DividerItemDecoration(categoryActivity, DividerItemDecoration.VERTICAL))
             }
@@ -240,51 +269,6 @@ class CategoryMainFragment : Fragment() {
 
                         findNavController().navigate(R.id.categoryMainFragment, arg, navOptions)
                     }
-                }
-            }
-        }
-    }
-
-    inner class ReviewListAdapter: RecyclerView.Adapter<ReviewListAdapter.ReviewListViewHolder>() {
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewListViewHolder {
-            val itemReviewCategoryDetailBinding = ItemReviewCategoryDetailBinding.inflate(layoutInflater)
-
-            val params = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-            itemReviewCategoryDetailBinding.root.layoutParams = params
-
-            return ReviewListViewHolder(itemReviewCategoryDetailBinding)
-        }
-
-        override fun onBindViewHolder(holder: ReviewListViewHolder, position: Int) {
-            holder.bind()
-        }
-
-        override fun getItemCount(): Int {
-            return 10
-        }
-
-        inner class ReviewListViewHolder(
-            val itemReviewCategoryDetailBinding: ItemReviewCategoryDetailBinding
-        ): RecyclerView.ViewHolder(itemReviewCategoryDetailBinding.root) {
-            fun bind() {
-                itemReviewCategoryDetailBinding.run {
-                    Glide.with(imageViewItemReviewCategoryDetailUserThumb)
-                        .load("https://picsum.photos/${60 + adapterPosition}/${60 + adapterPosition}")
-                        .into(imageViewItemReviewCategoryDetailUserThumb)
-
-                    textViewItemReviewCategoryDetailUserName.text = "자취 만렙$adapterPosition"
-
-                    Glide.with(imageViewItemReviewCategoryDetailProductThumb)
-                        .load("https://picsum.photos/${100 + adapterPosition}/${100 + adapterPosition}")
-                        .into(imageViewItemReviewCategoryDetailProductThumb)
-
-                    textViewItemReviewCategoryDetailProductName.text = "제품명$adapterPosition"
-
-                    textViewItemReviewCategoryDetailReviewContent.text = "최신 리뷰$adapterPosition"
                 }
             }
         }

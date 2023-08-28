@@ -1,8 +1,6 @@
 package com.hifi.hifi_shopping.category.ui
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
@@ -49,30 +46,33 @@ class ProductListAdapter(
         holder.bind(currentList[position])
     }
 
+//    override fun onViewDetachedFromWindow(holder: ProductListViewHolder) {
+//        super.onViewDetachedFromWindow(holder)
+//        holder.detach()
+//    }
+
     inner class ProductListViewHolder(
         val itemProductCategoryDetailBinding: ItemProductCategoryDetailBinding
     ): RecyclerView.ViewHolder(itemProductCategoryDetailBinding.root){
         fun bind(product: CategoryMainProduct) {
             itemProductCategoryDetailBinding.run {
-                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.brown2)
+                //imageViewItemProductCategoryDetailThumb.setImageResource(R.color.brown2)
 
                 if (product.imgSrc.isEmpty()) {
                     categoryMainViewModel.getProductImgUrl(categoryMainViewModel.productWorth + currentList.size - adapterPosition - 1) { url ->
                         Glide.with(imageViewItemProductCategoryDetailThumb)
                             .load(url)
-                            .placeholder(R.color.brown2)
+                            .placeholder(R.color.white)
                             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                             .into(imageViewItemProductCategoryDetailThumb)
                     }
                 } else {
                     Glide.with(imageViewItemProductCategoryDetailThumb)
                         .load(product.imgSrc)
-                        .placeholder(R.color.brown2)
+                        .placeholder(R.color.white)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                         .into(imageViewItemProductCategoryDetailThumb)
                 }
-
-
 
 //                Glide.with(imageViewItemProductCategoryDetailThumb)
 //                    .load(product.imgSrc)
@@ -86,6 +86,17 @@ class ProductListAdapter(
                 root.setOnClickListener {
                     callback(product.idx)
                 }
+
+                categoryMainViewModel.getProductRatingInfo(product.idx) { rating, reviewCnt ->
+                    textViewItemProductCategoryDetailRating.text = String.format("평점 %.1f/5", rating)
+                    textViewItemProductCategoryDetailReviewCount.text = "(${reviewCnt})"
+                }
+            }
+        }
+
+        fun detach() {
+            itemProductCategoryDetailBinding.run {
+                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.white)
             }
         }
     }
