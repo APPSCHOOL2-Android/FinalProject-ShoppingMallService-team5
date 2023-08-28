@@ -18,6 +18,7 @@
             android:backgroundTint="@color/white"
             app:cardCornerRadius="15dp"
             app:cardElevation="15dp"
+            app:cardUseCompatPadding="true"
             app:strokeWidth="0dp">
 
             <LinearLayout
@@ -32,7 +33,7 @@
                     android:layout_height="84dp"
                     android:layout_gravity="center"
                     android:scaleType="centerCrop"
-                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
+                    app:srcCompat="@drawable/empty_photo" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,8 +48,8 @@
                         android:layout_height="wrap_content"
                         android:elegantTextHeight="true"
                         android:fontFamily="@font/notosanskr_regular"
-                        android:text="TMA-2 Comfort Wireless "
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                        android:text="제품 이름"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/black" />
 
                     <LinearLayout
@@ -60,9 +61,11 @@
                             android:id="@+id/rowCartRecommendPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_bold"
-                            android:text="20000원" />
+                            android:text="제품 가격"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                     </LinearLayout>
 
