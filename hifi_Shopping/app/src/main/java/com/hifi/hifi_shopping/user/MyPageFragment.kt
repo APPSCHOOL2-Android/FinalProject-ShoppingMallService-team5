@@ -235,28 +235,28 @@ class MyPageFragment : Fragment() {
             }
 
             userBottomNavigationView.run {
-                selectedItemId = R.id.userFragment
-                setOnItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.userFragment -> {
-
-
-                        }
-                        R.id.rankFragment ->{
-
-
-                        }
-                        R.id.categoryFragment->{
-                            val intent = Intent(userActivity, CategoryActivity::class.java)
-                            startActivity(intent)
-
-                        }
-                        R.id.recommendFragment ->{
-
-                        }
-                    }
-                    return@setOnItemSelectedListener true
-                }
+//                selectedItemId = R.id.userFragment
+//                setOnItemSelectedListener {
+//                    when (it.itemId) {
+//                        R.id.userFragment -> {
+//
+//
+//                        }
+//                        R.id.rankFragment ->{
+//
+//
+//                        }
+//                        R.id.categoryFragment->{
+//                            val intent = Intent(userActivity, CategoryActivity::class.java)
+//                            startActivity(intent)
+//
+//                        }
+//                        R.id.recommendFragment ->{
+//
+//                        }
+//                    }
+//                    return@setOnItemSelectedListener true
+//                }
             }
 
 

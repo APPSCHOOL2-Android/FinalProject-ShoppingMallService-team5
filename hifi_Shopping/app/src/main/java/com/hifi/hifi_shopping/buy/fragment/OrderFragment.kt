@@ -125,7 +125,7 @@ class OrderFragment : Fragment() {
             val nomalFont = ResourcesCompat.getFont(buyActivity, R.font.notosanskr_medium)
             orderDeliverBtnFirst.run{
                 setOnClickListener {
-                    setBackgroundResource(R.drawable.background_subscribe_button)
+                    setBackgroundResource(R.drawable.background_subscribe_button_not_subscribing)
                     typeface = selectFont
                     setTextColor(Color.WHITE)
                     orderDeliverBtnSecond.setBackgroundResource(R.drawable.address_not_select_backround)
@@ -141,7 +141,7 @@ class OrderFragment : Fragment() {
 
             orderDeliverBtnSecond.run{
                 setOnClickListener {
-                    setBackgroundResource(R.drawable.background_subscribe_button)
+                    setBackgroundResource(R.drawable.background_subscribe_button_not_subscribing)
                     typeface = selectFont
                     setTextColor(Color.WHITE)
                     orderDeliverBtnFirst.setBackgroundResource(R.drawable.address_not_select_backround)
@@ -157,7 +157,7 @@ class OrderFragment : Fragment() {
 
             orderDeliverBtnThird.run{
                 setOnClickListener {
-                    setBackgroundResource(R.drawable.background_subscribe_button)
+                    setBackgroundResource(R.drawable.background_subscribe_button_not_subscribing)
                     typeface = selectFont
                     setTextColor(Color.WHITE)
                     orderDeliverBtnFirst.setBackgroundResource(R.drawable.address_not_select_backround)

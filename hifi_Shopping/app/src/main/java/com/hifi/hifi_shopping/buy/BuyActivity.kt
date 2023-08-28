@@ -52,7 +52,7 @@ class BuyActivity : AppCompatActivity() {
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
         val buyProductList = intent.getStringArrayListExtra("buyProduct")
-        val userIdx = intent.getStringExtra("userIdx")
+        //val userIdx = intent.getStringExtra("userIdx")
 
 
         var bundle = Bundle()

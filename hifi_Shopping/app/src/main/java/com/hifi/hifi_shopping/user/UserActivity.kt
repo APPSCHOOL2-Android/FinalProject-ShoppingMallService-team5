@@ -28,7 +28,7 @@ class UserActivity : AppCompatActivity() {
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
 
-    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "e8fa83ce-5341-4f10-9929-5521d9c5fe82")
+    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "")
 
     val permissionList = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -135,7 +135,7 @@ class UserActivity : AppCompatActivity() {
     fun getUserProfileImg(userTemp: UserDataClass, imgView: ImageView){
         val storage = FirebaseStorage.getInstance()
         val fileName = if(userTemp.profileImg.isNullOrBlank()){
-            "user/sample_img.png"
+            "user/sample_img.jpg" // todo: sample_img -> 디폴트
         }else{
             "user/${userTemp.idx}"
         }

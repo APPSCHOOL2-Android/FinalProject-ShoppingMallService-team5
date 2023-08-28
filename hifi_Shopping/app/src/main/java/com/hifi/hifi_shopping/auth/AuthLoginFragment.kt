@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
+import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentAuthLoginBinding
 
 class AuthLoginFragment : Fragment() {
@@ -32,6 +34,8 @@ class AuthLoginFragment : Fragment() {
             if (isSuccess) {
                 // 로그인 성공 다이얼로그 표시
                 showLoginSuccessDialog()
+                val intent = Intent(context, CategoryActivity::class.java)
+                startActivity(intent)
             } else {
                 // 로그인 실패 다이얼로그 표시
                 showLoginFailureDialog()

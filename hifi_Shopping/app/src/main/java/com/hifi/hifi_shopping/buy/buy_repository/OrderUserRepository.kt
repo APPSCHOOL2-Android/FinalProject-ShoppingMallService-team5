@@ -1,6 +1,7 @@
 package com.hifi.hifi_shopping.buy.buy_repository
 
 import android.net.Uri
+import android.util.Log
 import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -13,8 +14,10 @@ class OrderUserRepository {
 
         fun getOrderUserSubscribeUserImg(imgSrc: String, callback1: (Task<Uri>) -> Unit){
             val storage = FirebaseStorage.getInstance()
-            val fileRef = storage.getReference("user").child(imgSrc)
+            val fileRef = storage.reference.child("user/$imgSrc")
             // 데이터를 가져올 수 있는 경로를 가져온다.
+            Log.d("ttt","$fileRef")
+            Log.d("ttt","$imgSrc")
             fileRef.downloadUrl.addOnCompleteListener(callback1)
         }
 

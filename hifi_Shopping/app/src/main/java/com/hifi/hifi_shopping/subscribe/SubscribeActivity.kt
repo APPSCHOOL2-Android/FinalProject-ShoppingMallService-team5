@@ -66,8 +66,8 @@ class SubscribeActivity : AppCompatActivity() {
 
     inner class SubscribeUserListAdapter: RecyclerView.Adapter<SubscribeUserListAdapter.SubscribeUserListViewHolder>(){
         inner class SubscribeUserListViewHolder(subscribeUserListItemBinding: SubscribeUserListItemBinding): ViewHolder(subscribeUserListItemBinding.root){
-            val subscribeUserProfileImageView = subscribeUserListItemBinding.subscribeUserProfileImageView
-            val subscribeUserProfileNickNameTextView = subscribeUserListItemBinding.subscribeUserProfileNickNametextView
+            val subscribeUserProfileImageView = subscribeUserListItemBinding.subscrobeUserProfileImageView
+            val subscribeUserProfileNickNameTextView = subscribeUserListItemBinding.subscrobeUserProfileNickNametextView
         }
 
         override fun onCreateViewHolder(

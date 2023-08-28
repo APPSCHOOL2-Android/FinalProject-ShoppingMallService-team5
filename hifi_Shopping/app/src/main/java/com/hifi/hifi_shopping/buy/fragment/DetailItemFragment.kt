@@ -49,7 +49,7 @@ class DetailItemFragment : Fragment() {
         dataSetting()
         viewSetting()
         viewModelSetting()
-
+        Log.d("ttttt", "$orderUserIdx")
         return fragmenDetailItemtBinding.root
     }
 
@@ -58,6 +58,7 @@ class DetailItemFragment : Fragment() {
         buyActivity = activity as BuyActivity
         productIdx = arguments?.getString("selProduct")!!
         orderUserIdx = arguments?.getString("userIdx")!!
+
     }
 
     private fun viewSetting(){
@@ -84,6 +85,7 @@ class DetailItemFragment : Fragment() {
                     productList.add(productIdx)
                     bundle.putStringArrayList("selProduct", productList)
                     bundle.putString("userIdx", orderUserIdx) // 유저 인덱스
+                    Log.d("ttttt", "asd: $orderUserIdx")
                     buyActivity.replaceFragment(BuyActivity.ORDER_FRAGMENT, false, bundle)
                 }
             }

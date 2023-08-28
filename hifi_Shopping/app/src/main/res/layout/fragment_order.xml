@@ -198,7 +198,7 @@
                             android:layout_height="25dp"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/background_subscribe_button"
+                            android:background="@drawable/background_subscribe_button_not_subscribing"
                             android:elegantTextHeight="true"
                             android:fontFamily="@font/notosanskr_bold"
                             android:text="1번 주소"

@@ -10,14 +10,14 @@
         android:orientation="vertical">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/subscribeUserProfileImageView"
+            android:id="@+id/subscrobeUserProfileImageView"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:padding="5dp"
             android:src="@drawable/user_sample" />
 
         <TextView
-            android:id="@+id/subscribeUserProfileNickNametextView"
+            android:id="@+id/subscrobeUserProfileNickNametextView"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-black"
