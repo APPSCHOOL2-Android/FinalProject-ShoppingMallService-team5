@@ -16,7 +16,7 @@ import com.hifi.hifi_shopping.user.adapter.CouponViewPagerAdapter
 class CouponFragment : Fragment() {
 
     lateinit var fragmentCouponBinding: FragmentCouponBinding
-    lateinit var mainActivity: MainActivity
+    lateinit var userActivity: UserActivity
 
     private val tabTextList = listOf("보유 중인 쿠폰","미보유 중인 쿠폰")
 
@@ -29,7 +29,7 @@ class CouponFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         fragmentCouponBinding = FragmentCouponBinding.inflate(layoutInflater)
-        mainActivity = activity as MainActivity
+        userActivity = activity as UserActivity
 
         fragmentCouponBinding.run {
             tabLayout = couponTabLayout

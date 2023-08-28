@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".user.UserPageReviewFragment" >
+    android:padding="15dp"
+    tools:context=".user.UserPageReviewFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userPageReviewRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
