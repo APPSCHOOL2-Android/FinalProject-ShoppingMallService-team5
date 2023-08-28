@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".buy.DetailItemFragment">
+    tools:context=".buy.fragment.DetailItemFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
@@ -49,16 +49,17 @@
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
-                            android:id="@+id/imageView"
+                            android:id="@+id/productTitleImg"
                             android:layout_width="360dp"
                             android:layout_height="360dp"
+                            android:scaleType="fitXY"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/test_image22" />
+                            app:srcCompat="@drawable/product_sample" />
 
                         <TextView
-                            android:id="@+id/textView"
+                            android:id="@+id/productTitleName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -67,16 +68,16 @@
                             android:textColor="@color/brown"
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                            app:layout_constraintTop_toBottomOf="@+id/productTitleImg" />
 
                         <TextView
-                            android:id="@+id/textView2"
+                            android:id="@+id/productUsePercent"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="72% 남자들이 사용하고 있어요"
                             android:textStyle="bold"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/textView" />
+                            app:layout_constraintTop_toBottomOf="@+id/productTitleName" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -103,9 +104,10 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerView"
+                            android:id="@+id/subscribeUserListRecyclerView"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView7"
                             tools:itemCount="1"
@@ -121,10 +123,10 @@
                             android:background="@drawable/my_subscribe_review"
                             android:padding="12dp"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+                            app:layout_constraintTop_toBottomOf="@+id/subscribeUserListRecyclerView">
 
                             <TextView
-                                android:id="@+id/textView9"
+                                android:id="@+id/subscrobeReviewUserNickname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/notosans_black"
@@ -134,7 +136,7 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <TextView
-                                android:id="@+id/textView10"
+                                android:id="@+id/subscrobeUserReviewContext"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="8dp"
@@ -142,7 +144,7 @@
                                 android:text="리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. 리뷰 입니다. "
                                 android:textColor="@color/black"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+                                app:layout_constraintTop_toBottomOf="@+id/subscrobeReviewUserNickname" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,33 +157,87 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/constraint2">
 
-                        <com.google.android.material.tabs.TabLayout
+                        <LinearLayout
                             android:id="@+id/tabLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:tabIndicatorColor="@color/brown"
                             app:tabTextColor="@color/brown">
 
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/tabItem1"
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="아이템 정보" />
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/tabItem2"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="리뷰" />
+                                <TextView
+                                    android:id="@+id/tab1TextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/notosans_extrabold"
+                                    android:text="아이템 정보"
+                                    android:textAlignment="center" />
 
-                            <com.google.android.material.tabs.TabItem
-                                android:id="@+id/tabItem3"
+                                <LinearLayout
+                                    android:id="@+id/itemInfoLine"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:background="@color/brown"
+                                    android:orientation="vertical"></LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="문의 글" />
-                        </com.google.android.material.tabs.TabLayout>
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tab2TextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/notosans_extrabold"
+                                    android:text="리뷰"
+                                    android:textAlignment="center" />
+
+                                <LinearLayout
+                                    android:id="@+id/reviewInfoLine"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"></LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tab3TextView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/notosans_extrabold"
+                                    android:text="문의 글"
+                                    android:textAlignment="center" />
+
+                                <LinearLayout
+                                    android:id="@+id/faqInfoLine"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="1dp"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical"></LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
 
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -229,16 +285,16 @@
                                     app:layout_constraintTop_toBottomOf="@+id/productInfoTextView" />
                             </LinearLayout>
 
-                            <ImageView
-                                android:id="@+id/productInfoImageView"
+                            <LinearLayout
+                                android:id="@+id/productInfoImageLayout"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:src="@tools:sample/avatars"
+                                android:layout_marginTop="20dp"
+                                android:orientation="vertical"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintHorizontal_bias="0.0"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/productInfoTextViewContainer"
-                                app:srcCompat="@drawable/prepare" />
+                                app:layout_constraintTop_toBottomOf="@+id/productInfoTextViewContainer" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <androidx.constraintlayout.widget.ConstraintLayout
@@ -265,7 +321,19 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
+                            <TextView
+                                android:id="@+id/normalReviewCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="n개의 리뷰"
+                                android:textColor="@color/brown"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
                             <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/nomalReviewRecyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
@@ -282,14 +350,25 @@
                             android:layout_marginTop="8dp"
                             android:background="@drawable/edittext_rounded_corner_rectangle"
                             android:padding="12dp"
-                            android:visibility="visible"
+                            android:visibility="gone"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tabLayout">
 
                             <TextView
-                                android:id="@+id/textView13223"
+                                android:id="@+id/faqCountTextView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="문의 글"
+                                android:textColor="@color/brown"
+                                android:textSize="18sp"
+                                android:textStyle="bold"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textView4"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="문의 글"
@@ -300,11 +379,12 @@
                                 app:layout_constraintTop_toTopOf="parent" />
 
                             <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/faqListRecyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="8dp"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toBottomOf="@+id/textView13223"
+                                app:layout_constraintTop_toBottomOf="@+id/faqCountTextView"
                                 tools:itemCount="1"
                                 tools:listitem="@layout/row_detail_review" />
                         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -361,7 +441,7 @@
                 app:strokeColor="@color/brown" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/view5"
+                android:id="@+id/buyRightBtn"
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
