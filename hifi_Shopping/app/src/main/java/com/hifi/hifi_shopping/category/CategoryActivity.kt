@@ -4,6 +4,8 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.service.autofill.UserData
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
@@ -17,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.repository.AuthRepository.Companion.getUserByAuth
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
@@ -39,6 +42,9 @@ class CategoryActivity : AppCompatActivity() {
     lateinit var navController: NavController
     lateinit var authViewModel: AuthViewModel
     lateinit var userDataClass: UserDataClass
+
+    var doubleBackToExitPressedOnce = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
@@ -64,7 +70,17 @@ class CategoryActivity : AppCompatActivity() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (navController.currentDestination?.id == R.id.categoryMainFragment && !(categoryViewModel.searchSubCategory.value ?: false)){
-                    finish()
+                    if (doubleBackToExitPressedOnce) {
+                        finish()
+                        return
+                    }
+
+                    this@CategoryActivity.doubleBackToExitPressedOnce = true
+                    Snackbar.make(binding.root, "'뒤로'버튼을 한번 더 누르시면 종료됩니다.", Snackbar.LENGTH_SHORT).show()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        doubleBackToExitPressedOnce = false
+                    }, 2000)
                     return
                 }
 
