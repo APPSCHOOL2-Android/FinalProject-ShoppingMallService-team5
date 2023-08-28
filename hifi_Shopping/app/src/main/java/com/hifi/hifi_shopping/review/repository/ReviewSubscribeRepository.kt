@@ -1,4 +1,4 @@
-package com.hifi.hifi_shopping.parcel.repository
+package com.hifi.hifi_shopping.review.repository
 
 import android.net.Uri
 import com.google.firebase.database.DataSnapshot
@@ -9,22 +9,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class ReviewProductRepository {
+class ReviewSubscribeRepository {
     companion object{
-        suspend fun getProductInfoByIdx(idx: String): DataSnapshot = withContext(Dispatchers.IO) {
+        suspend fun getSubscribeListByUserIdx(userIdx: String): DataSnapshot = withContext(Dispatchers.IO) {
             val database = FirebaseDatabase.getInstance()
-            val postDataRef = database.getReference("ProductData")
+            val postDataRef = database.getReference("SubscribeData")
+            val task = postDataRef.orderByChild("userIdx").equalTo(userIdx).get()
+            task.await()
+        }
+        suspend fun getUserInfoByIdx(idx:String): DataSnapshot = withContext(
+            Dispatchers.IO) {
+            val database = FirebaseDatabase.getInstance()
+            val postDataRef = database.getReference("UserData")
             val task = postDataRef.orderByChild("idx").equalTo(idx).get()
             task.await()
         }
-        suspend fun getProductImgByProductIdx(productIdx:String): DataSnapshot = withContext(Dispatchers.IO) {
-            val database = FirebaseDatabase.getInstance()
-            val postDataRef = database.getReference("ProductImgData")
-            val task = postDataRef.orderByChild("productIdx").equalTo(productIdx).get()
-            task.await()
-        }
 
-        suspend fun getProductImgByFilename(fileName: String): Uri? = withContext(Dispatchers.IO) {
+        suspend fun getUserProfileImgByFilename(fileName: String): Uri? = withContext(Dispatchers.IO) {
             val storage = FirebaseStorage.getInstance()
             val fileRef: StorageReference = storage.reference.child(fileName)
 
