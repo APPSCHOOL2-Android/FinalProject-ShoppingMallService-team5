@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
         android:allowBackup="true"
@@ -19,12 +22,12 @@
             android:exported="false" />
         <activity
             android:name=".user.UserActivity"
+            android:exported="true" />
+        <activity
+            android:name=".subscribe.SubscribeActivity"
             android:exported="false" />
         <activity
             android:name=".search.SearchActivity"
-            android:exported="false" />
-        <activity
-            android:name=".review.ReviewActivity"
             android:exported="false" />
         <activity
             android:name=".recommend.RecommendActivity"
@@ -33,7 +36,7 @@
             android:name=".rank.RankActivity"
             android:exported="false" />
         <activity
-            android:name=".pacel.PacelActivity"
+            android:name=".parcel.ParcelActivity"
             android:exported="false" />
         <activity
             android:name=".notice.NoticeActivity"
@@ -45,7 +48,7 @@
             android:name=".auth.AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".subscribe.SubscribeActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

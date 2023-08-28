@@ -52,6 +52,7 @@ class SubscribeViewModel() : ViewModel() {
                     }
                 }
             }
+            // 데이터 삽입
         }
     }
 }
