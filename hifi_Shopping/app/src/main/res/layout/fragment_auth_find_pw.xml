@@ -191,10 +191,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextFindPwRequset">
 
                 <TextView
-                    android:id="@+id/warningName"
+                    android:id="@+id/warningNickname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="이름을 확인해주세요"
+                    android:text="닉네임을 확인해주세요"
                     android:textColor="#FF0000"
                     android:visibility="gone" />
 
