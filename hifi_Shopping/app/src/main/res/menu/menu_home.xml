@@ -5,5 +5,6 @@
     <item
         android:icon="@drawable/home_brown_24px"
         android:title="item_home"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:id="@+id/menu_item_home"/>
 </menu>

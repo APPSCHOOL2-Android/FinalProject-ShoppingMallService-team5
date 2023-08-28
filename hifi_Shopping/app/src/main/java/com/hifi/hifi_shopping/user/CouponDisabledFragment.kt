@@ -5,56 +5,87 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.hifi.hifi_shopping.R
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.hifi.hifi_shopping.databinding.FragmentCouponDisabledBinding
+import com.hifi.hifi_shopping.databinding.RowCouponDisabledBinding
+import com.hifi.hifi_shopping.user.model.CouponDataClass
+import com.hifi.hifi_shopping.user.vm.UserCouponViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CouponDisabledFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CouponDisabledFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var userActivity : UserActivity
+    lateinit var fragmentCouponDisabledBinding: FragmentCouponDisabledBinding
+    lateinit var userCouponViewModel : UserCouponViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_coupon_disabled, container, false)
-    }
+        userActivity = activity as UserActivity
+        fragmentCouponDisabledBinding = FragmentCouponDisabledBinding.inflate(layoutInflater)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CouponDisabledFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CouponDisabledFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+        userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
+
+        val userTemp = userActivity.userTemp
+
+        userCouponViewModel.run {
+            getUserCouponDisabledAll(userTemp.idx)
+            couponDisabledList.observe(userActivity){
+                fragmentCouponDisabledBinding.run {
+                    couponDisabledRecyclerView.run {
+                        adapter = CouponDisabledRecyclerViewAdapter()
+                        layoutManager = LinearLayoutManager(userActivity, LinearLayoutManager.VERTICAL, false)
+                    }
                 }
             }
+        }
+
+        return fragmentCouponDisabledBinding.root
     }
+
+    inner class CouponDisabledRecyclerViewAdapter() : RecyclerView.Adapter<CouponDisabledRecyclerViewAdapter.CouponDisabledRecyclerViewHolder>(){
+
+        inner class CouponDisabledRecyclerViewHolder(rowCouponDisabledBinding: RowCouponDisabledBinding) : RecyclerView.ViewHolder(rowCouponDisabledBinding.root){
+
+            val rowCouponDisabledName: TextView
+            val rowCouponDisabledEndDate: TextView
+            val rowCouponDisabledDiscount: TextView
+
+
+            init{
+                rowCouponDisabledName = rowCouponDisabledBinding.rowCouponDisabledName
+                rowCouponDisabledEndDate = rowCouponDisabledBinding.rowCouponDisabledValidDate
+                rowCouponDisabledDiscount = rowCouponDisabledBinding.rowCouponDisabledDiscount
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CouponDisabledRecyclerViewHolder {
+            val rowCouponDisabledBinding = RowCouponDisabledBinding.inflate(layoutInflater)
+            val allViewHolder = CouponDisabledRecyclerViewHolder(rowCouponDisabledBinding)
+
+            rowCouponDisabledBinding.root.layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            return allViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return userCouponViewModel.couponDisabledList.value?.size!!
+        }
+
+        override fun onBindViewHolder(holder: CouponDisabledRecyclerViewHolder, position: Int) {
+            holder.rowCouponDisabledName.text = userCouponViewModel.couponDisabledList.value?.get(position)?.categoryNum
+
+            holder.rowCouponDisabledEndDate.text = "~"+userCouponViewModel.couponDisabledList.value?.get(position)?.validDate
+            holder.rowCouponDisabledDiscount.text =userCouponViewModel.couponDisabledList.value?.get(position)?.discountPercent
+
+
+        }
+    }
+
 }

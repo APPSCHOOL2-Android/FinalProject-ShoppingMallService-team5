@@ -7,19 +7,34 @@
     android:orientation="vertical"
     tools:context=".user.FAQFragment" >
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarFAQ"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/FAQAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
-        app:itemIconTint="#846058"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:navigationIconTint="#846058"
-        app:title="상품 문의 글 작성하기"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/FAQToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="#846058"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:subtitleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:title="상품 문의 글 작성하기"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+    <View
+        android:id="@+id/FAQToolbarDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/dark_brown" />
+
+</com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

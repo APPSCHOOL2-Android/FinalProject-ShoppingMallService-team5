@@ -5,20 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d54ddf07-7b49-49b5-b26d-4e65f60af33f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/fragment/BuyOrderCompleteListFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/fragment/DetailItemFragment.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/fragment/OrderFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/MainActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/MainActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/BuyActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/BuyActivity.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/DetailItemFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/OrderFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/ui/BuyOrderCompleteFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/fragment/BuyOrderCompleteFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/java/com/hifi/hifi_shopping/buy/ui/BuyOrderCompleteListFragment.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/activity_buy.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/activity_buy.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_buy_order_complete.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_buy_order_complete.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_buy_order_complete_list.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_buy_order_complete_list.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_detail_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_detail_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_order.xml" beforeDir="false" afterPath="$PROJECT_DIR$/hifi_Shopping/app/src/main/res/layout/fragment_order.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,16 +23,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Users/wkfsk/Desktop/FinalProject-ShoppingMallService-team5",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/workspace/FinalProject-ShoppingMallService-team5/hifi_Shopping&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -62,7 +49,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="feat/SellerBranch" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

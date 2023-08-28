@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "630022759970",
+    "firebase_url": "https://testguyde-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "testguyde",
+    "storage_bucket": "testguyde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:630022759970:android:52a760d3a4a7c58d1e4c7b",
+        "android_client_info": {
+          "package_name": "com.hifi.hifi_shopping_sales"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "630022759970-hg8os88fl126k1ua2v4a0k97c9lkscgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCX2nWLonlZK41xVsnoomDjqoTm8fh6Wkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "630022759970-hg8os88fl126k1ua2v4a0k97c9lkscgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
