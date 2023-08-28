@@ -1,11 +1,17 @@
 package com.hifi.hifi_shopping.category.ui
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +25,7 @@ import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 import com.hifi.hifi_shopping.databinding.ItemReviewCategoryDetailBinding
 
 class ReviewListAdapter(
+    val categoryMainFragment: CategoryMainFragment,
     val categoryMainViewModel: CategoryMainViewModel,
     val profileClickCallback: () -> Unit,
     val productClickCallback: (String) -> Unit
@@ -57,9 +64,43 @@ class ReviewListAdapter(
     inner class ReviewListViewHolder(
         val itemReviewCategoryDetailBinding: ItemReviewCategoryDetailBinding
     ): RecyclerView.ViewHolder(itemReviewCategoryDetailBinding.root) {
+
+        var expanded = false
         fun bind(review: CategoryMainReview) {
             itemReviewCategoryDetailBinding.run {
-                textViewItemReviewCategoryDetailReviewContent.text = review.context
+                //textViewItemReviewCategoryDetailReviewContent.text = review.context
+                textViewItemReviewCategoryDetailReviewContent.text = "이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다."
+
+                textViewItemReviewCategoryDetailReviewContent.post {
+                    if (textViewItemReviewCategoryDetailReviewContent.layout.getEllipsisCount(textViewItemReviewCategoryDetailReviewContent.lineCount - 1) > 0) {
+                        imageViewItemReviewCategoryDetailExpand.visibility = View.VISIBLE
+                        val dpValueHorizontal = 13
+                        val dpValueTop = 9
+                        val dpValueBottom = 36
+                        val density = categoryMainFragment.resources.displayMetrics.density
+                        textViewItemReviewCategoryDetailReviewContent.setPadding(
+                            (dpValueHorizontal * density).toInt(),
+                            (dpValueTop * density).toInt(),
+                            (dpValueHorizontal * density).toInt(),
+                            (dpValueBottom * density).toInt()
+                        )
+
+                        textViewItemReviewCategoryDetailReviewContent.run {
+                            setOnClickListener {
+                                if (expanded) {
+                                    expanded = false
+                                    imageViewItemReviewCategoryDetailExpand.setImageResource(R.drawable.expand_more_24px)
+                                    maxLines = 4
+                                } else {
+                                    expanded = true
+                                    maxLines = Int.MAX_VALUE
+                                    imageViewItemReviewCategoryDetailExpand.setImageResource(R.drawable.expand_less_24px)
+                                }
+                            }
+                        }
+                    }
+                }
+
                 textViewItemReviewCategoryDetailLikeCount.text = review.likeCnt
 
                 categoryMainViewModel.getUser(review.writerIdx) { user ->

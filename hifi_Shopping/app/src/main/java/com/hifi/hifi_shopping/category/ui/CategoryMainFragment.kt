@@ -83,7 +83,7 @@ class CategoryMainFragment : Fragment() {
 
         val productListAdapter = ProductListAdapter(categoryMainViewModel, productClickCallback)
 
-        val reviewListAdapter = ReviewListAdapter(categoryMainViewModel, profileClickCallback, productClickCallback)
+        val reviewListAdapter = ReviewListAdapter(this, categoryMainViewModel, profileClickCallback, productClickCallback)
 
         categoryNum = arguments?.getInt("categoryNum") ?: 0
 
