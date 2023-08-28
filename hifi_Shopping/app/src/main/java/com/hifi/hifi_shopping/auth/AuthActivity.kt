@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.auth.FirebaseAuth
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.databinding.ActivityAuthBinding
 import kotlin.concurrent.thread
 
@@ -27,13 +29,20 @@ class AuthActivity : AppCompatActivity() {
         val AUTH_FIND_RESULT_FRAGMENT = "AuthFindResultFragment"
     }
 
+    // nullable한 FirebaseAuth 객체 선언 (Authentication)
+    var auth: FirebaseAuth? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityAuthBinding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(activityAuthBinding.root)
 
         replaceFragment(AUTH_LOGIN_FRAGMENT, false, null)
+
+        // auth 객체 초기화 (Authentication)
+        auth = FirebaseAuth.getInstance()
     }
+
 
     // 지정한 Fragment를 보여주는 메서드
     fun replaceFragment(name: String, addToBackStack: Boolean, bundle: Bundle?) {
@@ -80,7 +89,6 @@ class AuthActivity : AppCompatActivity() {
                 // Fragment를 Backstack에 넣어 이전으로 돌아가는 기능이 동작할 수 있도록 한다.
                 fragmentTransaction.addToBackStack(name)
             }
-
             // 교체 명령이 동작하도록 한다.
             fragmentTransaction.commit()
         }
@@ -103,3 +111,5 @@ class AuthActivity : AppCompatActivity() {
     }
 
 }
+
+

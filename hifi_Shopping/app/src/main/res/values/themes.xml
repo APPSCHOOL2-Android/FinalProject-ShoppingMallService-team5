@@ -12,4 +12,11 @@
 
     <style name="Theme.Hifi_Shopping" parent="Base.Theme.Hifi_Shopping" />
 
+    1
+    2
+    3
+    <style name="Theme.Hifi_Shopping.ToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/notosans_eb</item>
+    </style>
+
 </resources>

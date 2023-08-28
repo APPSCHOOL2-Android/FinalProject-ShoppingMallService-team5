@@ -9,5 +9,56 @@
         android:id="@+id/categoryMainFragment"
         android:name="com.hifi.hifi_shopping.category.ui.CategoryMainFragment"
         android:label="fragment_category_main" />
+    <fragment
+        android:id="@+id/rankMainFragment"
+        android:name="com.hifi.hifi_shopping.rank.RankMainFragment"
+        android:label="fragment_rank_main"
+        tools:layout="@layout/fragment_rank_main" />
+    <fragment
+        android:id="@+id/recommendFragment"
+        android:name="com.hifi.hifi_shopping.recommend.RecommendFragment"
+        android:label="fragment_recommend"
+        tools:layout="@layout/fragment_recommend" />
+    <fragment
+        android:id="@+id/wishFragment"
+        android:name="com.hifi.hifi_shopping.wish.WishFragment"
+        android:label="fragment_wish"
+        tools:layout="@layout/fragment_wish" />
+
+    <action
+        android:id="@+id/actionToRankMainFragment"
+        app:destination="@id/rankMainFragment"
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <action
+        android:id="@+id/actionToRecommendFragment"
+        app:destination="@id/recommendFragment"
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+
+    <action
+        android:id="@+id/actionToCategoryMainFragment"
+        app:destination="@id/categoryMainFragment"
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
+
+    <action
+        android:id="@+id/actionToWishFragment"
+        app:destination="@id/wishFragment"
+        app:launchSingleTop="true"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"/>
 
 </navigation>

@@ -1,10 +1,8 @@
 package com.hifi.hifi_shopping
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.hifi.hifi_shopping.databinding.ActivityMainBinding
-import com.hifi.hifi_shopping.subscribe.SubscribeActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,9 +12,6 @@ class MainActivity : AppCompatActivity() {
 
         activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(activityMainBinding.root)
-
-        val intent = Intent(baseContext, SubscribeActivity::class.java)
-        startActivity(intent)
 
     }
 }

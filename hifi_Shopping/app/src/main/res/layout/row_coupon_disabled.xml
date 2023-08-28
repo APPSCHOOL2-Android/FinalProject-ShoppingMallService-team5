@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
-        app:cardElevation="15dp"
         app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
         app:strokeWidth="0dp">
 
         <LinearLayout
@@ -36,10 +37,10 @@
 
             <ImageButton
                 android:id="@+id/rowCouponDisabledBtnDownload"
+                style="@style/Widget.Material3.Button.IconButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                style ="@style/Widget.Material3.Button.IconButton"
                 app:srcCompat="@drawable/download_24px" />
 
             <LinearLayout
@@ -50,16 +51,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/rowCouponDisabledStartDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:elegantTextHeight="true"
-                    android:fontFamily="@font/notosanskr_regular"
-                    android:text="2023-08-10" />
-
-                <TextView
-                    android:id="@+id/rowCouponDisabledEndDate"
+                    android:id="@+id/rowCouponDisabledValidDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -67,15 +59,39 @@
                     android:fontFamily="@font/notosanskr_regular"
                     android:text="~ 2023-08-11" />
 
-                <TextView
-                    android:id="@+id/rowCouponDisabledDiscount"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
-                    android:elegantTextHeight="true"
-                    android:fontFamily="@font/notosanskr_regular"
-                    android:text="최대 5000원 할인" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:text="할인 율 : " />
+
+                    <TextView
+                        android:id="@+id/rowCouponDisabledDiscount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="50" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="%" />
+
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
