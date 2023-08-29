@@ -71,6 +71,7 @@ class OrderUserViewModel() : ViewModel() {
                     if(getProductIdx == productIdx){
                         tempMap[userIdx]?.review = c3.child("context").value as String
                     }
+                    subscribeUserInfoMap.postValue(tempMap)
                 }
             }
         },{
