@@ -33,8 +33,8 @@ class ReviewSubscribeViewModel() : ViewModel() {
             launch(Dispatchers.IO) {
                 val productResult = ReviewSubscribeRepository.getUserInfoByIdx(idx)
 
-                val nickname = productResult.children.firstOrNull()?.child("nickname")?.value as? String
-                val filename = productResult.children.firstOrNull()?.child("profileImg")?.value as? String
+                val nickname = productResult.children.firstOrNull()?.child("nickname")?.value as String
+                val filename = productResult.children.firstOrNull()?.child("profileImg")?.value as String
 
                 if (!nickname.isNullOrBlank() && !filename.isNullOrBlank()) {
                     val productImgResult = ReviewSubscribeRepository.getUserProfileImgByFilename(filename)
