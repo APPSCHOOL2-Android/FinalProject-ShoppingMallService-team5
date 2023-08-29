@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.buy.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
-import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository.Companion.getProductNormalReview
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
 import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
@@ -25,6 +24,8 @@ import com.hifi.hifi_shopping.databinding.FragmentDetailItemBinding
 import com.hifi.hifi_shopping.databinding.RowDetailReviewBinding
 import com.hifi.hifi_shopping.databinding.RowNomalReviewBinding
 import com.hifi.hifi_shopping.databinding.SubscribeUserListItemBinding
+import com.hifi.hifi_shopping.search.SearchActivity
+import com.hifi.hifi_shopping.user.UserActivity
 
 
 private lateinit var orderUserViewModel: OrderUserViewModel
@@ -57,13 +58,11 @@ class DetailItemFragment : Fragment() {
 
         return fragmenDetailItemtBinding.root
     }
-
     private fun dataSetting(){
         fragmenDetailItemtBinding = FragmentDetailItemBinding.inflate(layoutInflater)
         buyActivity = activity as BuyActivity
         productIdx = arguments?.getString("selProduct")!!
         orderUserIdx = arguments?.getString("userIdx")!!
-
     }
 
     private fun viewSetting(){
@@ -138,12 +137,43 @@ class DetailItemFragment : Fragment() {
 
             materialToolbar.run{
                 setNavigationOnClickListener {
-                    buyActivity.removeFragment(BuyActivity.DETAIL_ITEM_FRAGMENT)
-                    buyActivity.finish()
+                    buyActivity.activityKill()
+                }
+
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menuItemSearch -> {
+                            val intent = buyActivity.intentSetting(Intent(buyActivity, SearchActivity::class.java))
+                            startActivity(intent)
+                        }
+                        R.id.menuItemCart -> {
+                            val intent = buyActivity.intentSetting(Intent(buyActivity, UserActivity::class.java))
+                            intent.putExtra("whereFrom","buy")
+                            intent.putExtra("userFragmentType","cart")
+                            startActivity(intent)
+                        }
+                        else -> {
+                            return@setOnMenuItemClickListener true
+                        }
+                    }
+                    true
                 }
             }
+
         }
     }
+
+    override fun onStart() {
+        super.onStart()
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 백버튼을 누를 때 실행할 동작을 여기에 추가
+                buyActivity.activityKill()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
     private fun viewModelSetting(){
         orderItemViewModel = ViewModelProvider(buyActivity)[OrderItemViewModel::class.java]
         orderUserViewModel = ViewModelProvider(buyActivity)[OrderUserViewModel::class.java]
@@ -283,7 +313,7 @@ class DetailItemFragment : Fragment() {
             if(productNormalReviewMap[normalReviewKey[position]]?.bitmap != null){
                 holder.rowDetailNormalReviewUserProfileImage.setImageBitmap(productNormalReviewMap[normalReviewKey[position]]?.bitmap)
             }
-            
+
             holder.rowDetailNormalReviewTextViewContext.text = productNormalReviewMap[normalReviewKey[position]]?.review
         }
     }

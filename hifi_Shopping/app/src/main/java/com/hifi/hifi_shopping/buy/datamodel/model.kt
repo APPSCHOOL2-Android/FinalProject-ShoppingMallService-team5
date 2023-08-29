@@ -20,6 +20,7 @@ data class ProductNormalReview(var userIdx: String, var nickname: String?, var r
 data class ProductFAQData(var userIdx: String, var nickname: String?, var context: String)
 
 
+
 val categoryData = mapOf(
     //1차
     1 to arrayOf("욕실", "얼굴", "헤어 세팅", "향기"),

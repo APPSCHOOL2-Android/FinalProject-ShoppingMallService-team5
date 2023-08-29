@@ -1,10 +1,13 @@
 package com.hifi.hifi_shopping.buy
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
@@ -74,22 +77,47 @@ class BuyActivity : AppCompatActivity() {
         return bundle
     }
 
+    fun intentSetting(returnIntent: Intent): Intent {
+        val email = this@BuyActivity.intent.getStringExtra("userEmail")!!
+        val userIdx = this@BuyActivity.intent.getStringExtra("userIdx")!!
+        val userNickname = this@BuyActivity.intent.getStringExtra("userNickname")!!
+        val userPw = this@BuyActivity.intent.getStringExtra("userPw")!!
+        val userProfileImg = this@BuyActivity.intent.getStringExtra("userProfileImg")!!
+        val userVerify = this@BuyActivity.intent.getStringExtra("userVerify")!!
+        val userPhoneNum = this@BuyActivity.intent.getStringExtra("userPhoneNum")!!
+
+        returnIntent.putExtra("userEmail", email)
+        returnIntent.putExtra("userIdx", userIdx)
+        returnIntent.putExtra("userNickname", userNickname)
+        returnIntent.putExtra("userPw", userPw)
+        returnIntent.putExtra("userProfileImg", userProfileImg)
+        returnIntent.putExtra("userVerify", userVerify)
+        returnIntent.putExtra("userPhoneNum", userPhoneNum)
+
+        return returnIntent
+    }
+
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
 
-        //var bundle = bundleSetting()
-        var bundle = Bundle()
-        bundle.putString("userIdx", "0")
-        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
+        var bundle = bundleSetting()
+        //var bundle = Bundle()
+        //bundle.putString("userIdx", "0")
+        //buyProductList = intent.getStringArrayListExtra("buyProduct")!!
 
         if(buyProductList?.size == 1){
-            //bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
-            bundle.putString("selProduct", "0") // 상품 인덱스
+            bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
+            //bundle.putString("selProduct", "0") // 상품 인덱스
             replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
         } else {
-            bundle.putStringArrayList("selProduct", buyProductList)
+            //bundle.putStringArrayList("selProduct", buyProductList)
             replaceFragment(ORDER_FRAGMENT, true, bundle)
         }
+    }
+
+
+     fun activityKill() {
+         this@BuyActivity.finish()
     }
 
     fun changeWon(price: String, count: Int): String{

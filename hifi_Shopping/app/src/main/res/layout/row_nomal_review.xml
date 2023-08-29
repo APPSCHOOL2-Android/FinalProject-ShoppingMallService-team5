@@ -33,11 +33,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:fontFamily="@font/notosans_eb"
-        android:textAlignment="viewStart"
+        android:gravity="start|left|center_vertical"
+        android:text="리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/rowDetailNormalReviewUserProfileImage"
-        app:layout_constraintTop_toBottomOf="@+id/rowDetailNormalReviewTextViewName"
-        tools:text="리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다" />
+        app:layout_constraintTop_toBottomOf="@+id/rowDetailNormalReviewTextViewName" />
 </androidx.constraintlayout.widget.ConstraintLayout>
