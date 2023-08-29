@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "879325819415",
+    "firebase_url": "https://guide-359eb-default-rtdb.firebaseio.com",
     "project_id": "guide-359eb",
     "storage_bucket": "guide-359eb.appspot.com"
   },
@@ -10,6 +11,35 @@
         "mobilesdk_app_id": "1:879325819415:android:65e92e9ea2bf9d0776a252",
         "android_client_info": {
           "package_name": "com.hifi.hifi_shopping"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "879325819415-mhvcarn9v7lu42oqss9648m64loc8iqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyChxRQXjc4ZxIvxzyPH-0aU-D9K1L9Hles"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "879325819415-mhvcarn9v7lu42oqss9648m64loc8iqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879325819415:android:2f9b275a1593e90576a252",
+        "android_client_info": {
+          "package_name": "com.hifi.hifi_shopping_sales"
         }
       },
       "oauth_client": [

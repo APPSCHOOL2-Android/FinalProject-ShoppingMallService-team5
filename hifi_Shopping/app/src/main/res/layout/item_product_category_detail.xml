@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        style="@style/Widget.Material3.CardView.Elevated"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="5dp"
+        tools:layout_editor_absoluteX="14dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/imageViewItemProductCategoryDetailThumb"
+                android:layout_width="119dp"
+                android:layout_height="119dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewItemProductCategoryDetailName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginEnd="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                app:layout_constraintStart_toEndOf="@id/imageViewItemProductCategoryDetailThumb"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:textSize="20sp"
+                android:textColor="@color/dark_brown"
+                android:fontFamily="@font/notosans_eb"/>
+
+            <TextView
+                android:id="@+id/textViewItemProductCategoryDetailPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/textViewItemProductCategoryDetailName"
+                app:layout_constraintTop_toBottomOf="@id/textViewItemProductCategoryDetailName"
+                android:textSize="12sp"
+                android:textColor="#50555C"
+                android:fontFamily="@font/notosans_eb"/>
+
+            <TextView
+                android:id="@+id/textViewItemProductCategoryDetailRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/textViewItemProductCategoryDetailPrice"
+                app:layout_constraintTop_toBottomOf="@id/textViewItemProductCategoryDetailPrice"
+                android:textSize="12sp"
+                android:textColor="#8A8A8A"
+                android:fontFamily="@font/notosans_eb"/>
+
+            <TextView
+                android:id="@+id/textViewItemProductCategoryDetailReviewCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                app:layout_constraintStart_toEndOf="@id/textViewItemProductCategoryDetailRating"
+                app:layout_constraintBaseline_toBaselineOf="@id/textViewItemProductCategoryDetailRating"
+                android:textSize="12sp"
+                android:textColor="@color/brown"
+                android:fontFamily="@font/notosans_eb"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="6dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:background="@drawable/radio_button_unchecked_24px"
+                    android:src="@drawable/person_24px" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:background="@drawable/radio_button_unchecked_24px"
+                    android:src="@drawable/person_24px" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:background="@drawable/radio_button_unchecked_24px"
+                    android:src="@drawable/person_24px" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+15"
+                    android:textSize="8sp"
+                    android:textColor="#C8A4A4"
+                    android:fontFamily="@font/notosans_eb"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>
