@@ -81,7 +81,7 @@ class UserActivity : AppCompatActivity() {
             whereFrom = receivedIntent.getStringExtra("whereFrom")!!
             when(userFragmentType){
                 "cart" -> replaceFragment(CART_FRAGMENT, false, null)
-
+                "userPage"->replaceFragment(USER_PAGE_FRAGMENT,false,null)
             }
         }else{
             replaceFragment(MY_PAGE_FRAGMENT, false, null)
