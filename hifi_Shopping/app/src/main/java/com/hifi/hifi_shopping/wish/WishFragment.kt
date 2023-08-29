@@ -11,6 +11,7 @@ import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentWishBinding
 import com.hifi.hifi_shopping.rank.RankActivity
 import com.hifi.hifi_shopping.recommend.RecommendActivity
+import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.user.UserActivity
 
 class WishFragment : Fragment() {
@@ -25,6 +26,26 @@ class WishFragment : Fragment() {
         wishActivity = activity as WishActivity
 
         fragmentWishBinding.run {
+            wishToolbar.run {
+                setNavigationOnClickListener {
+                    wishActivity.finish()
+                }
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_item_search -> {
+                            val intent = Intent(wishActivity, SearchActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.id.menu_item_cart -> {
+                            val userActivity = activity as UserActivity
+                            val intent = Intent(wishActivity, UserActivity::class.java)
+                            startActivity(intent)
+                            userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
+                        }
+                    }
+                    true
+                }
+            }
             wishBottomNavigationView.run {
                 selectedItemId = R.id.bottomMenuItemWish
                 setOnItemSelectedListener {
