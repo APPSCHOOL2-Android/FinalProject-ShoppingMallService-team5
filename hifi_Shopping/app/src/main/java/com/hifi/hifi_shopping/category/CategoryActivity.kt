@@ -12,7 +12,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
@@ -153,27 +152,17 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
-    val navOptions = NavOptions.Builder()
-        .setLaunchSingleTop(true)
-        .build()
-
     fun navigateToFragment(navigateTo: Int, fromMyPage: Boolean) {
         val bundle = Bundle()
         bundle.putBoolean("fromMyPage", fromMyPage)
 
         when (navigateTo) {
             R.id.bottomMenuItemRankMain -> {
-                if (fromMyPage) {
-                    navController.navigate(R.id.actionToRankMainFragment, bundle)
-                }
-                navController.navigate(R.id.actionToRankMainFragment, bundle, navOptions)
+                navController.navigate(R.id.actionToRankMainFragment, bundle)
                 categoryViewModel.setSearchSubCategory(false)
             }
             R.id.bottomMenuItemRecommend -> {
-                if (fromMyPage) {
-                    navController.navigate(R.id.actionToRecommendFragment, bundle)
-                }
-                navController.navigate(R.id.actionToRecommendFragment, bundle, navOptions)
+                navController.navigate(R.id.actionToRecommendFragment, bundle)
                 categoryViewModel.setSearchSubCategory(false)
             }
             R.id.bottomMenuItemCategoryMain -> {
@@ -194,10 +183,7 @@ class CategoryActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             R.id.bottomMenuItemWish -> {
-                if (fromMyPage) {
-                    navController.navigate(R.id.actionToWishFragment, bundle)
-                }
-                navController.navigate(R.id.actionToWishFragment, bundle, navOptions)
+                navController.navigate(R.id.actionToWishFragment, bundle)
                 categoryViewModel.setSearchSubCategory(false)
             }
         }
