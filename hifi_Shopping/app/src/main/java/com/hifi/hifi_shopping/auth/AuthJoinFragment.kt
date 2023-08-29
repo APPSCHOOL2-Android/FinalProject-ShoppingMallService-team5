@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.databinding.FragmentAuthJoinBinding
 import java.io.ByteArrayOutputStream
@@ -23,7 +24,8 @@ import java.io.ByteArrayOutputStream
 class AuthJoinFragment : Fragment() {
     private lateinit var fragmentAuthJoinBinding: FragmentAuthJoinBinding
     private lateinit var authActivity: AuthActivity
-    private lateinit var authViewModel: AuthViewModel
+    // private lateinit var authViewModel: AuthViewModel
+    lateinit var authTestViewModel: AuthTestViewModel
     private val firebaseDatabase = FirebaseDatabase.getInstance() // Firebase Database 인스턴스 생성
 
     override fun onCreateView(
@@ -31,8 +33,15 @@ class AuthJoinFragment : Fragment() {
     ): View? {
         fragmentAuthJoinBinding = FragmentAuthJoinBinding.inflate(inflater)
         authActivity = activity as AuthActivity
-        authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
-
+        // authViewModel = ViewModelProvider(this).get(AuthViewModel::class.java)
+        authTestViewModel = ViewModelProvider(this)[AuthTestViewModel::class.java]
+        authTestViewModel.run{
+            userData.observe(viewLifecycleOwner){
+                showRegistrationSuccessDialog()
+                //가입 성공 시 화면 이동 로직 추가
+                authActivity.replaceFragment(AuthActivity.AUTH_LOGIN_FRAGMENT, true, null)
+            }
+        }
         fragmentAuthJoinBinding.run {
             toolbarAuthJoin.setNavigationOnClickListener {
                 authActivity.removeFragment(AuthActivity.AUTH_JOIN_FRAGMENT)
@@ -53,14 +62,14 @@ class AuthJoinFragment : Fragment() {
                 warningJoinNicknameAlready.visibility = View.GONE
 
                 // 예외처리
-                if (!authViewModel.isEmailValid(email)) {
+                if (!authTestViewModel.isEmailValid(email)) {
                     warningJoinEmailFormat.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
                     warningJoinEmailFormat.visibility = View.GONE
                 }
 
-                if (!authViewModel.isPasswordValid(password)) {
+                if (!authTestViewModel.isPasswordValid(password)) {
                     warningJoinPassword.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
@@ -74,7 +83,7 @@ class AuthJoinFragment : Fragment() {
                     warningJoinPasswordCheck.visibility = View.GONE
                 }
 
-                if (!authViewModel.isNicknameValid(nickname)) {
+                if (!authTestViewModel.isNicknameValid(nickname)) {
                     warningJoinNicknameFormat.visibility = View.VISIBLE
                     return@setOnClickListener
                 } else {
@@ -105,7 +114,7 @@ class AuthJoinFragment : Fragment() {
 
                                                 // Repository를 활용하여 데이터 처리
                                                 val imageByteArray = loadYourImageAsByteArray()
-                                                authViewModel.registerUserData(
+                                                authTestViewModel.registerUser(
                                                     email,
                                                     password,
                                                     nickname,
@@ -130,17 +139,17 @@ class AuthJoinFragment : Fragment() {
             }
 
             // LiveData를 옵저빙하여 결과 처리
-            authViewModel.registrationResult.observe(
-                viewLifecycleOwner,
-                Observer { registrationSuccess ->
-                    if (registrationSuccess) {
-                        showRegistrationSuccessDialog()
-                        // 가입 성공 시 화면 이동 로직 추가
-                        authActivity.replaceFragment(AuthActivity.AUTH_LOGIN_FRAGMENT, true, null)
-                    } else {
-                        showErrorMessageDialog("가입 실패")
-                    }
-                })
+//            authViewModel.registrationResult.observe(
+//                viewLifecycleOwner,
+//                Observer { registrationSuccess ->
+//                    if (registrationSuccess) {
+//                        showRegistrationSuccessDialog()
+//                        // 가입 성공 시 화면 이동 로직 추가
+//                        authActivity.replaceFragment(AuthActivity.AUTH_LOGIN_FRAGMENT, true, null)
+//                    } else {
+//                        showErrorMessageDialog("가입 실패")
+//                    }
+//                })
 
             return fragmentAuthJoinBinding.root
         }

@@ -37,7 +37,6 @@ class MyPageFragment : Fragment() {
     lateinit var subscribeViewModel: SubscribeViewModel
     lateinit var orderViewModel: OrderViewModel
     lateinit var productViewModel: ProductViewModel
-    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "")
 
 
     override fun onCreateView(
@@ -46,26 +45,7 @@ class MyPageFragment : Fragment() {
     ): View? {
         fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
         userActivity = activity as UserActivity
-
-        val auth = FirebaseAuth.getInstance()
-        UserRepository.getUserInfoByUserEmail(auth.currentUser?.email!!){
-            for(c1 in it.result.children) {
-                val idx = c1.child("idx").value as String
-                val email = c1.child("email").value as String
-                val pw = c1.child("pw").value as String
-                val nickname = c1.child("nickname").value as String
-                val verify = c1.child("verify").value as String
-                val phoneNum = c1.child("phoneNum").value as String
-                val profileImg = c1.child("profileImg").value as String
-
-                // 데이터 클래스 객체 생성 및 리스트에 추가
-                userTemp = UserDataClass(idx, email, pw, nickname, verify, phoneNum, profileImg)
-            }
-
-            onResume()
-        }
-
-//        val userTemp = userActivity.userTemp
+        val userTemp = userActivity.userTemp
         pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
         userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
         reviewViewModel = ViewModelProvider(userActivity)[ReviewViewModel::class.java]
