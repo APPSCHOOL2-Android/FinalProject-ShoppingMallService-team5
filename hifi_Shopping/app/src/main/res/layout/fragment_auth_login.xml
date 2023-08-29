@@ -55,6 +55,7 @@
                 android:layout_width="312dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="48dp"
+                android:layout_marginTop="5dp"
                 android:hint="비밀번호"
                 android:transitionGroup="true"
                 app:endIconMode="password_toggle"
