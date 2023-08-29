@@ -43,16 +43,18 @@
         android:text="위시리스트에 상품이 없습니다." />
 
     <ScrollView
+        android:id="@+id/wishScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/wishScrollView"
         android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/wishLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="visible">
 
             <CheckBox
                 android:id="@+id/wishListCheckBoxSelectAll"
