@@ -81,7 +81,7 @@ class CategoryMainFragment : Fragment() {
             startActivity(intent)
         }
 
-        val productListAdapter = ProductListAdapter(categoryMainViewModel, productClickCallback)
+        val productListAdapter = ProductListAdapter(categoryViewModel, categoryMainViewModel, productClickCallback)
 
         val reviewListAdapter = ReviewListAdapter(categoryViewModel, this, categoryMainViewModel, profileClickCallback, productClickCallback)
 

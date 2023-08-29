@@ -3,6 +3,7 @@ package com.hifi.hifi_shopping.category.ui
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hifi.hifi_shopping.category.model.CategoryMainBuyer
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.category.model.CategoryMainReview
 import com.hifi.hifi_shopping.category.model.CategoryMainUser
@@ -83,5 +84,9 @@ class CategoryMainViewModel: ViewModel() {
         }
 
         categoryMainRepository.setSubscribe(userIdx, currentUserIdx, subscribing, callbackViewModel, callback)
+    }
+
+    fun getUserListBuyProduct(currentUserIdx: String, productIdx: String, callback: (List<CategoryMainBuyer>, Int) -> Unit) {
+        categoryMainRepository.getUserListBuyProduct(currentUserIdx, productIdx, callback)
     }
 }

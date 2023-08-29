@@ -48,7 +48,8 @@
                 app:layout_constraintTop_toTopOf="parent"
                 android:textSize="20sp"
                 android:textColor="@color/dark_brown"
-                android:fontFamily="@font/notosans_eb"/>
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_bold"/>
 
             <TextView
                 android:id="@+id/textViewItemProductCategoryDetailPrice"
@@ -58,7 +59,8 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewItemProductCategoryDetailName"
                 android:textSize="12sp"
                 android:textColor="#50555C"
-                android:fontFamily="@font/notosans_eb"/>
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosans_extrabold"/>
 
             <TextView
                 android:id="@+id/textViewItemProductCategoryDetailRating"
@@ -91,30 +93,39 @@
                 app:layout_constraintEnd_toEndOf="parent">
 
                 <ImageView
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
+                    android:id="@+id/imageViewItemProductCategoryDetailBuyerThumb1"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/radio_button_unchecked_24px"
-                    android:src="@drawable/person_24px" />
+                    android:src="@drawable/person_24px"
+                    android:layout_marginEnd="2dp"/>
 
                 <ImageView
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
+                    android:id="@+id/imageViewItemProductCategoryDetailBuyerThumb2"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/radio_button_unchecked_24px"
-                    android:src="@drawable/person_24px" />
+                    android:src="@drawable/person_24px"
+                    android:layout_marginEnd="2dp"/>
 
                 <ImageView
-                    android:layout_width="17dp"
-                    android:layout_height="17dp"
+                    android:id="@+id/imageViewItemProductCategoryDetailBuyerThumb3"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/radio_button_unchecked_24px"
                     android:src="@drawable/person_24px" />
 
                 <TextView
+                    android:id="@+id/textViewItemProductCategoryDetailBuyerCount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="+15"
-                    android:textSize="8sp"
+                    android:textSize="10sp"
                     android:textColor="#C8A4A4"
-                    android:fontFamily="@font/notosans_eb"/>
+                    android:layout_marginStart="2dp"
+                    android:fontFamily="@font/notosans_regular"
+                    android:elegantTextHeight="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="4dp"/>
 
             </LinearLayout>
 

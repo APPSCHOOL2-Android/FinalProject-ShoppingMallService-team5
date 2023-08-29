@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentAuthLoginBinding
@@ -44,7 +45,6 @@ class AuthLoginFragment : Fragment() {
                 intent.putExtra("userVerify", it.verify)
                 intent.putExtra("userPhoneNum", it.phoneNum)
                 intent.putExtra("userProfileImg", it.profileImg)
-                intent.putExtra("navigateTo",R.id.bottomMenuItemCategoryMain)
                 startActivity(intent)
             }
         }

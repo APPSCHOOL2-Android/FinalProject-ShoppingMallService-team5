@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,10 +15,15 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.category.CategoryActivity
+import com.hifi.hifi_shopping.category.CategoryViewModel
+import com.hifi.hifi_shopping.category.model.CategoryMainBuyer
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
+import java.text.NumberFormat
+import java.util.Locale
 
 class ProductListAdapter(
+    val categoryViewModel: CategoryViewModel,
     val categoryMainViewModel: CategoryMainViewModel,
     val callback: (String) -> Unit
 ) : ListAdapter<CategoryMainProduct, ProductListAdapter.ProductListViewHolder>(diffUtil) {
@@ -56,20 +62,21 @@ class ProductListAdapter(
     ): RecyclerView.ViewHolder(itemProductCategoryDetailBinding.root){
         fun bind(product: CategoryMainProduct) {
             itemProductCategoryDetailBinding.run {
-                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.white)
+                imageViewItemProductCategoryDetailThumb.setImageResource(R.drawable.product_sample)
+                imageViewItemProductCategoryDetailBuyerThumb1.setImageResource(R.drawable.background_default_item_product_buyer)
+                imageViewItemProductCategoryDetailBuyerThumb2.setImageResource(R.drawable.background_default_item_product_buyer)
+                imageViewItemProductCategoryDetailBuyerThumb3.setImageResource(R.drawable.background_default_item_product_buyer)
 
                 if (product.imgSrc.isEmpty()) {
                     categoryMainViewModel.getProductImgUrl(categoryMainViewModel.productWorth + currentList.size - adapterPosition - 1) { url ->
                         Glide.with(imageViewItemProductCategoryDetailThumb)
                             .load(url)
-                            .placeholder(R.color.white)
                             .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                             .into(imageViewItemProductCategoryDetailThumb)
                     }
                 } else {
                     Glide.with(imageViewItemProductCategoryDetailThumb)
                         .load(product.imgSrc)
-                        .placeholder(R.color.white)
                         .apply(RequestOptions.bitmapTransform(RoundedCorners(20)))
                         .into(imageViewItemProductCategoryDetailThumb)
                 }
@@ -81,7 +88,8 @@ class ProductListAdapter(
 //                    .into(imageViewItemProductCategoryDetailThumb)
 
                 textViewItemProductCategoryDetailName.text = product.name
-                textViewItemProductCategoryDetailPrice.text = product.price
+                val price = NumberFormat.getNumberInstance(Locale.US).format(product.price.toLong())
+                textViewItemProductCategoryDetailPrice.text = "$price 원"
 
                 root.setOnClickListener {
                     callback(product.idx)
@@ -94,6 +102,35 @@ class ProductListAdapter(
                         textViewItemProductCategoryDetailReviewCount.text = "(${reviewCnt})"
                     }
                 }
+
+                categoryMainViewModel.getUserListBuyProduct(categoryViewModel.currentUserIdx, product.idx) { buyerList, cnt ->
+                    var buyerListSize = buyerList.size
+
+                    if (cnt - buyerListSize > 0) {
+                        textViewItemProductCategoryDetailBuyerCount.text = "+${cnt - buyerListSize}"
+                    }
+
+                    if (buyerListSize == 3) {
+                        getBuyerProfileImg(imageViewItemProductCategoryDetailBuyerThumb3, buyerList[2])
+                        buyerListSize -= 1
+                    }
+                    if (buyerListSize == 2) {
+                        getBuyerProfileImg(imageViewItemProductCategoryDetailBuyerThumb2, buyerList[1])
+                        buyerListSize -= 1
+                    }
+                    if (buyerListSize == 1) {
+                        getBuyerProfileImg(imageViewItemProductCategoryDetailBuyerThumb1, buyerList[0])
+                    }
+                }
+            }
+        }
+
+        fun getBuyerProfileImg(imageView: ImageView, buyer: CategoryMainBuyer) {
+            categoryMainViewModel.getUser(buyer.idx) {
+                Glide.with(imageView)
+                    .load(it.profileImg)
+                    .circleCrop()
+                    .into(imageView)
             }
         }
     }

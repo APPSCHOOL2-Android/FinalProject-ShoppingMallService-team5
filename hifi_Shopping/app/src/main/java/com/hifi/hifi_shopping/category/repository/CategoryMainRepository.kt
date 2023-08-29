@@ -3,6 +3,7 @@ package com.hifi.hifi_shopping.category.repository
 import android.util.Log
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.hifi.hifi_shopping.category.model.CategoryMainBuyer
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.category.model.CategoryMainReview
 import com.hifi.hifi_shopping.category.model.CategoryMainSubscribe
@@ -16,10 +17,15 @@ class CategoryMainRepository {
 
     var productMap = mutableMapOf<String, CategoryMainProduct>()
 
-    fun getProduct(categoryNum: String, callback: (List<CategoryMainProduct>) -> Unit) {
-        val database = FirebaseDatabase.getInstance().getReference("ProductData")
+    val productRef = FirebaseDatabase.getInstance().getReference("ProductData")
+    val productImgRef = FirebaseDatabase.getInstance().getReference("ProductImgData")
+    val reviewRef = FirebaseDatabase.getInstance().getReference("ReviewData")
+    val userRef = FirebaseDatabase.getInstance().getReference("UserData")
+    val subscribeRef = FirebaseDatabase.getInstance().getReference("SubscribeData")
+    val orderRef = FirebaseDatabase.getInstance().getReference("OrderData")
 
-        database.orderByChild("category").startAt(categoryNum).endAt(categoryNum + "\uf8ff").get().addOnCompleteListener {
+    fun getProduct(categoryNum: String, callback: (List<CategoryMainProduct>) -> Unit) {
+        productRef.orderByChild("category").startAt(categoryNum).endAt(categoryNum + "\uf8ff").get().addOnCompleteListener {
             allProductList = it.result.children.map { product ->
                 CategoryMainProduct(
                     product.child("idx").value as String,
@@ -42,8 +48,6 @@ class CategoryMainRepository {
     }
 
     fun getProductWithWorth(productWorth: Int, productCount: Int, callback: (List<CategoryMainProduct>) -> Unit) {
-        val database = FirebaseDatabase.getInstance().getReference("ProductImgData")
-
         val range = if (productWorth + 6 > productCount) {
             productCount
         } else {
@@ -64,7 +68,7 @@ class CategoryMainRepository {
                 continue
             }
 
-            database.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
+            productImgRef.orderByChild("productIdx").equalTo(product.idx).get().addOnCompleteListener {
                 it.result.children.forEach {
                     if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
                         allProductList[i].imgSrc = it.child("imgSrc").value as String
@@ -109,12 +113,8 @@ class CategoryMainRepository {
         callback(resultList.reversed())
     }
 
-    val databaseImg = FirebaseDatabase.getInstance().getReference("ProductImgData")
-
     fun getProductImgUrl(idx: Int, callback: (String) -> Unit) {
-//        val database = FirebaseDatabase.getInstance().getReference("ProductImgData")
-
-        databaseImg.orderByChild("productIdx").equalTo(allProductList[idx].idx).get().addOnCompleteListener {
+        productImgRef.orderByChild("productIdx").equalTo(allProductList[idx].idx).get().addOnCompleteListener {
             it.result.children.forEach {
                 if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
                     val filename = it.child("imgSrc").value as String
@@ -130,12 +130,6 @@ class CategoryMainRepository {
     }
 
     fun getReview(categoryNum: String, callback: (List<CategoryMainReview>) -> Unit) {
-        val database = FirebaseDatabase.getInstance()
-
-        val reviewRef = database.getReference("ReviewData")
-
-        val productRef = database.getReference("ProductData")
-
         var completeFlag = 0
 
         var reviewList: List<CategoryMainReview> = emptyList()
@@ -205,8 +199,6 @@ class CategoryMainRepository {
     }
 
     fun getUser(userIdx: String, callback: (CategoryMainUser) -> Unit) {
-        val userRef = FirebaseDatabase.getInstance().getReference("UserData")
-
         userRef.orderByChild("idx").equalTo(userIdx).get().addOnCompleteListener {
             it.result.children.forEach {
                 val categoryMainUser = CategoryMainUser(
@@ -226,8 +218,6 @@ class CategoryMainRepository {
     }
 
     fun getUserFollowerCnt(userIdx: String, currentUserIdx: String, callback: (Int, Boolean) -> Unit) {
-        val subscribeRef = FirebaseDatabase.getInstance().getReference("SubscribeData")
-
         subscribeRef.orderByChild("userIdx").equalTo(userIdx).get().addOnCompleteListener {
             var subscribing = false
 
@@ -243,9 +233,6 @@ class CategoryMainRepository {
     }
 
     fun getUserItemCnt(userIdx: String, callback: (Int) -> Unit) {
-        // 주문 정보 조회하는 걸로 교체
-        val orderRef = FirebaseDatabase.getInstance().getReference("OrderData")
-
         orderRef.orderByChild("buyerIdx").equalTo(userIdx).get().addOnCompleteListener {
             val productSet = mutableSetOf<String>()
 
@@ -257,8 +244,6 @@ class CategoryMainRepository {
     }
 
     fun getUserReviewCnt(userIdx: String, callback: (Int) -> Unit) {
-        val reviewRef = FirebaseDatabase.getInstance().getReference("ReviewData")
-
         reviewRef.orderByChild("writerIdx").equalTo(userIdx).get().addOnCompleteListener {
             callback(it.result.children.toList().size)
         }
@@ -269,7 +254,7 @@ class CategoryMainRepository {
         if (product?.imgSrc?.isNotEmpty() == true) {
             callback(product)
         } else {
-            databaseImg.orderByChild("productIdx").equalTo(productIdx).get().addOnCompleteListener {
+            productImgRef.orderByChild("productIdx").equalTo(productIdx).get().addOnCompleteListener {
                 it.result.children.forEach {
                     if ("true" == it.child("default").value as String && "1" == it.child("omgOrder").value as String) {
                         val filename = "product/" + it.child("imgSrc").value as String
@@ -286,8 +271,6 @@ class CategoryMainRepository {
     }
 
     fun getProductRatingInfo(productIdx: String, callback: (Double, Long) -> Unit) {
-        val reviewRef = FirebaseDatabase.getInstance().getReference("ReviewData")
-
         reviewRef.orderByChild("productIdx").equalTo(productIdx).get().addOnCompleteListener {
             val reviewCnt = it.result.childrenCount
 
@@ -302,8 +285,6 @@ class CategoryMainRepository {
     }
 
     fun setSubscribe(userIdx: String, followerIdx: String, subscribing: Boolean, callbackViewModel: () -> Unit, callback: () -> Unit) {
-        val subscribeRef = FirebaseDatabase.getInstance().getReference("SubscribeData")
-
         if (subscribing) {
             val categoryMainSubscribe = CategoryMainSubscribe(userIdx, followerIdx)
 
@@ -319,6 +300,78 @@ class CategoryMainRepository {
                             callback()
                             callbackViewModel()
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getUserListBuyProduct(currentUserIdx: String, productIdx: String, callback: (List<CategoryMainBuyer>, Int) -> Unit) {
+        var completeFlag = 0
+
+        var subscribeList: List<String> = emptyList()
+
+        val buyerMap = mutableMapOf<String, String>()
+
+        subscribeRef.orderByChild("followerIdx").equalTo(currentUserIdx).get().addOnCompleteListener {
+            subscribeList = it.result.children.map {
+                it.child("userIdx").value as String
+            }
+
+            completeFlag += 1
+
+            if (completeFlag == 2) {
+                if (subscribeList.isEmpty() || buyerMap.isEmpty()) {
+                    callback(emptyList(), 0)
+                    return@addOnCompleteListener
+                }
+                getUserListBuyProductSortFollowerCnt(subscribeList, buyerMap, callback)
+            }
+        }
+
+        orderRef.orderByChild("productIdx").equalTo(productIdx).get().addOnCompleteListener {
+            it.result.children.forEach {
+                buyerMap[it.child("buyerIdx").value as String] = it.child("buyerIdx").value as String
+            }
+
+            completeFlag += 1
+
+            if (completeFlag == 2) {
+                getUserListBuyProductSortFollowerCnt(subscribeList, buyerMap, callback)
+            }
+        }
+    }
+
+    fun getUserListBuyProductSortFollowerCnt(subscribeList: List<String>, buyerMap: MutableMap<String, String>, callback: (List<CategoryMainBuyer>, Int) -> Unit) {
+        val subscribeBuyerList = mutableListOf<CategoryMainBuyer>()
+
+        subscribeList.forEach {
+            if (buyerMap.containsKey(it)) {
+                subscribeBuyerList.add(
+                    CategoryMainBuyer(
+                        it,
+                        0
+                    )
+                )
+            }
+        }
+
+        var cnt = subscribeBuyerList.size
+
+        var subscribeBuyerListSorted = listOf<CategoryMainBuyer>()
+
+        subscribeBuyerList.forEach { buyer ->
+            subscribeRef.orderByChild("userIdx").equalTo(buyer.idx).get().addOnCompleteListener {
+                buyer.followerCnt = it.result.childrenCount.toInt()
+
+                cnt -= 1
+
+                if (cnt == 0) {
+                    subscribeBuyerListSorted = subscribeBuyerList.sortedByDescending { it.followerCnt }
+                    if (subscribeBuyerListSorted.size > 3) {
+                        callback(subscribeBuyerListSorted.subList(0, 3), subscribeBuyerListSorted.size)
+                    } else {
+                        callback(subscribeBuyerListSorted, subscribeBuyerListSorted.size)
                     }
                 }
             }
