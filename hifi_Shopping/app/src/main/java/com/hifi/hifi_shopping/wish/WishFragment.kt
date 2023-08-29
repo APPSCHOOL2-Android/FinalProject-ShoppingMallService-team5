@@ -16,63 +16,45 @@ import com.hifi.hifi_shopping.user.UserActivity
 
 class WishFragment : Fragment() {
     lateinit var fragmentWishBinding : FragmentWishBinding
-    lateinit var wishActivity: WishActivity
+    lateinit var categoryActivity: CategoryActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         fragmentWishBinding = FragmentWishBinding.inflate(layoutInflater)
-        wishActivity = activity as WishActivity
+        categoryActivity = activity as CategoryActivity
 
         fragmentWishBinding.run {
             wishToolbar.run {
                 setNavigationOnClickListener {
-                    wishActivity.finish()
+
                 }
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_item_search -> {
-                            val intent = Intent(wishActivity, SearchActivity::class.java)
+                            val intent = Intent(categoryActivity, SearchActivity::class.java)
                             startActivity(intent)
                         }
                         R.id.menu_item_cart -> {
-                            val userActivity = activity as UserActivity
-                            val intent = Intent(wishActivity, UserActivity::class.java)
+                            val intent = Intent(categoryActivity, UserActivity::class.java)
+                            intent.putExtra("whereFrom","wish")
+                            intent.putExtra("userFragmentType","cart")
+                            intent.putExtra("navigateTo",R.id.bottomMenuItemRankMain)
+                            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+                            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+                            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+                            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+                            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+                            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+                            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
                             startActivity(intent)
-                            userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
+//                            userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
                         }
                     }
                     true
                 }
             }
-            wishBottomNavigationView.run {
-                selectedItemId = R.id.bottomMenuItemWish
-                setOnItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.bottomMenuItemRankMain ->{
-                            val intent = Intent(wishActivity, RankActivity::class.java)
-                            startActivity(intent)
-
-                        }
-                        R.id.bottomMenuItemCategoryMain->{
-                            val intent = Intent(wishActivity, CategoryActivity::class.java)
-                            startActivity(intent)
-
-                        }
-                        R.id.bottomMenuItemRecommend ->{
-                            val intent = Intent(wishActivity, RecommendActivity::class.java)
-                            startActivity(intent)
-                        }
-                        R.id.bottomMenuItemMyPage ->{
-                            val intent = Intent(wishActivity, UserActivity::class.java)
-                            startActivity(intent)
-                        }
-                    }
-                    return@setOnItemSelectedListener true
-                }
-            }
-
         }
 
         return fragmentWishBinding.root
