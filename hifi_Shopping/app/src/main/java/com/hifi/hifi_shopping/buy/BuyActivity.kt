@@ -16,6 +16,7 @@ import com.hifi.hifi_shopping.buy.fragment.DetailItemFragment
 import com.hifi.hifi_shopping.buy.fragment.OrderFragment
 import com.hifi.hifi_shopping.databinding.ActivityBuyBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
+import com.hifi.hifi_shopping.user.model.UserDataClass
 import kotlin.concurrent.thread
 
 class BuyActivity : AppCompatActivity() {
@@ -37,6 +38,8 @@ class BuyActivity : AppCompatActivity() {
     var totalOrderProductCount = 0
     var totalOrderProductPrice = 0
     var oriTotalOrderProductPrice = 0
+    var buyProductList = ArrayList<String>()
+    var bundle = Bundle()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,21 +52,42 @@ class BuyActivity : AppCompatActivity() {
     }
 
 
+    private fun bundleSetting(): Bundle{
+        val bundle = Bundle()
+        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
+        val email = intent.getStringExtra("userEmail")!!
+        val userIdx = intent.getStringExtra("userIdx")!!
+        val userNickname = intent.getStringExtra("userNickname")!!
+        val userPw = intent.getStringExtra("userPw")!!
+        val userProfileImg = intent.getStringExtra("userProfileImg")!!
+        val userVerify = intent.getStringExtra("userVerify")!!
+        val userPhoneNum = intent.getStringExtra("userPhoneNum")!!
+
+        bundle.putString("userEmail", email)
+        bundle.putString("userIdx", userIdx)
+        bundle.putString("userNickname", userNickname)
+        bundle.putString("userPw", userPw)
+        bundle.putString("userProfileImg", userProfileImg)
+        bundle.putString("userVerify", userVerify)
+        bundle.putString("userPhoneNum", userPhoneNum)
+
+        return bundle
+    }
+
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
-        val buyProductList = intent.getStringArrayListExtra("buyProduct")
-        //val userIdx = intent.getStringExtra("userIdx")
 
-
+        //var bundle = bundleSetting()
         var bundle = Bundle()
+        bundle.putString("userIdx", "0")
+        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
 
         if(buyProductList?.size == 1){
-            bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
-            bundle.putString("userIdx", "0") // 유저 인덱스
+            //bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
+            bundle.putString("selProduct", "0") // 상품 인덱스
             replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
         } else {
             bundle.putStringArrayList("selProduct", buyProductList)
-            bundle.putString("userIdx", "0")
             replaceFragment(ORDER_FRAGMENT, true, bundle)
         }
     }

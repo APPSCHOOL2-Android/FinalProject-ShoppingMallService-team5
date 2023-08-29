@@ -23,7 +23,9 @@ import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
 import com.hifi.hifi_shopping.buy.datamodel.SubscribeUserInfo
 import com.hifi.hifi_shopping.databinding.FragmentDetailItemBinding
 import com.hifi.hifi_shopping.databinding.RowDetailReviewBinding
+import com.hifi.hifi_shopping.databinding.RowNomalReviewBinding
 import com.hifi.hifi_shopping.databinding.SubscribeUserListItemBinding
+
 
 private lateinit var orderUserViewModel: OrderUserViewModel
 private lateinit var orderItemViewModel: OrderItemViewModel
@@ -51,7 +53,8 @@ class DetailItemFragment : Fragment() {
         dataSetting()
         viewSetting()
         viewModelSetting()
-        Log.d("ttttt", "$orderUserIdx")
+        clickEventSetting()
+
         return fragmenDetailItemtBinding.root
     }
 
@@ -80,6 +83,11 @@ class DetailItemFragment : Fragment() {
                 layoutManager = LinearLayoutManager(buyActivity)
             }
 
+        }
+    }
+
+    private fun clickEventSetting(){
+        fragmenDetailItemtBinding.run{
             buyRightBtn.run{
                 setOnClickListener {
                     val bundle = Bundle()
@@ -128,18 +136,12 @@ class DetailItemFragment : Fragment() {
                 }
             }
 
-            buyActivity.onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    ActivityCompat.finishAffinity(buyActivity)
-                }
-            })
-
             materialToolbar.run{
                 setNavigationOnClickListener {
-                    ActivityCompat.finishAffinity(buyActivity)
+                    buyActivity.removeFragment(BuyActivity.DETAIL_ITEM_FRAGMENT)
+                    buyActivity.finish()
                 }
             }
-
         }
     }
     private fun viewModelSetting(){
@@ -252,16 +254,17 @@ class DetailItemFragment : Fragment() {
     }
 
     inner class NomalReviewAdapter(): RecyclerView.Adapter<NomalReviewAdapter.NomalReviewViewHolder>(){
-        inner class NomalReviewViewHolder(rowDetailReviewBinding: RowDetailReviewBinding): ViewHolder(rowDetailReviewBinding.root){
-            val rowDetailReviewTextViewName = rowDetailReviewBinding.rowDetailReviewTextViewName
-            val rowDetailReviewTextViewContext = rowDetailReviewBinding.rowDetailReviewTextViewContext
+        inner class NomalReviewViewHolder(rowNomalReviewBinding: RowNomalReviewBinding): ViewHolder(rowNomalReviewBinding.root){
+            val rowDetailNormalReviewTextViewName = rowNomalReviewBinding.rowDetailNormalReviewTextViewName
+            val rowDetailNormalReviewTextViewContext = rowNomalReviewBinding.rowDetailNormalReviewTextViewContext
+            val rowDetailNormalReviewUserProfileImage = rowNomalReviewBinding.rowDetailNormalReviewUserProfileImage
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NomalReviewViewHolder {
-            val rowDetailReviewBinding = RowDetailReviewBinding.inflate(layoutInflater)
-            val nomalReviewViewHolder = NomalReviewViewHolder(rowDetailReviewBinding)
+            val rowNomalReviewBinding = RowNomalReviewBinding.inflate(layoutInflater)
+            val nomalReviewViewHolder = NomalReviewViewHolder(rowNomalReviewBinding)
 
-            rowDetailReviewBinding.root.layoutParams = ViewGroup.LayoutParams(
+            rowNomalReviewBinding.root.layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
@@ -275,9 +278,13 @@ class DetailItemFragment : Fragment() {
 
         override fun onBindViewHolder(holder: NomalReviewViewHolder, position: Int) {
             if(productNormalReviewMap[normalReviewKey[position]]?.nickname != null ){
-                holder.rowDetailReviewTextViewName.text = productNormalReviewMap[normalReviewKey[position]]?.nickname
+                holder.rowDetailNormalReviewTextViewName.text = productNormalReviewMap[normalReviewKey[position]]?.nickname
             }
-            holder.rowDetailReviewTextViewContext.text = productNormalReviewMap[normalReviewKey[position]]?.review
+            if(productNormalReviewMap[normalReviewKey[position]]?.bitmap != null){
+                holder.rowDetailNormalReviewUserProfileImage.setImageBitmap(productNormalReviewMap[normalReviewKey[position]]?.bitmap)
+            }
+            
+            holder.rowDetailNormalReviewTextViewContext.text = productNormalReviewMap[normalReviewKey[position]]?.review
         }
     }
 

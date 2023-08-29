@@ -7,18 +7,17 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.buy.datamodel.AddressData
+import java.lang.Exception
 
 
 class OrderUserRepository {
     companion object{
 
-        fun getOrderUserSubscribeUserImg(imgSrc: String, callback1: (Task<Uri>) -> Unit){
+        fun getOrderUserSubscribeUserImg(imgSrc: String, callback1: (Task<Uri>) -> Unit, callback2: (Exception) -> Unit){
             val storage = FirebaseStorage.getInstance()
             val fileRef = storage.reference.child("user/$imgSrc")
             // 데이터를 가져올 수 있는 경로를 가져온다.
-            Log.d("ttt","$fileRef")
-            Log.d("ttt","$imgSrc")
-            fileRef.downloadUrl.addOnCompleteListener(callback1)
+            fileRef.downloadUrl.addOnCompleteListener(callback1).addOnFailureListener(callback2)
         }
 
         fun getOrderUserSubscribeUserReview(subUserIdx: String, callback1: (Task<DataSnapshot>) -> Unit){
@@ -63,6 +62,11 @@ class OrderUserRepository {
             val database = FirebaseDatabase.getInstance()
             val userDataRef = database.getReference("UserData")
             userDataRef.orderByChild("idx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
+        fun getNormalReviewUser(idx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val userDataRef = database.getReference("UserData")
+            userDataRef.orderByChild("idx").equalTo(idx).get().addOnCompleteListener(callback1).addOnCompleteListener(callback2)
         }
         fun setUserAuth(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()

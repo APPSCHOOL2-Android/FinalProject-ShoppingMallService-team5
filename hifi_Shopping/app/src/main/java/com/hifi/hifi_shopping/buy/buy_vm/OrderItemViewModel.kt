@@ -57,12 +57,29 @@ class OrderItemViewModel: ViewModel() {
         })
     }
     fun getProductReviewUserInfo(idx: String){
-        OrderUserRepository.getOrderUser(idx){
+        OrderUserRepository.getNormalReviewUser(idx,{
             for(c1 in it.result.children){
                 tempReviewMap[c1.child("idx").value as String]?.nickname = c1.child("nickname").value as String
+                tempReviewMap[c1.child("idx").value as String]?.imgSrc = c1.child("profileImg").value as String
             }
             normalReviewMap.value = tempReviewMap
-        }
+        },{
+            OrderUserRepository.getOrderUserSubscribeUserImg(tempReviewMap[idx]?.imgSrc!!,{
+                thread {
+                    // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                    val url = URL(it.result.toString())
+                    // 접속한다.
+                    val httpURLConnection =
+                        url.openConnection() as HttpURLConnection
+                    val bitmap =
+                        BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                    tempReviewMap[idx]?.bitmap = bitmap
+                    normalReviewMap.postValue(tempReviewMap)
+                }
+            },{
+                null
+            })
+        })
     }
     fun getProductNormalReview(idx: String){
         tempReviewMap.clear()
@@ -71,8 +88,10 @@ class OrderItemViewModel: ViewModel() {
                 val productNormalReview = ProductNormalReview(
                     c1.child("writerIdx").value as String,
                     null,
-                    c1.child("context").value as String
-                )
+                    c1.child("context").value as String,
+                    "",
+                    null
+                    )
                 tempReviewMap[c1.child("writerIdx").value as String] = productNormalReview
             }
         },{
