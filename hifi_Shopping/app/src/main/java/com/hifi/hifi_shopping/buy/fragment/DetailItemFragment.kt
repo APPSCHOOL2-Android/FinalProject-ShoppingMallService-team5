@@ -23,6 +23,7 @@ import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
 import com.hifi.hifi_shopping.buy.datamodel.SubscribeUserInfo
+import com.hifi.hifi_shopping.buy.datamodel.WishData
 import com.hifi.hifi_shopping.databinding.FragmentDetailItemBinding
 import com.hifi.hifi_shopping.databinding.RowDetailReviewBinding
 import com.hifi.hifi_shopping.databinding.RowNomalReviewBinding
@@ -49,6 +50,7 @@ class DetailItemFragment : Fragment() {
     var productFAQMap = HashMap<String, ProductFAQData>()
 
     var cartData = CartData(null, null)
+    var wishData = WishData(null, null)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -192,6 +194,21 @@ class DetailItemFragment : Fragment() {
                 }
             }
 
+            wishCheckIconBtn.run{
+                setOnClickListener {
+                    if(wishData.productIdx != null){
+                        OrderItemRepository.delWishData(wishData){
+                            Snackbar.make(fragmenDetailItemtBinding.root, "위시리시트에서 제거 되었습니다.", Snackbar.LENGTH_SHORT).show()
+                            orderItemViewModel.getWishData(orderUserIdx, productIdx)
+                        }
+
+                    } else {
+                        orderItemViewModel.setWishData(orderUserIdx, productIdx)
+                        Snackbar.make(fragmenDetailItemtBinding.root, "위시리시트에 추가 되었습니다.", Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
         }
     }
 
@@ -251,6 +268,16 @@ class DetailItemFragment : Fragment() {
                 }
             }
 
+            wishData.observe(buyActivity){
+                if(it.productIdx != null){
+                    fragmenDetailItemtBinding.wishCheckIconBtn.setImageResource(R.drawable.favorite_like_24px)
+                    this@DetailItemFragment.wishData = it
+                } else {
+                    fragmenDetailItemtBinding.wishCheckIconBtn.setImageResource(R.drawable.favorite2_24px)
+                    this@DetailItemFragment.wishData = it
+                }
+            }
+
         }
 
         orderUserViewModel.run{
@@ -280,6 +307,7 @@ class DetailItemFragment : Fragment() {
         orderItemViewModel.getProductNormalReview(productIdx)
         orderItemViewModel.getProductFAQ(productIdx)
         orderItemViewModel.getCartData(orderUserIdx, productIdx)
+        orderItemViewModel.getWishData(orderUserIdx, productIdx)
 
     }
 

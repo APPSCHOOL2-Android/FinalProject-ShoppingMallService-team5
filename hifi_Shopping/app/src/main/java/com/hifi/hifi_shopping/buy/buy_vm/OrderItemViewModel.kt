@@ -12,6 +12,7 @@ import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
 import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
+import com.hifi.hifi_shopping.buy.datamodel.WishData
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -33,6 +34,28 @@ class OrderItemViewModel: ViewModel() {
 
     val cartData = MutableLiveData<CartData>()
     var tempCartData = CartData(null, null)
+
+    val wishData = MutableLiveData<WishData>()
+    var tempWishData = WishData(null, null)
+
+    fun setWishData(idx: String, productIdx: String){
+        OrderItemRepository.setWishData(WishData(idx,productIdx)){
+            tempWishData = WishData(idx,productIdx)
+            wishData.value = tempWishData
+        }
+    }
+    fun getWishData(idx: String, productIdx: String){
+        tempWishData = WishData(null, null)
+        OrderItemRepository.getCartData(idx){
+            for (c1 in it.result.children){
+                if(c1.child("productIdx").value as String == productIdx){
+                    tempWishData.userIdx = c1.child("userIdx").value as String
+                    tempWishData.productIdx = c1.child("productIdx").value as String
+                }
+            }
+            wishData.value = tempWishData
+        }
+    }
 
     fun getCartData(idx: String, productIdx: String){
         tempCartData = CartData(null, null)

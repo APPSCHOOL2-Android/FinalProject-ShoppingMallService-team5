@@ -67,7 +67,7 @@ class BuyActivity : AppCompatActivity() {
 
         if(buyProductList?.size == 1){
             //bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
-            bundle.putString("selProduct", "0") // 상품 인덱스
+            bundle.putString("selProduct", "10") // 상품 인덱스
             replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
         } else {
             bundle.putStringArrayList("selProduct", buyProductList)

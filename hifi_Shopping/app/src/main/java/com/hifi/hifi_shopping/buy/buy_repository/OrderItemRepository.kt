@@ -7,10 +7,31 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderData
+import com.hifi.hifi_shopping.buy.datamodel.WishData
 
 class OrderItemRepository {
 
     companion object{
+
+        fun delWishData(cartData: WishData, callback1: (Task<Void>) -> Unit){
+            getWishData(cartData.userIdx!!){
+                for (c1 in it.result.children){
+                    if(c1.child("productIdx").value as String == cartData.productIdx!!){
+                        c1.ref.removeValue().addOnCompleteListener(callback1)
+                    }
+                }
+            }
+        }
+        fun setWishData(cartData: WishData, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val wishDataRef = database.getReference("WishData")
+            wishDataRef.push().setValue(cartData).addOnCompleteListener(callback1)
+        }
+        fun getWishData(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val wishDataRef = database.getReference("WishData")
+            wishDataRef.orderByChild("userIdx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
 
         fun setCartData(cartData: CartData, callback1: (Task<Void>) -> Unit){
             val database = FirebaseDatabase.getInstance()
