@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -316,6 +319,7 @@ class OrderFragment : Fragment() {
                     builder.show()
                 }
             }
+
 
             orderPayBtn.run{
                 setOnClickListener {
