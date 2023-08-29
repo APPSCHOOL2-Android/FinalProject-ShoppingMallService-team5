@@ -39,15 +39,22 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/wishBottomNavigationView"
         app:layout_constraintTop_toBottomOf="@+id/wishAppBarLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="10dp">
+
+            <TextView
+                android:id="@+id/wishTextViewEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="563dp"
+                android:fontFamily="@font/notosans_regular"
+                android:gravity="center"
+                android:text="위시리스트에 상품이 없습니다." />
 
             <CheckBox
                 android:id="@+id/wishListCheckBoxSelectAll"
@@ -55,13 +62,15 @@
                 android:layout_height="wrap_content"
                 android:elegantTextHeight="true"
                 android:fontFamily="@font/notosanskr_regular"
-                android:text="전체 선택" />
+                android:text="전체 선택"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
