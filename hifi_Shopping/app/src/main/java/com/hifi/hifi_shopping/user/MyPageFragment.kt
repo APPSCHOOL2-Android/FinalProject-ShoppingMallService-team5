@@ -42,7 +42,7 @@ class MyPageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
         userActivity = activity as UserActivity
         val userTemp = userActivity.userTemp
@@ -244,21 +244,23 @@ class MyPageFragment : Fragment() {
                     when (it.itemId) {
 
                         R.id.bottomMenuItemRankMain ->{
-                            val intent = Intent(userActivity, RankActivity::class.java)
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo", R.id.bottomMenuItemRankMain)
                             startActivity(intent)
 
                         }
                         R.id.bottomMenuItemCategoryMain->{
                             val intent = Intent(userActivity, CategoryActivity::class.java)
                             startActivity(intent)
-
                         }
                         R.id.bottomMenuItemRecommend ->{
-                            val intent = Intent(userActivity, RecommendActivity::class.java)
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo", R.id.bottomMenuItemRecommend)
                             startActivity(intent)
                         }
                         R.id.bottomMenuItemWish ->{
-                            val intent = Intent(userActivity, WishActivity::class.java)
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo", R.id.bottomMenuItemWish)
                             startActivity(intent)
                         }
                     }

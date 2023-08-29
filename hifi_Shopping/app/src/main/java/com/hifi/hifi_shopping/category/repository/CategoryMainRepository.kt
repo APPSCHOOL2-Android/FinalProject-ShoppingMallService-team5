@@ -204,16 +204,19 @@ class CategoryMainRepository {
                 val categoryMainUser = CategoryMainUser(
                     it.child("idx").value as String,
                     it.child("nickname").value as String,
-                    ""
+                    it.child("profileImg").value as String
                 )
 
-                val filename = "user/" + it.child("profileImg").value as String
-                val fileRef = storage.reference.child(filename)
-                fileRef.downloadUrl.addOnCompleteListener {
-                    categoryMainUser.profileImg = it.result.toString()
-                    callback(categoryMainUser)
-                }
+                callback(categoryMainUser)
             }
+        }
+    }
+
+    fun getUserProfileImgUrl(profileImg: String, callback: (String) -> Unit) {
+        val filename = "user/$profileImg"
+        val fileRef = storage.reference.child(filename)
+        fileRef.downloadUrl.addOnCompleteListener {
+            callback(it.result.toString())
         }
     }
 

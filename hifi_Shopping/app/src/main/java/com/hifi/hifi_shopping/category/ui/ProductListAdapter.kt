@@ -126,11 +126,13 @@ class ProductListAdapter(
         }
 
         fun getBuyerProfileImg(imageView: ImageView, buyer: CategoryMainBuyer) {
-            categoryMainViewModel.getUser(buyer.idx) {
-                Glide.with(imageView)
-                    .load(it.profileImg)
-                    .circleCrop()
-                    .into(imageView)
+            categoryMainViewModel.getUser(buyer.idx) { user ->
+                categoryMainViewModel.getUserProfileImgUrl(user.profileImg) {
+                    Glide.with(imageView)
+                        .load(it)
+                        .circleCrop()
+                        .into(imageView)
+                }
             }
         }
     }

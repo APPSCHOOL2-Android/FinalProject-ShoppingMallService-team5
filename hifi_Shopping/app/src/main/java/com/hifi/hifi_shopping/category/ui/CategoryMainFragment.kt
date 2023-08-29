@@ -67,6 +67,8 @@ class CategoryMainFragment : Fragment() {
 
         val profileClickCallback: () -> Unit = {
             val intent = Intent(categoryActivity, UserActivity::class.java)
+            intent.putExtra("whereFrom", "category")
+            intent.putExtra("userFragmentType", "userPage")
             startActivity(intent)
         }
 
@@ -77,6 +79,13 @@ class CategoryMainFragment : Fragment() {
             buyProductList.add(idx)
 
             intent.putStringArrayListExtra("buyProduct", buyProductList)
+            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
 
             startActivity(intent)
         }
@@ -162,6 +171,8 @@ class CategoryMainFragment : Fragment() {
                         }
                         R.id.menuItemCart -> {
                             val intent = Intent(categoryActivity, UserActivity::class.java)
+                            intent.putExtra("whereFrom", "category")
+                            intent.putExtra("userFragmentType", "cart")
                             startActivity(intent)
                         }
                     }

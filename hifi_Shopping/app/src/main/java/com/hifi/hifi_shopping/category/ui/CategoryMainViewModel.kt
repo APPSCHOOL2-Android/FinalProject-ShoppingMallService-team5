@@ -57,6 +57,10 @@ class CategoryMainViewModel: ViewModel() {
         categoryMainRepository.getUser(userIdx, callback)
     }
 
+    fun getUserProfileImgUrl(profileImg: String, callback: (String) -> Unit) {
+        categoryMainRepository.getUserProfileImgUrl(profileImg, callback)
+    }
+
     fun getUserFollowerCnt(currentUserIdx: String, userIdx: String, callback: (Int, Boolean) -> Unit) {
         categoryMainRepository.getUserFollowerCnt(userIdx, currentUserIdx, callback)
     }

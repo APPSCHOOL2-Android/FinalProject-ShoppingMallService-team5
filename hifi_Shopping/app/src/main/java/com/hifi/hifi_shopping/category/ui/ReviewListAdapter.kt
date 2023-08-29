@@ -108,11 +108,13 @@ class ReviewListAdapter(
                 categoryMainViewModel.getUser(review.writerIdx) { user ->
                     textViewItemReviewCategoryDetailUserName.text = user.nickname
 
-                    Glide.with(imageViewItemReviewCategoryDetailUserThumb)
-                        .load(user.profileImg)
-                        .placeholder(R.color.white)
-                        .circleCrop()
-                        .into(imageViewItemReviewCategoryDetailUserThumb)
+                    categoryMainViewModel.getUserProfileImgUrl(user.profileImg) {
+                        Glide.with(imageViewItemReviewCategoryDetailUserThumb)
+                            .load(it)
+                            .placeholder(R.color.white)
+                            .circleCrop()
+                            .into(imageViewItemReviewCategoryDetailUserThumb)
+                    }
                 }
 
                 categoryMainViewModel.getUserFollowerCnt(categoryViewModel.currentUserIdx, review.writerIdx) { followerCnt, subscribing ->
