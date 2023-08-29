@@ -136,7 +136,11 @@ class BuyActivity : AppCompatActivity() {
     // Fragment를 BackStack에서 제거한다.
     fun removeFragment(name:String){
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        if(supportFragmentManager.backStackEntryCount == 0 ) {
+            this@BuyActivity.finish()
+        }
     }
+
 
     fun softInputVisible(view:View, visible: Boolean){
         if(visible){

@@ -2,35 +2,24 @@ package com.hifi.hifi_shopping.category
 
 import android.content.Intent
 import android.content.res.ColorStateList
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.service.autofill.UserData
 import android.util.Log
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.OnBackPressedDispatcher
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.forEach
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.auth.repository.AuthRepository.Companion.getUserByAuth
 import com.hifi.hifi_shopping.auth.vm.AuthViewModel
-import com.hifi.hifi_shopping.category.ui.CategoryMainFragment
 import com.hifi.hifi_shopping.databinding.ActivityCategoryBinding
-import com.hifi.hifi_shopping.rank.RankMainFragment
-import com.hifi.hifi_shopping.recommend.RecommendFragment
 import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.UserDataClass
-import com.hifi.hifi_shopping.user.repository.UserRepository
-import com.hifi.hifi_shopping.wish.WishFragment
+
 
 class CategoryActivity : AppCompatActivity() {
 
@@ -50,20 +39,30 @@ class CategoryActivity : AppCompatActivity() {
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 
-        authViewModel = ViewModelProvider(this@CategoryActivity)[AuthViewModel::class.java]
-        authViewModel.run{
-            userData.observe(this@CategoryActivity){
-                Log.d("tttt1", "${authViewModel.userData.value}")
-                //userDataClass = it
-                categoryViewModel.currentUserIdx = it.idx
-                Log.d("tttt1", categoryViewModel.currentUserIdx)
-            }
-            getUserByAuth()
-            Log.d("tttt2", "${authViewModel.userData.value}")
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("userEmail")) {
+            val email = receivedIntent.getStringExtra("userEmail")!!
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
+                userVerify, userPhoneNum, userProfileImg)
+            userDataClass = newUserData
         }
+        Log.d("UserData", "Email: ${userDataClass.email}")
+        Log.d("UserData", "UserIdx: ${userDataClass.idx}")
+        Log.d("UserData", "UserNickname: ${userDataClass.nickname}")
+        Log.d("UserData", "UserPw: ${userDataClass.pw}")
+        Log.d("UserData", "UserProfileImg: ${userDataClass.profileImg}")
 
+        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
+        categoryViewModel.currentUserIdx = userDataClass.idx
+
+        
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
         navController = navHostFragment.navController
@@ -133,29 +132,6 @@ class CategoryActivity : AppCompatActivity() {
                 }
 
                 setOnItemSelectedListener {
-//                    when (it.itemId) {
-//                        R.id.bottomMenuItemRankMain -> {
-//                            navController.navigate(R.id.actionToRankMainFragment)
-//                            categoryViewModel.setSearchSubCategory(false)
-//                        }
-//                        R.id.bottomMenuItemRecommend -> {
-//                            navController.navigate(R.id.actionToRecommendFragment)
-//                            categoryViewModel.setSearchSubCategory(false)
-//                        }
-//                        R.id.bottomMenuItemCategoryMain -> {
-//                            categoryViewModel.setShowProductOrReview(ContentType.PRODUCT)
-//                            navController.navigate(R.id.actionToCategoryMainFragment)
-//                            categoryViewModel.setSearchSubCategory(false)
-//                        }
-//                        R.id.bottomMenuItemMyPage -> {
-//                            val intent = Intent(this@CategoryActivity, UserActivity::class.java)
-//                            startActivity(intent)
-//                        }
-//                        R.id.bottomMenuItemWish -> {
-//                            navController.navigate(R.id.actionToWishFragment)
-//                            categoryViewModel.setSearchSubCategory(false)
-//                        }
-//                    }
                     navigateToFragment(it.itemId)
                     true
                 }
@@ -204,6 +180,13 @@ class CategoryActivity : AppCompatActivity() {
             }
             R.id.bottomMenuItemMyPage -> {
                 val intent = Intent(this@CategoryActivity, UserActivity::class.java)
+                intent.putExtra("userEmail", userDataClass.email)
+                intent.putExtra("userIdx", userDataClass.idx)
+                intent.putExtra("userNickname", userDataClass.nickname)
+                intent.putExtra("userPw", userDataClass.pw)
+                intent.putExtra("userVerify", userDataClass.verify)
+                intent.putExtra("userPhoneNum", userDataClass.phoneNum)
+                intent.putExtra("userProfileImg", userDataClass.profileImg)
                 startActivity(intent)
             }
             R.id.bottomMenuItemWish -> {

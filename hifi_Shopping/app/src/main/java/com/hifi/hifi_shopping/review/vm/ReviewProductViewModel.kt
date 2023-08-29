@@ -2,6 +2,7 @@ package com.hifi.hifi_shopping.review.vm
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
@@ -32,9 +33,7 @@ class ReviewProductViewModel() : ViewModel() {
         val productImgDeferred = async(Dispatchers.IO) {
             ReviewProductRepository.getProductImgByProductIdx(productIdx)
         }
-
         val productImgResult = productImgDeferred.await()
-
         var fileName = "sample_img"
         for (c3 in productImgResult.children) {
             val def = c3.child("default").value as String
@@ -43,7 +42,6 @@ class ReviewProductViewModel() : ViewModel() {
                 fileName = c3.child("imgSrc").value as String
             }
         }
-
         val productImgBitmapDeferred = async(Dispatchers.IO) {
             ReviewProductRepository.getProductImgByFilename(fileName)
         }

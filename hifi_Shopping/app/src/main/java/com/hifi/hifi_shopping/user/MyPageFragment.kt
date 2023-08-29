@@ -7,20 +7,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.parcel.ParcelActivity
+import com.hifi.hifi_shopping.rank.RankActivity
 import com.hifi.hifi_shopping.recommend.RecommendActivity
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.subscribe.SubscribeActivity
+import com.hifi.hifi_shopping.user.model.UserDataClass
+import com.hifi.hifi_shopping.user.repository.UserRepository
 import com.hifi.hifi_shopping.user.vm.OrderViewModel
 import com.hifi.hifi_shopping.user.vm.PointViewModel
 import com.hifi.hifi_shopping.user.vm.ProductViewModel
 import com.hifi.hifi_shopping.user.vm.ReviewViewModel
 import com.hifi.hifi_shopping.user.vm.SubscribeViewModel
 import com.hifi.hifi_shopping.user.vm.UserCouponViewModel
+import com.hifi.hifi_shopping.wish.WishActivity
 
 class MyPageFragment : Fragment() {
 
@@ -40,8 +45,6 @@ class MyPageFragment : Fragment() {
     ): View? {
         fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
         userActivity = activity as UserActivity
-
-
         val userTemp = userActivity.userTemp
         pointViewModel = ViewModelProvider(userActivity)[PointViewModel::class.java]
         userCouponViewModel = ViewModelProvider(userActivity)[UserCouponViewModel::class.java]
@@ -236,28 +239,31 @@ class MyPageFragment : Fragment() {
             }
 
             userBottomNavigationView.run {
-//                selectedItemId = R.id.userFragment
-//                setOnItemSelectedListener {
-//                    when (it.itemId) {
-//                        R.id.userFragment -> {
-//
-//
-//                        }
-//                        R.id.rankFragment ->{
-//
-//
-//                        }
-//                        R.id.categoryFragment->{
-//                            val intent = Intent(userActivity, CategoryActivity::class.java)
-//                            startActivity(intent)
-//
-//                        }
-//                        R.id.recommendFragment ->{
-//
-//                        }
-//                    }
-//                    return@setOnItemSelectedListener true
-//                }
+                selectedItemId = R.id.bottomMenuItemMyPage
+                setOnItemSelectedListener {
+                    when (it.itemId) {
+
+                        R.id.bottomMenuItemRankMain ->{
+                            val intent = Intent(userActivity, RankActivity::class.java)
+                            startActivity(intent)
+
+                        }
+                        R.id.bottomMenuItemCategoryMain->{
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            startActivity(intent)
+
+                        }
+                        R.id.bottomMenuItemRecommend ->{
+                            val intent = Intent(userActivity, RecommendActivity::class.java)
+                            startActivity(intent)
+                        }
+                        R.id.bottomMenuItemWish ->{
+                            val intent = Intent(userActivity, WishActivity::class.java)
+                            startActivity(intent)
+                        }
+                    }
+                    return@setOnItemSelectedListener true
+                }
             }
 
 
@@ -272,3 +278,4 @@ class MyPageFragment : Fragment() {
 
 
 }
+

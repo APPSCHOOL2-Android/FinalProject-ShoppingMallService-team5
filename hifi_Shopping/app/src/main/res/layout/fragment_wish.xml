@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,29 +7,54 @@
     android:orientation="vertical"
     tools:context=".wish.WishFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarWishL"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/wishAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
-        app:menu="@menu/menu_search_cart"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:navigationIconTint="#846058"
-        app:title="위시 리스트"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/wishToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:menu="@menu/menu_search_cart"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:subtitleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:title="위시 리스트"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+
+        <View
+            android:id="@+id/wishToolbarDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/brown2" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/wishBottomNavigationView"
+        app:layout_constraintTop_toBottomOf="@+id/wishAppBarLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="10dp">
+
+            <TextView
+                android:id="@+id/wishTextViewEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="563dp"
+                android:fontFamily="@font/notosans_regular"
+                android:gravity="center"
+                android:text="위시리스트에 상품이 없습니다." />
 
             <CheckBox
                 android:id="@+id/wishListCheckBoxSelectAll"
@@ -37,13 +62,15 @@
                 android:layout_height="wrap_content"
                 android:elegantTextHeight="true"
                 android:fontFamily="@font/notosanskr_regular"
-                android:text="전체 선택" />
+                android:text="전체 선택"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -101,4 +128,21 @@
         </LinearLayout>
     </ScrollView>
 
-</LinearLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/wishBottomNavigationView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_brown"
+        android:visibility="visible"
+        app:itemActiveIndicatorStyle="@style/bottom_navigation_view_active_indicator"
+        app:itemIconSize="32dp"
+        app:itemIconTint="@color/navigation_bar_item_tint"
+        app:itemTextColor="@color/navigation_bar_item_tint"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_menu_category" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
