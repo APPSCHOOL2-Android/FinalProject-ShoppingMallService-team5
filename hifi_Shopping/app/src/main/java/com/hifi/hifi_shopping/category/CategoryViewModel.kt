@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 
 class CategoryViewModel: ViewModel() {
 
+    var currentUserIdx = ""
+
     var searchSubCategory = MutableLiveData<Boolean>(false)
 
     fun setSearchSubCategory(setValue: Boolean) {

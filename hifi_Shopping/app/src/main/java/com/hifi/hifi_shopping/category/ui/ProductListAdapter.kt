@@ -1,7 +1,11 @@
 package com.hifi.hifi_shopping.category.ui
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -9,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 
@@ -46,17 +51,12 @@ class ProductListAdapter(
         holder.bind(currentList[position])
     }
 
-//    override fun onViewDetachedFromWindow(holder: ProductListViewHolder) {
-//        super.onViewDetachedFromWindow(holder)
-//        holder.detach()
-//    }
-
     inner class ProductListViewHolder(
         val itemProductCategoryDetailBinding: ItemProductCategoryDetailBinding
     ): RecyclerView.ViewHolder(itemProductCategoryDetailBinding.root){
         fun bind(product: CategoryMainProduct) {
             itemProductCategoryDetailBinding.run {
-                //imageViewItemProductCategoryDetailThumb.setImageResource(R.color.brown2)
+                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.white)
 
                 if (product.imgSrc.isEmpty()) {
                     categoryMainViewModel.getProductImgUrl(categoryMainViewModel.productWorth + currentList.size - adapterPosition - 1) { url ->
@@ -88,15 +88,12 @@ class ProductListAdapter(
                 }
 
                 categoryMainViewModel.getProductRatingInfo(product.idx) { rating, reviewCnt ->
-                    textViewItemProductCategoryDetailRating.text = String.format("평점 %.1f/5", rating)
-                    textViewItemProductCategoryDetailReviewCount.text = "(${reviewCnt})"
+                    Log.d("brudenell", rating.toString())
+                    if (reviewCnt != 0L) {
+                        textViewItemProductCategoryDetailRating.text = String.format("평점 %.1f/5", rating)
+                        textViewItemProductCategoryDetailReviewCount.text = "(${reviewCnt})"
+                    }
                 }
-            }
-        }
-
-        fun detach() {
-            itemProductCategoryDetailBinding.run {
-                imageViewItemProductCategoryDetailThumb.setImageResource(R.color.white)
             }
         }
     }

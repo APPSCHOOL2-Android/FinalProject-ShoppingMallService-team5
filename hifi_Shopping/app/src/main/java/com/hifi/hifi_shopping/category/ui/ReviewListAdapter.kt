@@ -1,11 +1,17 @@
 package com.hifi.hifi_shopping.category.ui
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.graphics.drawable.Drawable
+import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewTreeObserver
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,11 +20,13 @@ import com.bumptech.glide.load.resource.bitmap.DrawableTransformation
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.category.CategoryViewModel
 import com.hifi.hifi_shopping.category.model.CategoryMainReview
 import com.hifi.hifi_shopping.databinding.ItemProductCategoryDetailBinding
 import com.hifi.hifi_shopping.databinding.ItemReviewCategoryDetailBinding
 
 class ReviewListAdapter(
+    val categoryViewModel: CategoryViewModel,
     val categoryMainFragment: CategoryMainFragment,
     val categoryMainViewModel: CategoryMainViewModel,
     val profileClickCallback: () -> Unit,
@@ -58,9 +66,43 @@ class ReviewListAdapter(
     inner class ReviewListViewHolder(
         val itemReviewCategoryDetailBinding: ItemReviewCategoryDetailBinding
     ): RecyclerView.ViewHolder(itemReviewCategoryDetailBinding.root) {
+
+        var expanded = false
         fun bind(review: CategoryMainReview) {
             itemReviewCategoryDetailBinding.run {
                 textViewItemReviewCategoryDetailReviewContent.text = review.context
+//                textViewItemReviewCategoryDetailReviewContent.text = "이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다."
+
+                textViewItemReviewCategoryDetailReviewContent.post {
+                    if (textViewItemReviewCategoryDetailReviewContent.layout.getEllipsisCount(textViewItemReviewCategoryDetailReviewContent.lineCount - 1) > 0) {
+                        imageViewItemReviewCategoryDetailExpand.visibility = View.VISIBLE
+                        val dpValueHorizontal = 13
+                        val dpValueTop = 9
+                        val dpValueBottom = 36
+                        val density = categoryMainFragment.resources.displayMetrics.density
+                        textViewItemReviewCategoryDetailReviewContent.setPadding(
+                            (dpValueHorizontal * density).toInt(),
+                            (dpValueTop * density).toInt(),
+                            (dpValueHorizontal * density).toInt(),
+                            (dpValueBottom * density).toInt()
+                        )
+
+                        textViewItemReviewCategoryDetailReviewContent.run {
+                            setOnClickListener {
+                                if (expanded) {
+                                    expanded = false
+                                    imageViewItemReviewCategoryDetailExpand.setImageResource(R.drawable.expand_more_24px)
+                                    maxLines = 4
+                                } else {
+                                    expanded = true
+                                    maxLines = Int.MAX_VALUE
+                                    imageViewItemReviewCategoryDetailExpand.setImageResource(R.drawable.expand_less_24px)
+                                }
+                            }
+                        }
+                    }
+                }
+
                 textViewItemReviewCategoryDetailLikeCount.text = review.likeCnt
 
                 categoryMainViewModel.getUser(review.writerIdx) { user ->
@@ -73,20 +115,20 @@ class ReviewListAdapter(
                         .into(imageViewItemReviewCategoryDetailUserThumb)
                 }
 
-                categoryMainViewModel.getUserFollowerCnt(review.writerIdx) { followerCnt, subscribing ->
+                categoryMainViewModel.getUserFollowerCnt(categoryViewModel.currentUserIdx, review.writerIdx) { followerCnt, subscribing ->
                     updateSubscribeData(review.writerIdx, followerCnt, subscribing)
                 }
 
                 buttonItemReviewCategoryDetailSubscribe.setOnClickListener {
                     if (buttonItemReviewCategoryDetailSubscribe.text == "구독") {
-                        categoryMainViewModel.setSubscribe(review.writerIdx, true) {
-                            categoryMainViewModel.getUserFollowerCnt(review.writerIdx) { followerCnt, subscribing ->
+                        categoryMainViewModel.setSubscribe(categoryViewModel.currentUserIdx, review.writerIdx, true) {
+                            categoryMainViewModel.getUserFollowerCnt(categoryViewModel.currentUserIdx, review.writerIdx) { followerCnt, subscribing ->
                                 updateSubscribeData(review.writerIdx, followerCnt, subscribing)
                             }
                         }
                     } else {
-                        categoryMainViewModel.setSubscribe(review.writerIdx, false) {
-                            categoryMainViewModel.getUserFollowerCnt(review.writerIdx) { followerCnt, subscribing ->
+                        categoryMainViewModel.setSubscribe(categoryViewModel.currentUserIdx, review.writerIdx, false) {
+                            categoryMainViewModel.getUserFollowerCnt(categoryViewModel.currentUserIdx, review.writerIdx) { followerCnt, subscribing ->
                                 updateSubscribeData(review.writerIdx, followerCnt, subscribing)
                             }
                         }
@@ -132,7 +174,7 @@ class ReviewListAdapter(
                     buttonItemReviewCategoryDetailSubscribe.setBackgroundResource(R.drawable.background_subscribe_button_not_subscribing)
                 }
 
-                if (categoryMainViewModel.currentUserIdx != writerIdx)
+                if (categoryViewModel.currentUserIdx != writerIdx)
                     buttonItemReviewCategoryDetailSubscribe.visibility = View.VISIBLE
                 else
                     buttonItemReviewCategoryDetailSubscribe.visibility = View.INVISIBLE

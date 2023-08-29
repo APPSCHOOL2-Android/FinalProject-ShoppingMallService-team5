@@ -33,6 +33,7 @@ class AuthLoginFragment : Fragment() {
         authTestViewModel = ViewModelProvider(authActivity)[AuthTestViewModel::class.java]
 
         // 로그인 결과를 관찰하여 UI 업데이트
+
         authTestViewModel.run{
             userData.observe(viewLifecycleOwner){
                 val intent = Intent(authActivity, CategoryActivity::class.java)
@@ -43,9 +44,11 @@ class AuthLoginFragment : Fragment() {
                 intent.putExtra("userVerify", it.verify)
                 intent.putExtra("userPhoneNum", it.phoneNum)
                 intent.putExtra("userProfileImg", it.profileImg)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemCategoryMain)
                 startActivity(intent)
             }
         }
+
         return fragmentAuthLoginBinding.root
     }
 
