@@ -2,30 +2,24 @@ package com.hifi.hifi_shopping.user
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.TaskStackBuilder
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.firebase.auth.FirebaseAuth
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentMyPageBinding
 import com.hifi.hifi_shopping.parcel.ParcelActivity
-import com.hifi.hifi_shopping.rank.RankActivity
-import com.hifi.hifi_shopping.recommend.RecommendActivity
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.subscribe.SubscribeActivity
-import com.hifi.hifi_shopping.user.model.UserDataClass
-import com.hifi.hifi_shopping.user.repository.UserRepository
 import com.hifi.hifi_shopping.user.vm.OrderViewModel
 import com.hifi.hifi_shopping.user.vm.PointViewModel
 import com.hifi.hifi_shopping.user.vm.ProductViewModel
 import com.hifi.hifi_shopping.user.vm.ReviewViewModel
 import com.hifi.hifi_shopping.user.vm.SubscribeViewModel
 import com.hifi.hifi_shopping.user.vm.UserCouponViewModel
-import com.hifi.hifi_shopping.wish.WishActivity
 
 class MyPageFragment : Fragment() {
 
@@ -172,7 +166,15 @@ class MyPageFragment : Fragment() {
 
             // 아이템 추천 받으러 가기
             myPageBtnToRecommend.setOnClickListener {
-                val intent = Intent(userActivity, RecommendActivity::class.java)
+                val intent = Intent(userActivity, CategoryActivity::class.java)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemRecommend)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
                 startActivity(intent)
             }
 
@@ -182,12 +184,27 @@ class MyPageFragment : Fragment() {
             myPageDeliverStatusPacking.run {
                 setOnClickListener{
                     val intent = Intent(userActivity, ParcelActivity::class.java)
+                    intent.putExtra("userEmail", userTemp.email)
+                    intent.putExtra("userIdx", userTemp.idx)
+                    intent.putExtra("userNickname", userTemp.nickname)
+                    intent.putExtra("userPw", userTemp.pw)
+                    intent.putExtra("userVerify", userTemp.verify)
+                    intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                    intent.putExtra("userProfileImg", userTemp.profileImg)
+
                     startActivity(intent)
                 }
             }
             myPageDeliverStatusShipping.run {
                 setOnClickListener{
                     val intent = Intent(userActivity, ParcelActivity::class.java)
+                    intent.putExtra("userEmail", userTemp.email)
+                    intent.putExtra("userIdx", userTemp.idx)
+                    intent.putExtra("userNickname", userTemp.nickname)
+                    intent.putExtra("userPw", userTemp.pw)
+                    intent.putExtra("userVerify", userTemp.verify)
+                    intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                    intent.putExtra("userProfileImg", userTemp.profileImg)
                     startActivity(intent)
 
                 }
@@ -195,6 +212,13 @@ class MyPageFragment : Fragment() {
             myPageDeliverStatusArriving.run {
                 setOnClickListener{
                     val intent = Intent(userActivity, ParcelActivity::class.java)
+                    intent.putExtra("userEmail", userTemp.email)
+                    intent.putExtra("userIdx", userTemp.idx)
+                    intent.putExtra("userNickname", userTemp.nickname)
+                    intent.putExtra("userPw", userTemp.pw)
+                    intent.putExtra("userVerify", userTemp.verify)
+                    intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                    intent.putExtra("userProfileImg", userTemp.profileImg)
                     startActivity(intent)
 
                 }
@@ -202,6 +226,13 @@ class MyPageFragment : Fragment() {
             myPageDeliverStatusSuccess.run {
                 setOnClickListener{
                     val intent = Intent(userActivity, ParcelActivity::class.java)
+                    intent.putExtra("userEmail", userTemp.email)
+                    intent.putExtra("userIdx", userTemp.idx)
+                    intent.putExtra("userNickname", userTemp.nickname)
+                    intent.putExtra("userPw", userTemp.pw)
+                    intent.putExtra("userVerify", userTemp.verify)
+                    intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                    intent.putExtra("userProfileImg", userTemp.profileImg)
                     startActivity(intent)
                 }
             }
@@ -235,30 +266,70 @@ class MyPageFragment : Fragment() {
             // 내 구독리스트 확인하러 가기
             myPageBtnToSubscribe.setOnClickListener {
                 val intent = Intent(userActivity, SubscribeActivity::class.java)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemRankMain)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
                 startActivity(intent)
             }
+
 
             userBottomNavigationView.run {
                 selectedItemId = R.id.bottomMenuItemMyPage
                 setOnItemSelectedListener {
                     when (it.itemId) {
-
                         R.id.bottomMenuItemRankMain ->{
-                            val intent = Intent(userActivity, RankActivity::class.java)
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo",R.id.bottomMenuItemRankMain)
+                            intent.putExtra("userEmail", userTemp.email)
+                            intent.putExtra("userIdx", userTemp.idx)
+                            intent.putExtra("userNickname", userTemp.nickname)
+                            intent.putExtra("userPw", userTemp.pw)
+                            intent.putExtra("userVerify", userTemp.verify)
+                            intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                            intent.putExtra("userProfileImg", userTemp.profileImg)
                             startActivity(intent)
 
                         }
                         R.id.bottomMenuItemCategoryMain->{
                             val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo",R.id.bottomMenuItemCategoryMain)
+                            intent.putExtra("userEmail", userTemp.email)
+                            intent.putExtra("userIdx", userTemp.idx)
+                            intent.putExtra("userNickname", userTemp.nickname)
+                            intent.putExtra("userPw", userTemp.pw)
+                            intent.putExtra("userVerify", userTemp.verify)
+                            intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                            intent.putExtra("userProfileImg", userTemp.profileImg)
                             startActivity(intent)
 
                         }
                         R.id.bottomMenuItemRecommend ->{
-                            val intent = Intent(userActivity, RecommendActivity::class.java)
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo",R.id.bottomMenuItemRecommend)
+                            intent.putExtra("userEmail", userTemp.email)
+                            intent.putExtra("userIdx", userTemp.idx)
+                            intent.putExtra("userNickname", userTemp.nickname)
+                            intent.putExtra("userPw", userTemp.pw)
+                            intent.putExtra("userVerify", userTemp.verify)
+                            intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                            intent.putExtra("userProfileImg", userTemp.profileImg)
                             startActivity(intent)
                         }
                         R.id.bottomMenuItemWish ->{
-                            val intent = Intent(userActivity, WishActivity::class.java)
+                            val intent = Intent(userActivity, CategoryActivity::class.java)
+                            intent.putExtra("navigateTo",R.id.bottomMenuItemWish)
+                            intent.putExtra("userEmail", userTemp.email)
+                            intent.putExtra("userIdx", userTemp.idx)
+                            intent.putExtra("userNickname", userTemp.nickname)
+                            intent.putExtra("userPw", userTemp.pw)
+                            intent.putExtra("userVerify", userTemp.verify)
+                            intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                            intent.putExtra("userProfileImg", userTemp.profileImg)
                             startActivity(intent)
                         }
                     }

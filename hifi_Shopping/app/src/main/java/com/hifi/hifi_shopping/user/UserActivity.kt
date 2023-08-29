@@ -13,13 +13,11 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.auth.AuthActivity
-import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
+import com.hifi.hifi_shopping.buy.fragment.FAQFragment
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
 import com.hifi.hifi_shopping.parcel.ParcelActivity
@@ -270,13 +268,7 @@ class UserActivity : AppCompatActivity() {
             }
             "parcel" ->{
                 val intent = Intent(this@UserActivity, ParcelActivity::class.java)
-                intent.putExtra("userEmail", userTemp.email)
                 intent.putExtra("userIdx", userTemp.idx)
-                intent.putExtra("userNickname", userTemp.nickname)
-                intent.putExtra("userPw", userTemp.pw)
-                intent.putExtra("userVerify", userTemp.verify)
-                intent.putExtra("userPhoneNum", userTemp.phoneNum)
-                intent.putExtra("userProfileImg", userTemp.profileImg)
                 startActivity(intent)
             }
             "buy" -> {
