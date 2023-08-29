@@ -100,4 +100,9 @@
 <!--        </LinearLayout>-->
 <!--    </ScrollView>-->
 
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/wishContainer"
+        android:name="com.hifi.hifi_shopping.wish.WishFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
