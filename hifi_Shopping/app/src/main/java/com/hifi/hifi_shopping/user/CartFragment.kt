@@ -117,8 +117,8 @@ class CartFragment : Fragment() {
                                 val itemPrice = itemBinding.rowCartItemPrice.text.toString().toInt()
                                 itemsCount += 1
                                 itemsPrice += itemPrice
-                                Log.d("제품 추가", itemPrice.toString())
-                                Log.d("제품 추가1", itemsPrice.toString())
+//                                Log.d("제품 추가", itemPrice.toString())
+//                                Log.d("제품 추가1", itemsPrice.toString())
                             } else if (!itemBinding.rowCartItemCheckBox.isChecked) {
                                 val itemPrice = itemBinding.rowCartItemPrice.text.toString().toInt()
                                 itemsCount -= 1
@@ -172,7 +172,8 @@ class CartFragment : Fragment() {
         fragmentCartBinding.run {
             cartToolbar.run {
                 setNavigationOnClickListener {
-                    userActivity.removeFragment(UserActivity.CART_FRAGMENT)
+                    userActivity.whatIsPrev(UserActivity.CART_FRAGMENT)
+
                 }
                 setOnMenuItemClickListener {
                     when (it.itemId) {
@@ -288,5 +289,7 @@ class CartFragment : Fragment() {
 
         }
     }
+
+
 
 }

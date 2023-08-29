@@ -20,6 +20,7 @@ import com.hifi.hifi_shopping.user.model.UserDataClass
 import com.hifi.hifi_shopping.user.vm.OrderViewModel
 import com.hifi.hifi_shopping.user.vm.ReviewViewModel
 import com.hifi.hifi_shopping.user.vm.SubscribeViewModel
+import java.net.UnknownServiceException
 
 
 class UserPageFragment : Fragment() {
@@ -80,7 +81,7 @@ class UserPageFragment : Fragment() {
             userPageToolbar.run {
                 title = userPagesUser.nickname
                 setNavigationOnClickListener{
-                    userActivity.removeFragment(UserActivity.USER_PAGE_FRAGMENT)
+                    userActivity.whatIsPrev(UserActivity.USER_PAGE_FRAGMENT)
                 }
                 setOnMenuItemClickListener {
                     when(it.itemId){

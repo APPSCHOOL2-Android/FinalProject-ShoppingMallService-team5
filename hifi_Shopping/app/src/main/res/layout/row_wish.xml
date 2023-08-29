@@ -14,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/product_sample" />
 
     <CheckBox
         android:id="@+id/rowWishListCheckbox"
@@ -41,15 +41,6 @@
         app:layout_constraintTop_toBottomOf="@id/rowWishListImg">
 
         <TextView
-            android:id="@+id/rowWishListItemBrand"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:elegantTextHeight="true"
-            android:fontFamily="@font/notosanskr_regular"
-            android:text="브랜드"
-            android:textSize="13sp" />
-
-        <TextView
             android:id="@+id/rowWishListItemName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -63,7 +54,7 @@
             android:layout_height="match_parent"
             android:elegantTextHeight="true"
             android:fontFamily="@font/notosanskr_bold"
-            android:text="00000원"
+            android:text="0원"
             android:textSize="12sp" />
     </LinearLayout>
 
