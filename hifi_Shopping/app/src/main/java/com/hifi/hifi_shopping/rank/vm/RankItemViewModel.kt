@@ -4,9 +4,13 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.mini01_lbs01.model.ProductDataClass
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.rank.repository.RankItemRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -43,7 +47,7 @@ class RankItemViewModel : ViewModel() {
     }
 
 
-    fun getProductImg(productIdx:String){
+    fun getProductImg(productIdx: String) {
         RankItemRepository.getProductImgSrc(productIdx) {
             for (c1 in it.result.children) {
                 val imgSrc = c1.child("imgSrc").value as String
@@ -54,15 +58,20 @@ class RankItemViewModel : ViewModel() {
                     val fileRef = storage.reference.child("product/${imgSrc}")
 
                     // 데이터를 가져올 수 있는 경로를 가져온다.
-                    fileRef.downloadUrl.addOnCompleteListener {
-                        thread {
-                            // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
-                            val url = URL(it.result.toString())
-                            // 접속한다.
-                            val httpURLConnection = url.openConnection() as HttpURLConnection
-                            // 이미지 객체를 생성한다.
-                            val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
-                            productImgBitmap.value = bitmap
+                    fileRef.downloadUrl.addOnCompleteListener { task ->
+                        val imageUrl = task.result.toString()
+
+                        // 코루틴을 사용하여 UI 스레드에서 이미지 다운로드 및 업데이트
+                        viewModelScope.launch {
+                            withContext(Dispatchers.IO) {
+                                // URL을 이용해 비트맵 다운로드
+                                val url = URL(imageUrl)
+                                val httpURLConnection = url.openConnection() as HttpURLConnection
+                                val bitmap = BitmapFactory.decodeStream(httpURLConnection.inputStream)
+
+                                // UI 스레드에서 LiveData 값을 변경
+                                productImgBitmap.postValue(bitmap)
+                            }
                         }
                     }
                 }
