@@ -33,7 +33,7 @@ class UserActivity : AppCompatActivity() {
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
 
-    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "")
+    lateinit var userTemp: UserDataClass
 
     val permissionList = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -57,6 +57,20 @@ class UserActivity : AppCompatActivity() {
         setContentView(activityUserBinding.root)
 
         requestPermissions(permissionList,0)
+
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("userEmail")) {
+            val email = receivedIntent.getStringExtra("userEmail")!!
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
+                userVerify, userPhoneNum, userProfileImg)
+            userTemp = newUserData
+        }
 
         replaceFragment(MY_PAGE_FRAGMENT, false, null)
         // authTestViewModel = ViewModelProvider()
@@ -140,12 +154,11 @@ class UserActivity : AppCompatActivity() {
 
     fun getUserProfileImg(userTemp: UserDataClass, imgView: ImageView){
         val storage = FirebaseStorage.getInstance()
-        val fileName = if(userTemp.profileImg.isNullOrBlank()){
-            "user/sample_img.jpg" // todo: sample_img -> 디폴트
-        }else{
-            "user/${userTemp.idx}"
+        if(userTemp.profileImg.isNullOrBlank() ||  userTemp.profileImg == "sample_img.jpg"){
+            return
         }
-        Log.d("fileName",fileName.toString())
+        val fileName = "user/"+userTemp.profileImg
+        Log.d("fileName",fileName)
         val fileRef = storage.reference.child(fileName)
 
         // 데이터를 가져올 수 있는 경로를 가져온다.

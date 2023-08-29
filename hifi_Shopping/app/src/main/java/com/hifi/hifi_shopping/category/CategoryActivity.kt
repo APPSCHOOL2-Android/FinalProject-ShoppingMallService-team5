@@ -42,8 +42,10 @@ class CategoryActivity : AppCompatActivity() {
             val userNickname = receivedIntent.getStringExtra("userNickname")!!
             val userPw = receivedIntent.getStringExtra("userPw")!!
             val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
             val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
-                "false", "", userProfileImg)
+                userVerify, userPhoneNum, userProfileImg)
             userDataClass = newUserData
         }
         Log.d("UserData", "Email: ${userDataClass.email}")
@@ -125,7 +127,15 @@ class CategoryActivity : AppCompatActivity() {
                             categoryViewModel.setSearchSubCategory(false)
                         }
                         R.id.bottomMenuItemMyPage -> {
+
                             val intent = Intent(this@CategoryActivity, UserActivity::class.java)
+                            intent.putExtra("userEmail", userDataClass.email)
+                            intent.putExtra("userIdx", userDataClass.idx)
+                            intent.putExtra("userNickname", userDataClass.nickname)
+                            intent.putExtra("userPw", userDataClass.pw)
+                            intent.putExtra("userVerify", userDataClass.verify)
+                            intent.putExtra("userPhoneNum", userDataClass.phoneNum)
+                            intent.putExtra("userProfileImg", userDataClass.profileImg)
                             startActivity(intent)
                         }
                         R.id.bottomMenuItemWish -> {

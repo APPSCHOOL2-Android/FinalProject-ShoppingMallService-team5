@@ -40,6 +40,8 @@ class AuthLoginFragment : Fragment() {
                 intent.putExtra("userIdx", it.idx)
                 intent.putExtra("userNickname", it.nickname)
                 intent.putExtra("userPw", it.pw)
+                intent.putExtra("userVerify", it.verify)
+                intent.putExtra("userPhoneNum", it.phoneNum)
                 intent.putExtra("userProfileImg", it.profileImg)
                 startActivity(intent)
             }
