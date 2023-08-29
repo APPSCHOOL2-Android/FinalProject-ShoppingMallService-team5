@@ -26,7 +26,7 @@
                 android:layout_marginEnd="100dp"
                 android:fontFamily="@font/montserrat_extrabold"
                 android:text="GUY:DE"
-                android:textColor="#6C3428"
+                android:textColor="@color/brown"
                 android:textSize="40sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
                 android:layout_width="312dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="48dp"
-                android:layout_marginTop="90dp"
+                android:layout_marginTop="80dp"
                 android:hint="아이디"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
@@ -51,6 +51,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="60dp"
+                    android:fontFamily="@font/notosans_regular"
                     android:inputType="text|textPersonName"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -73,6 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="60dp"
+                    android:fontFamily="@font/notosans_regular"
                     android:inputType="text|textPassword"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
@@ -85,7 +87,7 @@
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="2dp"
                 android:checked="true"
-                android:fontFamily="@font/notosans_extrabold"
+                android:fontFamily="@font/notosanskr_regular"
                 android:text="자동 로그인"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,8 +98,9 @@
                 android:layout_width="82dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="136dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:clickable="true"
+                android:fontFamily="@font/notosans_regular"
                 android:text="비밀번호 찾기"
                 app:layout_constraintStart_toEndOf="@+id/checkboxAuthAutoLogin"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLoginUserPw" />
@@ -108,8 +111,10 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="56dp"
+                android:fontFamily="@font/montserrat_extrabold"
                 android:text="로그인"
                 app:backgroundTint="#6C3428"
+                app:cornerRadius="7dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLoginUserPw" />
 
@@ -118,27 +123,28 @@
                 android:layout_width="124dp"
                 android:layout_height="0.8dp"
                 android:layout_marginStart="48dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="8dp"
                 app:dividerColor="#8A8A8A"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/guideLogin1" />
+                app:layout_constraintTop_toTopOf="@+id/guideLogin2" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/barLogin2"
                 android:layout_width="124dp"
                 android:layout_height="0.8dp"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="8dp"
                 app:dividerColor="#8A8A8A"
                 app:layout_constraintStart_toEndOf="@+id/guideLogin2"
-                app:layout_constraintTop_toBottomOf="@+id/textViewAuthJoin" />
+                app:layout_constraintTop_toTopOf="@+id/guideLogin2" />
 
             <TextView
                 android:id="@+id/guideLogin1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_marginStart="52dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/notosans_regular"
                 android:text="혹시 GUY:DE가 처음이신가요?"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -146,10 +152,11 @@
 
             <TextView
                 android:id="@+id/textViewAuthJoin"
-                android:layout_width="70dp"
-                android:layout_height="18dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="91dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="14dp"
+                android:fontFamily="@font/montserrat_extrabold"
                 android:text="회원가입"
                 android:textSize="12sp"
                 android:textStyle="bold"
@@ -176,8 +183,10 @@
                 android:layout_height="48dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_extrabold"
                 android:text="구글 로그인"
                 android:textColor="#000000"
+                app:cornerRadius="7dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guideLogin2" />
 
