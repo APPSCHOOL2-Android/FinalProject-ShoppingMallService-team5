@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
+import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
 import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
@@ -18,17 +19,33 @@ import kotlin.concurrent.thread
 
 class OrderItemViewModel: ViewModel() {
 
-    var productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()
+    val productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()
     val tempHashMap =  LinkedHashMap<String, OrderProduct>()
 
-    var productNoTitleImgMap = MutableLiveData<HashMap<String, Bitmap>>()
+    val productNoTitleImgMap = MutableLiveData<HashMap<String, Bitmap>>()
     val tempHashMap2 = HashMap<String, Bitmap>()
 
-    var normalReviewMap = MutableLiveData<HashMap<String,ProductNormalReview>>()
+    val normalReviewMap = MutableLiveData<HashMap<String,ProductNormalReview>>()
     val tempReviewMap = HashMap<String, ProductNormalReview>()
 
-    var productFAQ = MutableLiveData<HashMap<String,ProductFAQData>>()
+    val productFAQ = MutableLiveData<HashMap<String,ProductFAQData>>()
     val tempFAQMap = HashMap<String, ProductFAQData>()
+
+    val cartData = MutableLiveData<CartData>()
+    var tempCartData = CartData(null, null)
+
+    fun getCartData(idx: String, productIdx: String){
+        tempCartData = CartData(null, null)
+        OrderItemRepository.getCartData(idx){
+            for (c1 in it.result.children){
+                if(c1.child("productIdx").value as String == productIdx){
+                    tempCartData.userIdx = c1.child("userIdx").value as String
+                    tempCartData.productIdx = c1.child("productIdx").value as String
+                }
+            }
+            cartData.value = tempCartData
+        }
+    }
 
     fun getProductFAQUserInfo(idx: String){
         OrderUserRepository.getOrderUser(idx){

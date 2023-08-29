@@ -5,12 +5,23 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderData
 
 class OrderItemRepository {
 
     companion object{
 
+        fun setCartData(cartData: CartData, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val CartDataRef = database.getReference("CartData")
+            CartDataRef.push().setValue(cartData).addOnCompleteListener(callback1)
+        }
+        fun getCartData(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val CartDataRef = database.getReference("CartData")
+            CartDataRef.orderByChild("userIdx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
         fun getProductFAQData(idx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
             val FAQDataRef = database.getReference("FAQData")

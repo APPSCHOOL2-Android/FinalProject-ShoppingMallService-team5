@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.app.ActivityCompat
@@ -43,6 +44,7 @@ class BuyActivity : AppCompatActivity() {
     var oriTotalOrderProductPrice = 0
     var buyProductList = ArrayList<String>()
     var bundle = Bundle()
+    lateinit var newUserData: UserDataClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,14 +52,30 @@ class BuyActivity : AppCompatActivity() {
         activityBuyBinding = ActivityBuyBinding.inflate(layoutInflater)
         setContentView(activityBuyBinding.root)
 
+        //dataSetting()
         startFragment()
 
     }
 
+    // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
+    private fun startFragment(){
 
-    private fun bundleSetting(): Bundle{
-        val bundle = Bundle()
+        //var bundle = bundleSetting()
+        var bundle = Bundle()
+        bundle.putString("userIdx", "0")
         buyProductList = intent.getStringArrayListExtra("buyProduct")!!
+
+        if(buyProductList?.size == 1){
+            //bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
+            bundle.putString("selProduct", "0") // 상품 인덱스
+            replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
+        } else {
+            bundle.putStringArrayList("selProduct", buyProductList)
+            replaceFragment(ORDER_FRAGMENT, true, bundle)
+        }
+    }
+
+    private fun dataSetting(){
         val email = intent.getStringExtra("userEmail")!!
         val userIdx = intent.getStringExtra("userIdx")!!
         val userNickname = intent.getStringExtra("userNickname")!!
@@ -65,54 +83,37 @@ class BuyActivity : AppCompatActivity() {
         val userProfileImg = intent.getStringExtra("userProfileImg")!!
         val userVerify = intent.getStringExtra("userVerify")!!
         val userPhoneNum = intent.getStringExtra("userPhoneNum")!!
+        newUserData = UserDataClass(userIdx, email, userPw, userNickname, userVerify, userPhoneNum, userProfileImg)
+        Log.d("ttt","$newUserData")
+    }
 
-        bundle.putString("userEmail", email)
-        bundle.putString("userIdx", userIdx)
-        bundle.putString("userNickname", userNickname)
-        bundle.putString("userPw", userPw)
-        bundle.putString("userProfileImg", userProfileImg)
-        bundle.putString("userVerify", userVerify)
-        bundle.putString("userPhoneNum", userPhoneNum)
+
+    private fun bundleSetting(): Bundle{
+        val bundle = Bundle()
+        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
+
+        bundle.putString("userEmail", newUserData.email)
+        bundle.putString("userIdx", newUserData.idx)
+        bundle.putString("userNickname", newUserData.nickname)
+        bundle.putString("userPw", newUserData.pw)
+        bundle.putString("userProfileImg", newUserData.profileImg)
+        bundle.putString("userVerify", newUserData.verify)
+        bundle.putString("userPhoneNum", newUserData.phoneNum)
 
         return bundle
     }
 
     fun intentSetting(returnIntent: Intent): Intent {
-        val email = this@BuyActivity.intent.getStringExtra("userEmail")!!
-        val userIdx = this@BuyActivity.intent.getStringExtra("userIdx")!!
-        val userNickname = this@BuyActivity.intent.getStringExtra("userNickname")!!
-        val userPw = this@BuyActivity.intent.getStringExtra("userPw")!!
-        val userProfileImg = this@BuyActivity.intent.getStringExtra("userProfileImg")!!
-        val userVerify = this@BuyActivity.intent.getStringExtra("userVerify")!!
-        val userPhoneNum = this@BuyActivity.intent.getStringExtra("userPhoneNum")!!
 
-        returnIntent.putExtra("userEmail", email)
-        returnIntent.putExtra("userIdx", userIdx)
-        returnIntent.putExtra("userNickname", userNickname)
-        returnIntent.putExtra("userPw", userPw)
-        returnIntent.putExtra("userProfileImg", userProfileImg)
-        returnIntent.putExtra("userVerify", userVerify)
-        returnIntent.putExtra("userPhoneNum", userPhoneNum)
+        returnIntent.putExtra("userEmail", newUserData.email)
+        returnIntent.putExtra("userIdx", newUserData.idx)
+        returnIntent.putExtra("userNickname", newUserData.nickname)
+        returnIntent.putExtra("userPw", newUserData.pw)
+        returnIntent.putExtra("userProfileImg", newUserData.profileImg)
+        returnIntent.putExtra("userVerify", newUserData.verify)
+        returnIntent.putExtra("userPhoneNum", newUserData.phoneNum)
 
         return returnIntent
-    }
-
-    // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
-    private fun startFragment(){
-
-        var bundle = bundleSetting()
-        //var bundle = Bundle()
-        //bundle.putString("userIdx", "0")
-        //buyProductList = intent.getStringArrayListExtra("buyProduct")!!
-
-        if(buyProductList?.size == 1){
-            bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
-            //bundle.putString("selProduct", "0") // 상품 인덱스
-            replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
-        } else {
-            //bundle.putStringArrayList("selProduct", buyProductList)
-            replaceFragment(ORDER_FRAGMENT, true, bundle)
-        }
     }
 
 

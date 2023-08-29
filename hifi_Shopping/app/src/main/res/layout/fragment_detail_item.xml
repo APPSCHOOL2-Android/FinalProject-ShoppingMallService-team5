@@ -425,13 +425,13 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/view4"
+                android:id="@+id/productCartInBtn"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="148dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/notosans_black"
-                android:text="장바구니"
+                android:text="장바구니 담기"
                 android:textColor="@color/brown"
                 android:textSize="16sp"
                 app:cornerRadius="4dp"
@@ -452,7 +452,7 @@
                 app:backgroundTint="@color/brown"
                 app:cornerRadius="4dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/view4"
+                app:layout_constraintStart_toEndOf="@id/productCartInBtn"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

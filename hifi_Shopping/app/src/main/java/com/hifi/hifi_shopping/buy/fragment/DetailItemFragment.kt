@@ -13,10 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
+import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
 import com.hifi.hifi_shopping.buy.datamodel.SubscribeUserInfo
@@ -45,6 +48,8 @@ class DetailItemFragment : Fragment() {
     var productFAQKey = listOf<String>()
     var productFAQMap = HashMap<String, ProductFAQData>()
 
+    var cartData = CartData(null, null)
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,12 +63,24 @@ class DetailItemFragment : Fragment() {
 
         return fragmenDetailItemtBinding.root
     }
+
+    override fun onStart() {
+        super.onStart()
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 백버튼을 누를 때 실행할 동작을 여기에 추가
+                buyActivity.activityKill()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
     private fun dataSetting(){
         fragmenDetailItemtBinding = FragmentDetailItemBinding.inflate(layoutInflater)
         buyActivity = activity as BuyActivity
         productIdx = arguments?.getString("selProduct")!!
         orderUserIdx = arguments?.getString("userIdx")!!
     }
+
 
     private fun viewSetting(){
         fragmenDetailItemtBinding.run{
@@ -160,18 +177,22 @@ class DetailItemFragment : Fragment() {
                 }
             }
 
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val onBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 백버튼을 누를 때 실행할 동작을 여기에 추가
-                buyActivity.activityKill()
+            productCartInBtn.run{
+                setOnClickListener {
+                    if(cartData.productIdx != null){
+                        val intent = buyActivity.intentSetting(Intent(buyActivity, UserActivity::class.java))
+                        intent.putExtra("whereFrom","buy")
+                        startActivity(intent)
+                    } else {
+                        OrderItemRepository.setCartData(CartData(orderUserIdx, productIdx)){
+                            Snackbar.make(fragmenDetailItemtBinding.root, "장바구니에 추가 되었습니다.", Snackbar.LENGTH_SHORT).show()
+                            orderItemViewModel.getCartData(orderUserIdx, productIdx)
+                        }
+                    }
+                }
             }
+
         }
-        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun viewModelSetting(){
@@ -221,6 +242,15 @@ class DetailItemFragment : Fragment() {
                 fragmenDetailItemtBinding.faqListRecyclerView.adapter?.notifyDataSetChanged()
             }
 
+            cartData.observe(buyActivity){
+                if(it.productIdx != null){
+                    fragmenDetailItemtBinding.productCartInBtn.text = "장바구니 가기"
+                    this@DetailItemFragment.cartData = it
+                } else {
+                    fragmenDetailItemtBinding.productCartInBtn.text = "장바구니 담기"
+                }
+            }
+
         }
 
         orderUserViewModel.run{
@@ -249,6 +279,7 @@ class DetailItemFragment : Fragment() {
         orderUserViewModel.getOrderUserSubUser(orderUserIdx)
         orderItemViewModel.getProductNormalReview(productIdx)
         orderItemViewModel.getProductFAQ(productIdx)
+        orderItemViewModel.getCartData(orderUserIdx, productIdx)
 
     }
 

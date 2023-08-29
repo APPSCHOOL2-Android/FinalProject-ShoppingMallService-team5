@@ -19,6 +19,9 @@ data class ProductNormalReview(var userIdx: String, var nickname: String?, var r
 
 data class ProductFAQData(var userIdx: String, var nickname: String?, var context: String)
 
+data class CartData(var userIdx: String?, var productIdx: String?)
+
+data class WishData(var userIdx: String?, var productIdx: String?)
 
 
 val categoryData = mapOf(
