@@ -7,25 +7,28 @@
     android:orientation="vertical">
 
     <ScrollView
-        android:layout_width="434dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/textViewAuthTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="136dp"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="85dp"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/montserrat_extrabold"
                 android:text="GUY:DE"
                 android:textColor="#6C3428"
                 android:textSize="40sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,11 +36,11 @@
                 android:id="@+id/textInputLayoutLoginUserId"
                 android:layout_width="312dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="98dp"
+                android:layout_marginTop="60dp"
                 android:hint="아이디"
                 android:transitionGroup="true"
                 app:endIconMode="clear_text"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewAuthTitle">
 
@@ -54,11 +57,11 @@
                 android:id="@+id/textInputLayoutLoginUserPw"
                 android:layout_width="312dp"
                 android:layout_height="64dp"
-                android:layout_marginStart="48dp"
                 android:layout_marginTop="5dp"
                 android:hint="비밀번호"
                 android:transitionGroup="true"
                 app:endIconMode="password_toggle"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLoginUserId"
                 tools:endIconMode="password_toggle">
@@ -99,10 +102,10 @@
                 android:id="@+id/buttonAuthLogin"
                 android:layout_width="312dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="48dp"
                 android:layout_marginTop="56dp"
                 android:text="로그인"
                 app:backgroundTint="#6C3428"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayoutLoginUserPw" />
 
@@ -167,10 +170,10 @@
                 style="@style/Widget.Material3.Button.OutlinedButton.Icon"
                 android:layout_width="312dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="48dp"
                 android:layout_marginTop="16dp"
                 android:text="구글 로그인"
                 android:textColor="#000000"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/guideLogin2" />
 
