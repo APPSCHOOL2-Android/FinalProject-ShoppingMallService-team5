@@ -106,7 +106,7 @@ class ReviewActivity : AppCompatActivity() {
                 }
                 setOnMenuItemClickListener {
                     when (it.itemId) {
-                        R.id.menuItemSearch -> {
+                        R.id.menu_item_search -> {
                             val intent = Intent(this@ReviewActivity, SearchActivity::class.java)
                             intent.putExtra("userEmail", userData.email)
                             intent.putExtra("userIdx", userData.idx)
@@ -117,7 +117,7 @@ class ReviewActivity : AppCompatActivity() {
                             intent.putExtra("userProfileImg", userData.profileImg)
                             startActivity(intent)
                         }
-                        R.id.menuItemCart -> {
+                        R.id.menu_item_cart -> {
                             val intent = Intent(this@ReviewActivity, UserActivity::class.java)
                             intent.putExtra("whereFrom", "review")
                             intent.putExtra("userFragmentType", "cart")
