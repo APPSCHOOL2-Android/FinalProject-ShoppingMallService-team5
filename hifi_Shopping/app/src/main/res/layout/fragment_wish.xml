@@ -62,7 +62,7 @@
                 android:elegantTextHeight="true"
                 android:fontFamily="@font/notosanskr_regular"
                 android:text="전체 선택"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <LinearLayout
                 android:layout_width="match_parent"
