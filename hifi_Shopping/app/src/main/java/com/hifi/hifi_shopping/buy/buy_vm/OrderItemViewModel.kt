@@ -104,6 +104,7 @@ class OrderItemViewModel: ViewModel() {
             }
             normalReviewMap.value = tempReviewMap
         },{
+            Log.e("ttt","${tempReviewMap[idx]?.imgSrc!!}")
             OrderUserRepository.getOrderUserSubscribeUserImg(tempReviewMap[idx]?.imgSrc!!,{
                 thread {
                     // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
@@ -117,7 +118,8 @@ class OrderItemViewModel: ViewModel() {
                     normalReviewMap.postValue(tempReviewMap)
                 }
             },{
-                null
+                tempReviewMap[idx]?.bitmap = null
+                normalReviewMap.postValue(tempReviewMap)
             })
         })
     }

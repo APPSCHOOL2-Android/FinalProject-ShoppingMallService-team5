@@ -286,19 +286,29 @@ class DetailItemFragment : Fragment() {
                 subscribeUserMap = it
                 subReviewUserIdxList = it.keys.toList()
 
-                if(subscribeUserMap[subReviewUserIdxList[0]]!!.review != null){
+                if(subReviewUserIdxList.size != 0){
                     fragmenDetailItemtBinding.constraint2.visibility = View.VISIBLE
-                    fragmenDetailItemtBinding.subscrobeReviewUserNickname.text = subscribeUserMap[subReviewUserIdxList[0]]!!.nickname
-                    fragmenDetailItemtBinding.subscrobeUserReviewContext.text = subscribeUserMap[subReviewUserIdxList[0]]!!.review
+                    for(key in subReviewUserIdxList){
+                        if(subscribeUserMap[key]!!.review == null){
+                            continue
+                        }
+                        fragmenDetailItemtBinding.subscrobeReviewUserNickname.text = subscribeUserMap[key]!!.nickname
+                        fragmenDetailItemtBinding.subscrobeUserReviewContext.text = subscribeUserMap[key]!!.review
+                    }
                     fragmenDetailItemtBinding.subscribeUserListRecyclerView.adapter?.notifyDataSetChanged()
                 } else {
                     fragmenDetailItemtBinding.constraint2.visibility = View.GONE
                 }
             }
 
+
             subUserIdxList.observe(buyActivity){
-                it.forEach {
-                    getOrderUserSubUserInfo(it, productIdx)
+                if(it.size != 0){
+                    it.forEach {
+                        getOrderUserSubUserInfo(it, productIdx)
+                    }
+                } else {
+                    fragmenDetailItemtBinding.constraint2.visibility = View.GONE
                 }
             }
         }
