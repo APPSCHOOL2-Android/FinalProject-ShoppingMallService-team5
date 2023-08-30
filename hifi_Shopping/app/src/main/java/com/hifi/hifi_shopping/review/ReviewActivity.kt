@@ -28,7 +28,10 @@ import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
 import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
 import com.hifi.hifi_shopping.review.vm.ReviewProductViewModel
 import com.hifi.hifi_shopping.review.vm.ReviewSubscribeViewModel
+import com.hifi.hifi_shopping.search.SearchActivity
+import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.ReviewDataClass
+import com.hifi.hifi_shopping.user.model.UserDataClass
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -45,7 +48,7 @@ class ReviewActivity : AppCompatActivity() {
 
     var uploadUri: Uri? = null
     var productIdx = "1"
-    var userIdx = "0"
+    lateinit var userData: UserDataClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +59,18 @@ class ReviewActivity : AppCompatActivity() {
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
             productIdx = receivedIntent.getStringExtra("productIdx")!!
-            if(receivedIntent.hasExtra("userIdx")) {
-                userIdx = receivedIntent.getStringExtra("userIdx")!!
-            }
+        }
+        if(receivedIntent != null && receivedIntent.hasExtra("userIdx")) {
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userEmail = receivedIntent.getStringExtra("userEmail")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val newUserData = UserDataClass(userIdx, userEmail, userPw, userNickname, userVerify,
+                userPhoneNum, userProfileImg)
+            userData = newUserData
         }
 
         reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
@@ -84,14 +96,42 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         activityReviewBinding.run{
-            // todo : 해당 상품 idx 입력 연결
             reviewProductViewModel.getProductByIdx(productIdx)
-            reviewSubscribeViewModel.getSubscribeListByUserIdx(userIdx)
+            reviewSubscribeViewModel.getSubscribeListByUserIdx(userData.idx)
 
             reviewImageView.visibility = View.GONE
             reviewWriteToolbar.run{
                 setNavigationOnClickListener {
                     finish()
+                }
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menuItemSearch -> {
+                            val intent = Intent(this@ReviewActivity, SearchActivity::class.java)
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                        R.id.menuItemCart -> {
+                            val intent = Intent(this@ReviewActivity, UserActivity::class.java)
+                            intent.putExtra("whereFrom", "review")
+                            intent.putExtra("userFragmentType", "cart")
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                    }
+                    true
                 }
             }
             reviewWritePictureAddButton.setOnClickListener {
@@ -126,7 +166,7 @@ class ReviewActivity : AppCompatActivity() {
                     ReviewProductRepository.uploadImage(uploadUri!!, fileName)
                 }
 
-                val newReview = ReviewDataClass(idx, productIdx, "리뷰 제목", reviewContext, score, userIdx, "0",
+                val newReview = ReviewDataClass(idx, productIdx, "리뷰 제목", reviewContext, score, userData.idx, "0",
                     writeDate, fileName)
                 ReviewProductRepository.addReviewInfo(newReview)
                 finish()
@@ -139,7 +179,7 @@ class ReviewActivity : AppCompatActivity() {
             var nickname : TextView
             init{
                 profile = reviewRycItemBinding.editUserProfileImg
-                nickname = reviewRycItemBinding.textView5
+                nickname = reviewRycItemBinding.subscribeUserNickname
             }
         }
 
