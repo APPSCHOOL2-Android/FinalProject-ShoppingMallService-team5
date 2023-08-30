@@ -3,7 +3,6 @@ package com.hifi.hifi_shopping.category
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -42,15 +41,12 @@ class CategoryActivity : AppCompatActivity() {
             val userNickname = receivedIntent.getStringExtra("userNickname")!!
             val userPw = receivedIntent.getStringExtra("userPw")!!
             val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
-            val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
-                "false", "", userProfileImg)
+            val newUserData = UserDataClass(
+                userIdx, email, userPw, userNickname,
+                "false", "", userProfileImg
+            )
             userDataClass = newUserData
         }
-        Log.d("UserData", "Email: ${userDataClass.email}")
-        Log.d("UserData", "UserIdx: ${userDataClass.idx}")
-        Log.d("UserData", "UserNickname: ${userDataClass.nickname}")
-        Log.d("UserData", "UserPw: ${userDataClass.pw}")
-        Log.d("UserData", "UserProfileImg: ${userDataClass.profileImg}")
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
 

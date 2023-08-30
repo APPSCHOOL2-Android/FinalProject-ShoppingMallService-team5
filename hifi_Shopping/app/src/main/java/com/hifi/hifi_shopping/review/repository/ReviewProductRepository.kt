@@ -1,11 +1,11 @@
 package com.hifi.hifi_shopping.review.repository
 
 import android.net.Uri
-import android.util.Log
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.hifi.hifi_shopping.user.model.ReviewDataClass
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -34,6 +34,17 @@ class ReviewProductRepository {
             } catch (e: Exception) {
                 null
             }
+        }
+        fun uploadImage(uploadUri: Uri, fileName:String){
+            val storage = FirebaseStorage.getInstance()
+            val imageRef = storage.reference.child(fileName)
+            imageRef.putFile(uploadUri)
+        }
+
+        fun addReviewInfo(reviewInfo:ReviewDataClass){
+            val database = FirebaseDatabase.getInstance()
+            val postDataRef = database.getReference("ReviewData")
+            postDataRef.push().setValue(reviewInfo)
         }
     }
 }

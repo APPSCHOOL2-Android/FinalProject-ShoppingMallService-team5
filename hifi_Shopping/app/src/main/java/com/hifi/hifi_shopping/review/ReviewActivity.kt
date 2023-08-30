@@ -1,5 +1,7 @@
 package com.hifi.hifi_shopping.review
 
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -7,10 +9,11 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
@@ -18,15 +21,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityReviewBinding
 import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
+import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
 import com.hifi.hifi_shopping.review.vm.ReviewProductViewModel
 import com.hifi.hifi_shopping.review.vm.ReviewSubscribeViewModel
-import com.hifi.hifi_shopping.user.model.UserDataClass
+import com.hifi.hifi_shopping.user.model.ReviewDataClass
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
+import java.util.UUID
+import kotlin.concurrent.thread
 
 class ReviewActivity : AppCompatActivity() {
     lateinit var activityReviewBinding: ActivityReviewBinding
@@ -36,9 +44,6 @@ class ReviewActivity : AppCompatActivity() {
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
     var uploadUri: Uri? = null
-//    val auth = FirebaseAuth.getInstance()
-//    val user = auth.currentUser
-    // lateinit var productIdx: String
     var productIdx = "1"
     var userIdx = "0"
 
@@ -51,9 +56,11 @@ class ReviewActivity : AppCompatActivity() {
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
             productIdx = receivedIntent.getStringExtra("productIdx")!!
-            userIdx = receivedIntent.getStringExtra("userIdx")!!
-            // Log.d("리뷰 데이터",productIdx.toString())
+            if(receivedIntent.hasExtra("userIdx")) {
+                userIdx = receivedIntent.getStringExtra("userIdx")!!
+            }
         }
+
         reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
         reviewSubscribeViewModel = ViewModelProvider(this)[ReviewSubscribeViewModel::class.java]
 
@@ -94,6 +101,35 @@ class ReviewActivity : AppCompatActivity() {
             reviewWriteItemRecommendHumanRecyclerView.run{
                 adapter = RecyclerViewAdapter()
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            }
+            reviewWriteAddReviewButton.setOnClickListener{
+                val reviewContext = reviewWriteReviewContentEditTextText.text.toString()
+                val score = reviewWriteQuestionItemRatingBar.rating.toString()
+                val idx = UUID.randomUUID().toString()
+                val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                val writeDate = sdf.format(Date(System.currentTimeMillis()))
+
+                if(reviewContext.isEmpty()){
+                    val builder = MaterialAlertDialogBuilder(this@ReviewActivity)
+                    builder.setTitle("리뷰 내용 입력 오류")
+                    builder.setMessage("리뷰 내용을 입력해주세요")
+                    builder.setPositiveButton("확인"){ dialogInterface: DialogInterface, i: Int ->
+                        showSoftInput(reviewWriteReviewContentEditTextText)
+                    }
+                    builder.show()
+                    return@setOnClickListener
+                }
+
+                var fileName = "empty_photo"
+                if(uploadUri != null){
+                    fileName = "img_review_${System.currentTimeMillis()}.jpg"
+                    ReviewProductRepository.uploadImage(uploadUri!!, fileName)
+                }
+
+                val newReview = ReviewDataClass(idx, productIdx, "리뷰 제목", reviewContext, score, userIdx, "0",
+                    writeDate, fileName)
+                ReviewProductRepository.addReviewInfo(newReview)
+                finish()
             }
         }
     }
@@ -186,4 +222,16 @@ class ReviewActivity : AppCompatActivity() {
         val formattedAmount = formatter.format(price)
         return "$formattedAmount 원"
     }
+    fun showSoftInput(view: View){
+        view.requestFocus()
+
+        val inputMethodManger = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        thread {
+            SystemClock.sleep(200)
+            inputMethodManger.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    data class reviewDataClass(val context:String, val date:String, val idx:String, val imgSrc:String,
+        val likeCnt:String, val productIdx:String, val score:String, val title:String, val writerIdx:String)
 }

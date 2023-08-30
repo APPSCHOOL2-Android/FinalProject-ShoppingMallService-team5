@@ -5,7 +5,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import com.hifi.hifi_shopping.databinding.ParcelRecycItemBinding
 import com.hifi.hifi_shopping.parcel.repository.ParcelRepository
 import com.hifi.hifi_shopping.parcel.vm.ParcelViewModel
 import com.hifi.hifi_shopping.review.ReviewActivity
-import com.hifi.hifi_shopping.user.model.UserDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,7 +38,7 @@ class ParcelActivity : AppCompatActivity() {
         setContentView(activityParcelBinding.root)
 
         val receivedIntent = intent
-        if (receivedIntent != null && receivedIntent.hasExtra("userEmail")) {
+        if (receivedIntent != null && receivedIntent.hasExtra("userIdx")) {
             userIdx = receivedIntent.getStringExtra("userIdx")!!
         }
 
@@ -74,19 +72,16 @@ class ParcelActivity : AppCompatActivity() {
             packingCardView.setOnClickListener{
                 rowParcelList = packingParcelDataList
                 parcelItemRecycView.adapter?.notifyDataSetChanged()
-                Log.d("testaaa", "flag1")
             }
 
             shippingCardView.setOnClickListener{
                 rowParcelList = shippingParcelDataList
                 parcelItemRecycView.adapter?.notifyDataSetChanged()
-                Log.d("testaaa", "flag2")
             }
 
             arrivingCardView.setOnClickListener{
                 rowParcelList = arrivingParcelDataList
                 parcelItemRecycView.adapter?.notifyDataSetChanged()
-                Log.d("testaaa", "flag3")
             }
 
             recallRuleVisibleButton.run{
@@ -129,11 +124,7 @@ class ParcelActivity : AppCompatActivity() {
             init {
                 parcelRecycItemBinding.root.setOnClickListener {
                     val intent = Intent(this@ParcelActivity, ReviewActivity::class.java)
-//                    intent.putExtra("userEmail", it.email)
-//                    intent.putExtra("userIdx", it.idx)
-//                    intent.putExtra("userNickname", it.nickname)
-//                    intent.putExtra("userPw", it.pw)
-//                    intent.putExtra("userProfileImg", it.profileImg)
+                    intent.putExtra("userIdx", userIdx)
                     intent.putExtra("productIdx", rowParcelList[adapterPosition].productIdx)
                     startActivity(intent)
                 }
@@ -173,7 +164,7 @@ class ParcelActivity : AppCompatActivity() {
                             }
                         }
                     } catch(e:Exception){
-                        Log.d("testaaa", "${e}")
+                        // todo : 예외 처리
                     }
                 }
             }

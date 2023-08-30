@@ -2,13 +2,11 @@ package com.hifi.hifi_shopping.auth
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.category.CategoryActivity

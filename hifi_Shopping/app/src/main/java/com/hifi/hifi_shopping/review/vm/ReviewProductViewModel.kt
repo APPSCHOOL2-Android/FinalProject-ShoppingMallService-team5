@@ -2,11 +2,9 @@ package com.hifi.hifi_shopping.review.vm
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
-import com.hifi.hifi_shopping.subscribe.repository.ReviewBySubscribeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

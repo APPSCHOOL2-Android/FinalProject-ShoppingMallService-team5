@@ -1,6 +1,5 @@
 package com.hifi.hifi_shopping.auth.vm
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hifi.hifi_shopping.auth.model.UserDataClass
@@ -18,7 +17,6 @@ class AuthTestViewModel() : ViewModel() {
     fun loginUser(email: String, password: String) {
         AuthTestRepository.loginUser(email, password) {
             val userUid = it.user?.uid
-            Log.d("testaaa", "${userUid}")
             if(userUid != null) {
                 AuthTestRepository.getUserInfoByUserId(userUid) { currentUser ->
                     val userIdx = currentUser.result.child("idx").value as String
@@ -45,7 +43,7 @@ class AuthTestViewModel() : ViewModel() {
             val verify = "false"
             val newUser = UserDataClass(userId, email, password, nickname, verify, phoneNum, profileImgRef)
             AuthTestRepository.addUserInfo(userId, newUser){
-                Log.d("testaaa", "로그인 성공")
+                // todo : 회원가입 성공시 처리
             }
             userData.value = newUser
         }
