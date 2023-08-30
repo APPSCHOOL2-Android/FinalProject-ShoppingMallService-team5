@@ -184,6 +184,7 @@ class DetailItemFragment : Fragment() {
                     if(cartData.productIdx != null){
                         val intent = buyActivity.intentSetting(Intent(buyActivity, UserActivity::class.java))
                         intent.putExtra("whereFrom","buy")
+                        intent.putExtra("userFragmentType","cart")
                         startActivity(intent)
                     } else {
                         OrderItemRepository.setCartData(CartData(orderUserIdx, productIdx)){

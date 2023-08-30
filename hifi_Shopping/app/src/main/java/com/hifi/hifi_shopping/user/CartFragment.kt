@@ -161,9 +161,18 @@ class CartFragment : Fragment() {
                         val cartProductIdxList =
                             rowCartItemBindingList.filter { it.rowCartItemCheckBox.isChecked }
                                 .map { it.rowCartItemIdx.text.toString() } as ArrayList
+
                         val intent = Intent(userActivity, BuyActivity::class.java)
-                        intent.putExtra("cartProducts", cartProductIdxList)
+                        intent.putExtra("userEmail", userTemp.email)
+                        intent.putExtra("userIdx", userTemp.idx)
+                        intent.putExtra("userNickname", userTemp.nickname)
+                        intent.putExtra("userPw", userTemp.pw)
+                        intent.putExtra("userVerify", userTemp.verify)
+                        intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                        intent.putExtra("userProfileImg", userTemp.profileImg)
+                        intent.putExtra("buyProduct", cartProductIdxList)
                         startActivity(intent)
+
                     }
                 }
             })
