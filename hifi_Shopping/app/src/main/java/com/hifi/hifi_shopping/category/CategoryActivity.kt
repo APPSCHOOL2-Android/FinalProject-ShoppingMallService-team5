@@ -15,6 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.databinding.ActivityCategoryBinding
 import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.UserDataClass
@@ -53,7 +54,6 @@ class CategoryActivity : AppCompatActivity() {
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
         categoryViewModel.currentUserIdx = userDataClass.idx
-
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
         navController = navHostFragment.navController
@@ -205,5 +205,18 @@ class CategoryActivity : AppCompatActivity() {
         super.onResume()
 
         categoryViewModel.setNavControllerDestination(navController.currentDestination?.id ?: R.id.categoryMainFragment)
+    }
+
+    fun sendIntentProcuctUserInfo(productidx: String){
+        val intent = Intent(this, BuyActivity::class.java)
+        intent.putExtra("productIdx", productidx)
+        intent.putExtra("userEmail", userDataClass.email)
+        intent.putExtra("userIdx", userDataClass.idx)
+        intent.putExtra("userNickname", userDataClass.nickname)
+        intent.putExtra("userPw", userDataClass.pw)
+        intent.putExtra("userVerify", userDataClass.verify)
+        intent.putExtra("userPhoneNum", userDataClass.phoneNum)
+        intent.putExtra("userProfileImg", userDataClass.profileImg)
+        startActivity(intent)
     }
 }

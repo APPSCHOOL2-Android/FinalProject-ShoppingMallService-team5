@@ -64,7 +64,7 @@ class PurchaseFragment : Fragment() {
         fragmentPurchaseBinding.run {
             purchaseToolbar.run {
                 setNavigationOnClickListener{
-                    userActivity.removeFragment(UserActivity.USER_PAGE_FRAGMENT)
+                    userActivity.removeFragment(UserActivity.PURCHASE_FRAGMENT)
                 }
                 setOnMenuItemClickListener {
                     when(it.itemId){

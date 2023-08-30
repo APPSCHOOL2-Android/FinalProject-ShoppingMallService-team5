@@ -67,7 +67,7 @@ class EditUserFragment : Fragment() {
         fragmentEditUserBinding.run {
             editUserToolbar.run {
                 setNavigationOnClickListener {
-                    userActivity.removeFragment(UserActivity.MY_PAGE_FRAGMENT)
+                    userActivity.removeFragment(UserActivity.EDIT_USER_FRAGMENT)
                 }
 
                 setOnMenuItemClickListener {
