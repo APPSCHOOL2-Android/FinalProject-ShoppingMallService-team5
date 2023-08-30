@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".user.FAQFragment" >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/FAQAppBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/FAQToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:clickable="true"
+            android:minHeight="?attr/actionBarSize"
+            app:itemIconTint="#846058"
+            app:navigationIcon="@drawable/chevron_left_24px"
+            app:navigationIconTint="#846058"
+            app:subtitleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:title="상품 문의 글 작성하기"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+    <View
+        android:id="@+id/FAQToolbarDivider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/dark_brown" />
+
+</com.google.android.material.appbar.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="357dp"
+            android:layout_gravity="center_vertical"
+            android:textColorHint="#D9D9D9">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:gravity="top|left"
+                android:hint="문의하실 내용을 입력하세요"
+                android:inputType="text"
+                android:textColorHighlight="#6C3428" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/FAQBtnCancel"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="취소"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#D9D9D9"
+                app:cornerRadius="5dp"
+                app:strokeColor="#D9D9D9" />
+
+            <Button
+                android:id="@+id/FAQBtnComplete"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:elegantTextHeight="true"
+                android:fontFamily="@font/notosanskr_regular"
+                android:text="등록"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#D9D9D9"
+                app:cornerRadius="5dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

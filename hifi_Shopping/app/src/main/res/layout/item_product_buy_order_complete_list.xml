@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/imageViewItemProductBuyOrderCompleteListThumb"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/brown"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textViewItemProductBuyOrderCompleteListName"
+        app:layout_constraintBottom_toBottomOf="@id/textViewItemProductBuyOrderCompleteListPrice"/>
+
+    <TextView
+        android:id="@+id/textViewItemProductBuyOrderCompleteListName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/imageViewItemProductBuyOrderCompleteListThumb"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/notosans_regular"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:text="TMA-2 Comfort Wireless"/>
+
+    <TextView
+        android:id="@+id/textViewItemProductBuyOrderCompleteListCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elegantTextHeight="true"
+        android:fontFamily="@font/notosans_regular"
+        android:textColor="@color/black"
+        android:text="수량 : 1개"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@id/textViewItemProductBuyOrderCompleteListName"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemProductBuyOrderCompleteListName"/>
+
+    <TextView
+        android:id="@+id/textViewItemProductBuyOrderCompleteListPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/textViewItemProductBuyOrderCompleteListCount"
+        app:layout_constraintStart_toStartOf="@id/textViewItemProductBuyOrderCompleteListCount"
+        android:text="00000원"
+        android:textSize="12sp"
+        android:textColor="@color/brown"
+        android:fontFamily="@font/notosanskr_bold"
+        android:elegantTextHeight="true"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

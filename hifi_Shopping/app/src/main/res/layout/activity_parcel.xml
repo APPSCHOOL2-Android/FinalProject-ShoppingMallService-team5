@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".parcel.ParcelActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/parcelMaterialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:navigationIconTint="@color/brown"
+        app:titleTextAppearance="@style/CategoryDetialToolbarTitleTextAppearance"
+        app:titleTextColor="@color/lstBasicFontColor" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lstBasicFontColor"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="112dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/packingCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:transitionGroup="true"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
+                        android:layout_marginTop="5dp"
+                        android:text="2"
+                        android:textSize="20sp"
+                        app:fontFamily="@font/notosanskr_bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="10dp"
+                        android:text="주문완료"
+                        app:fontFamily="@font/notosans_extrabold" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/shippingCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:transitionGroup="true"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
+                        android:layout_marginTop="5dp"
+                        android:text="2"
+                        android:textSize="20sp"
+                        app:fontFamily="@font/notosanskr_bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="10dp"
+                        android:text="배송 중"
+                        app:fontFamily="@font/notosans_extrabold" />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/arrivingCardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:transitionGroup="true"
+                    app:cardElevation="5dp">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|top"
+                        android:layout_marginTop="5dp"
+                        android:text="2"
+                        android:textSize="20sp"
+                        app:fontFamily="@font/notosanskr_bold" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginBottom="10dp"
+                        android:text="배송 완료"
+                        app:fontFamily="@font/notosans_extrabold" />
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/parcelItemRecycView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp" >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/lstBtnClickColor"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/recallRuleVisibleButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_extrabold"
+                android:text="환불정책"
+                android:textColor="@color/black"
+                app:icon="@drawable/expand_more_24px"
+                app:iconGravity="textEnd"
+                app:iconTint="@color/black" />
+
+            <Button
+                android:id="@+id/recallRuleInvisibleButton"
+                style="@style/Widget.Material3.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_extrabold"
+                android:text="환불정책"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                app:icon="@drawable/expand_less_24px"
+                app:iconGravity="textEnd"
+                app:iconTint="@color/black" />
+
+            <TextView
+                android:id="@+id/recallRuleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/lstBtnClickColor"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/lstBtnClickColor"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/parcelCallCenterButton"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:layout_margin="15dp"
+                android:backgroundTint="@color/lstBtnClickColor"
+                android:fontFamily="@font/montserrat_extrabold"
+                android:text="고객센터"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:icon="@drawable/call_24px"
+                app:iconGravity="textStart"
+                app:iconTint="@color/black" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

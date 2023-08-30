@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="main">#FF6C3428</color>
+    <color name="reviewWriteColor">#FFCB8282</color>
+    <color name="lstBasicFontColor">#FF846058</color>
+    <color name="lstBtnClickColor">#FFD9D9D9</color>
+    <color name="lstReviewImageBackColor">#FFF6F6F6</color>
+    <color name="lstButtonTextGrayColor">#FF727272</color>
+    <color name="brown2">#846058</color>
+    <color name="brown">#6C3428</color>
+    <color name="grey">#727272</color>
+    <color name="review_cotainer">#846058</color>
+    <color name="dark_brown">#6C3428</color>
+    <color name="light_brown">#B85944</color>
+    <color name="categoryItemText">#D9D9D9</color>
+    <color name="background_color">@color/material_dynamic_tertiary99</color>
 </resources>

@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -17,7 +22,7 @@
             android:exported="false" />
         <activity
             android:name=".user.UserActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".subscribe.SubscribeActivity"
             android:exported="false" />
@@ -34,28 +39,22 @@
             android:name=".rank.RankActivity"
             android:exported="false" />
         <activity
-            android:name=".pacel.PacelActivity"
+            android:name=".parcel.ParcelActivity"
             android:exported="false" />
         <activity
             android:name=".notice.NoticeActivity"
             android:exported="false" />
         <activity
-            android:name=".category.CategoryActivity"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".buy.BuyActivity"
             android:exported="false" />
         <activity
+            android:name=".category.CategoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".auth.AuthActivity"
-            android:exported="false" />
-        <activity
-            android:name=".SalesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ShopingListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

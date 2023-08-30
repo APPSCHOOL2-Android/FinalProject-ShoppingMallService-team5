@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth.AuthFindPwFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayoutAuthFindPw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarAuthFindPw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:backgroundTint="#FFFFFF"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1"
+        app:navigationIcon="@drawable/chevron_left_24px"
+        app:title="비밀번호 찾기" />
+
+    <View
+        android:id="@+id/toolbarBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/toolbarAuthFindPw"
+        android:background="#6C3428"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAuthFindPw" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="65dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayoutAuthFindPw">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/guideFindPw1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="60dp"
+                android:layout_marginEnd="10dp"
+                android:text="정보를 입력해주세요😊"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="20dp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/guideFindPw2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="50dp"
+                android:text="닉네임"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideFindPw1" />
+
+            <EditText
+                android:id="@+id/editTextFindPwNickname"
+                android:layout_width="272dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:backgroundTint="#AEAEAE"
+                android:ems="10"
+                android:hint=" 닉네임 입력"
+                android:inputType="text|textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideFindPw2" />
+
+            <TextView
+                android:id="@+id/guideFindPw3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="70dp"
+                android:layout_marginTop="20dp"
+                android:text="전화번호"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNickname" />
+
+            <EditText
+                android:id="@+id/editTextFindPwNumber"
+                android:layout_width="210dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:backgroundTint="#AEAEAE"
+                android:ems="10"
+                android:hint=" 숫자만 입력"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/guideFindPw3" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFindPwRequest"
+                android:layout_width="80dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="52dp"
+                android:backgroundTint="#00FFFFFF"
+                android:clickable="true"
+                android:text="인증 요청"
+                android:textColor="#000000"
+                android:textSize="8sp"
+                app:cornerRadius="5dp"
+                app:layout_constraintStart_toEndOf="@+id/editTextFindPwNumber"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNickname"
+                app:strokeColor="#46000000"
+                app:strokeWidth="1dp" />
+
+            <EditText
+                android:id="@+id/editTextFindPwRequset"
+                android:layout_width="210dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="70dp"
+                android:layout_marginEnd="70dp"
+                android:backgroundTint="#AEAEAE"
+                android:ems="10"
+                android:hint=" 인증 번호"
+                android:inputType="number"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNumber" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFindPwRequest3"
+                android:layout_width="80dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="96dp"
+                android:backgroundTint="#00FFFFFF"
+                android:clickable="true"
+                android:text="확인"
+                android:textColor="#000000"
+                android:textSize="8sp"
+                app:cornerRadius="5dp"
+                app:layout_constraintStart_toEndOf="@+id/editTextFindPwNumber"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwNickname"
+                app:strokeColor="#46000000"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonFindPwCheck"
+                android:layout_width="272dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="200dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="200dp"
+                android:text="비밀번호 확인"
+                app:backgroundTint="#6C3428"
+                app:cornerRadius="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.459"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwRequset"
+                app:shapeAppearance="@style/TextAppearance.AppCompat.Button" />
+
+            <LinearLayout
+                android:id="@+id/LinearLayoutFindPwWarning"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextFindPwRequset">
+
+                <TextView
+                    android:id="@+id/warningNickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="닉네임을 확인해주세요"
+                    android:textColor="#FF0000"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/warningNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="전화번호를 확인해주세요"
+                    android:textColor="#FF0000"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/warningRequest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="인증 번호를 확인해주세요"
+                    android:textColor="#FF0000"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

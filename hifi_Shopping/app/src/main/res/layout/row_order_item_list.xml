@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:transitionGroup="true">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/rowOrderItemCardView"
+        style="@style/Widget.Material3.CardView.Outlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:transitionGroup="true"
+        app:cardBackgroundColor="@color/material_on_primary_emphasis_high_type"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="2dp"
+        app:cardMaxElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/rowOrderItemListImg"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/product_sample" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/rowOrderItemListName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:elegantTextHeight="true"
+                    android:fontFamily="@font/notosanskr_regular"
+                    android:text="TMA-2 Comfort Wireless "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/black" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rowOrderItemListPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="20000원" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="start|center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/rowOrderItemListBtnMinus"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:filterTouchesWhenObscured="false"
+                            app:srcCompat="@drawable/indeterminate_check_box_24px" />
+
+                        <TextView
+                            android:id="@+id/rowOrderItemListCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:elegantTextHeight="true"
+                            android:fontFamily="@font/notosanskr_regular"
+                            android:gravity="start|center_vertical"
+                            android:padding="5dp"
+                            android:text="1"
+                            android:textSize="16sp" />
+
+                        <ImageButton
+                            android:id="@+id/rowOrderItemListBtnPlus"
+                            style="@style/Widget.Material3.Button.IconButton"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="center"
+                            android:filterTouchesWhenObscured="false"
+                            app:srcCompat="@drawable/add_box_24px" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/rowOrderItemListBtnCoupon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="5dp"
+                        android:backgroundTint="#C8A4A4"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_regular"
+                        android:text="쿠폰 선택"
+                        android:textSize="13sp"
+                        app:cornerRadius="5dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rowOrderItemDeliverPriceInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="배송비"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="#727272"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/rowOrderItemListDeliverPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="1"
+                        android:elegantTextHeight="true"
+                        android:fontFamily="@font/notosanskr_bold"
+                        android:text="3000원"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                        android:textColor="#727272"
+                        android:textSize="11sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
