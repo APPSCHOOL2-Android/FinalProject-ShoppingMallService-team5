@@ -70,6 +70,12 @@ class ReviewListAdapter(
         var expanded = false
         fun bind(review: CategoryMainReview) {
             itemReviewCategoryDetailBinding.run {
+                imageViewItemReviewCategoryDetailProductThumb.setImageResource(R.drawable.product_sample)
+                Glide.with(imageViewItemReviewCategoryDetailUserThumb)
+                    .load(R.drawable.sample_img)
+                    .circleCrop()
+                    .into(imageViewItemReviewCategoryDetailUserThumb)
+
                 textViewItemReviewCategoryDetailReviewContent.text = review.context
 //                textViewItemReviewCategoryDetailReviewContent.text = "이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다."
 

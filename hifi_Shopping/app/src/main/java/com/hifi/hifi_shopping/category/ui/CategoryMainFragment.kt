@@ -167,6 +167,13 @@ class CategoryMainFragment : Fragment() {
                     when (it.itemId) {
                         R.id.menuItemSearch -> {
                             val intent = Intent(categoryActivity, SearchActivity::class.java)
+                            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+                            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+                            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+                            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+                            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+                            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+                            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
                             startActivity(intent)
                         }
                         R.id.menuItemCart -> {
