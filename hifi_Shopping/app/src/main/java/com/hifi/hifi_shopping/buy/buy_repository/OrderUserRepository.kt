@@ -15,9 +15,16 @@ class OrderUserRepository {
 
         fun getOrderUserSubscribeUserImg(imgSrc: String, callback1: (Task<Uri>) -> Unit, callback2: (Exception) -> Unit){
             val storage = FirebaseStorage.getInstance()
-            val fileRef = storage.reference.child("user/$imgSrc")
+            if(imgSrc == "sample_img"){
+                val fileRef = storage.reference.child("user/$imgSrc.jpg")
+                fileRef.downloadUrl.addOnCompleteListener(callback1).addOnFailureListener(callback2)
+            } else {
+                val fileRef = storage.reference.child("user/$imgSrc")
+                fileRef.downloadUrl.addOnCompleteListener(callback1).addOnFailureListener(callback2)
+            }
+
             // 데이터를 가져올 수 있는 경로를 가져온다.
-            fileRef.downloadUrl.addOnCompleteListener(callback1).addOnFailureListener(callback2)
+
         }
 
         fun getOrderUserSubscribeUserReview(subUserIdx: String, callback1: (Task<DataSnapshot>) -> Unit){

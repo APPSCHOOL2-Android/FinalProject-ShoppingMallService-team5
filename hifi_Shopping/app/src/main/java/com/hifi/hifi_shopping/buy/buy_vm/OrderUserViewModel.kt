@@ -70,8 +70,11 @@ class OrderUserViewModel() : ViewModel() {
                     val getProductIdx = c3.child("productIdx").value as String
                     if(getProductIdx == productIdx){
                         tempMap[userIdx]?.review = c3.child("context").value as String
+                        subscribeUserInfoMap.postValue(tempMap)
+                    } else {
+                        tempMap.remove(userIdx)
+                        subscribeUserInfoMap.postValue(tempMap)
                     }
-                    subscribeUserInfoMap.postValue(tempMap)
                 }
             }
         },{
