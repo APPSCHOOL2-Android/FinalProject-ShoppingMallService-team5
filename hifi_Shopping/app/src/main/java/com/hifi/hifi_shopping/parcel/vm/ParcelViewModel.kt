@@ -25,9 +25,7 @@ class ParcelViewModel() : ViewModel() {
                     val parcelStatus = parcel.child("status").value as String
                     val parcelDate = parcel.child("date").value as String
                     val newRowParcelItem = RowParcelItemClass(
-                        productIdx, "로딩 중", "로딩 중", null,
-                        parcelStatus, parcelDate
-                    )
+                        productIdx,  "로딩 중", "로딩 중", null,parcelStatus, parcelDate)
                     if(parcelStatus == "PACKING"){
                         tempPackingParcelList.add(newRowParcelItem)
                     }else if(parcelStatus == "SHIPPING"){

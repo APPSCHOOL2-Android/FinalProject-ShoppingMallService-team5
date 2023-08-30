@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
@@ -183,41 +184,62 @@ class ParcelActivity : AppCompatActivity() {
                 }
             }
 
-            fun bindItem(item: RowParcelItemClass) {
+            fun bindItem(parcelItem: RowParcelItemClass) {
                 // UI 업데이트 등 필요한 작업 수행
-                parcelItemNameTextView.text = rowParcelList[adapterPosition].productName
-                parcelItemStatusTextView.text = rowParcelList[adapterPosition].parcelStatus
-                parcelItemPriceTextView.text = rowParcelList[adapterPosition].productPrice
-                parcelItemImageView.setImageResource(R.drawable.empty_photo)
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val productInfo = ParcelRepository.getProductInfoByIdx(rowParcelList[adapterPosition].productIdx)
-                        parcelItemNameTextView.text = productInfo!!.child("name").value as String
-                        parcelItemPriceTextView.text = formatPrice(productInfo!!.child("price").value as String)
-                    }catch (e:Exception){
-                        // todo : 예외처리
+                parcelItemStatusTextView.text = parcelItem.parcelStatus
+                if(parcelItem.productName == "로딩 중") {
+                    parcelItemNameTextView.text = "로딩 중"
+                    parcelItemPriceTextView.text = "로딩 중"
+                } else{
+                    parcelItemNameTextView.text = parcelItem.productName
+                    parcelItemPriceTextView.text = parcelItem.productPrice
+                }
+                if(parcelItem.productImgBitmap == null) {
+                    parcelItemImageView.setImageResource(R.drawable.empty_photo)
+                } else {
+                    parcelItemImageView.setImageBitmap(parcelItem.productImgBitmap)
+                }
+
+                if(parcelItem.productName == "로딩 중") {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val productInfo = ParcelRepository.getProductInfoByIdx(parcelItem.productIdx)
+                            val productName = productInfo!!.child("name").value as String
+                            val productPrice = formatPrice(productInfo!!.child("price").value as String)
+                            parcelItemNameTextView.text = productName
+                            parcelItemPriceTextView.text =productPrice
+                            parcelItem.productName = productName
+                            parcelItem.productPrice = productPrice
+                        } catch (e: Exception) {
+                            // todo : 예외처리
+                        }
                     }
                 }
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val productImgInfo = ParcelRepository.getProductImgByProductIdx(rowParcelList[adapterPosition].productIdx)
-                        for (imgInfo in productImgInfo!!.children) {
-                            val def = imgInfo.child("default").value as String
-                            val omgOrder = imgInfo.child("omgOrder").value as String
-                            if (def == "true" && omgOrder == "1") {
-                                val productImgFilename = imgInfo.child("imgSrc").value as String
-                                val productImgUri = ParcelRepository.getProductImgByFilename(productImgFilename)
-                                val url = URL(productImgUri.toString())
-                                val httpURLConnection =
-                                    url.openConnection() as HttpURLConnection
-                                val productImgBitmap =
-                                    BitmapFactory.decodeStream(httpURLConnection.inputStream)
-                                parcelItemImageView.setImageBitmap(productImgBitmap)
-                                break
+                if(parcelItem.productImgBitmap == null) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val productImgInfo =
+                                ParcelRepository.getProductImgByProductIdx(parcelItem.productIdx)
+                            for (imgInfo in productImgInfo!!.children) {
+                                val def = imgInfo.child("default").value as String
+                                val omgOrder = imgInfo.child("omgOrder").value as String
+                                if (def == "true" && omgOrder == "1") {
+                                    val productImgFilename = imgInfo.child("imgSrc").value as String
+                                    val productImgUri =
+                                        ParcelRepository.getProductImgByFilename(productImgFilename)
+                                    val url = URL(productImgUri.toString())
+                                    val httpURLConnection =
+                                        url.openConnection() as HttpURLConnection
+                                    val productImgBitmap =
+                                        BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                                    parcelItemImageView.setImageBitmap(productImgBitmap)
+                                    parcelItem.productImgBitmap = productImgBitmap
+                                    break
+                                }
                             }
+                        } catch (e: Exception) {
+                            // todo : 예외 처리
                         }
-                    } catch(e:Exception){
-                        // todo : 예외 처리
                     }
                 }
             }
@@ -239,8 +261,8 @@ class ParcelActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = rowParcelList[position]
-            holder.bindItem(item)
+            val parcelItem = rowParcelList[position]
+            holder.bindItem(parcelItem)
         }
     }
     fun formatPrice(priceStr: String): String {
@@ -251,5 +273,4 @@ class ParcelActivity : AppCompatActivity() {
     }
 
 }
-data class RowParcelItemClass(val productIdx:String, val productName:String, val productPrice:String, var productImg:Bitmap?,
-                              val parcelStatus:String, val parcelDate:String)
+data class RowParcelItemClass(val productIdx:String, var productName:String, var productPrice:String, var productImgBitmap:Bitmap?, val parcelStatus:String, val parcelDate:String)

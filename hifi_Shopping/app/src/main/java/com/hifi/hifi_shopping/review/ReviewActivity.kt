@@ -3,6 +3,7 @@ package com.hifi.hifi_shopping.review
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -25,13 +27,20 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityReviewBinding
 import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
+import com.hifi.hifi_shopping.parcel.repository.ParcelRepository
 import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
+import com.hifi.hifi_shopping.review.repository.ReviewSubscribeRepository
 import com.hifi.hifi_shopping.review.vm.ReviewProductViewModel
 import com.hifi.hifi_shopping.review.vm.ReviewSubscribeViewModel
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.ReviewDataClass
 import com.hifi.hifi_shopping.user.model.UserDataClass
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -46,9 +55,10 @@ class ReviewActivity : AppCompatActivity() {
 
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
-    var uploadUri: Uri? = null
+    private var uploadUri: Uri? = null
     var productIdx = "1"
     lateinit var userData: UserDataClass
+    var reviewSubscribeList = mutableListOf<ReviewSubscribeClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,12 +95,15 @@ class ReviewActivity : AppCompatActivity() {
                 activityReviewBinding.reviewWriteItemPricetextView.text = formatPrice(it)
             }
             productImg.observe(this@ReviewActivity){
-                activityReviewBinding.reviewWriteItemImageView.setImageBitmap(it)
+                if(it!=null) {
+                    activityReviewBinding.reviewWriteItemImageView.setImageBitmap(it)
+                }
             }
         }
 
         reviewSubscribeViewModel.run{
             subscribeList.observe(this@ReviewActivity){
+                reviewSubscribeList = it
                 activityReviewBinding.reviewWriteItemRecommendHumanRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
@@ -175,11 +188,25 @@ class ReviewActivity : AppCompatActivity() {
     }
     inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
         inner class ViewHolder(reviewRycItemBinding: ReviewRycItemBinding) : RecyclerView.ViewHolder(reviewRycItemBinding.root){
-            var profile : ImageView
-            var nickname : TextView
-            init{
-                profile = reviewRycItemBinding.editUserProfileImg
-                nickname = reviewRycItemBinding.subscribeUserNickname
+            var profile = reviewRycItemBinding.editUserProfileImg
+            var nickname = reviewRycItemBinding.subscribeUserNickname
+
+            fun bindItem(reviewSubscribeItem:ReviewSubscribeClass){
+                nickname.text = reviewSubscribeItem.nickname
+                profile.setImageResource(R.drawable.sample_img)
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val productImgUri = ReviewSubscribeRepository.getUserProfileImgByFilename(reviewSubscribeItem.filename)
+                        val url = URL(productImgUri.toString())
+                        val httpURLConnection =
+                            url.openConnection() as HttpURLConnection
+                        val productImgBitmap =
+                            BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                        profile.setImageBitmap(productImgBitmap)
+                    } catch(e:Exception){
+                        // todo : 예외 처리
+                    }
+                }
             }
         }
 
@@ -196,16 +223,12 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return reviewSubscribeViewModel.subscribeList.value?.size!!
+            return reviewSubscribeList.size
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            if(reviewSubscribeViewModel.subscribeList.value?.get(position)?.profile == null) {
-                holder.profile.setImageResource(R.drawable.empty_photo)
-            }else{
-                holder.profile.setImageBitmap(reviewSubscribeViewModel.subscribeList.value?.get(position)?.profile)
-            }
-            holder.nickname.text = reviewSubscribeViewModel.subscribeList.value?.get(position)?.nickname
+            val reviewSubscribeItem = reviewSubscribeList[position]
+            holder.bindItem(reviewSubscribeItem)
         }
     }
 
@@ -275,3 +298,4 @@ class ReviewActivity : AppCompatActivity() {
     data class reviewDataClass(val context:String, val date:String, val idx:String, val imgSrc:String,
         val likeCnt:String, val productIdx:String, val score:String, val title:String, val writerIdx:String)
 }
+data class ReviewSubscribeClass(val nickname:String, val filename:String, val imgBitmap: Bitmap?)
