@@ -35,7 +35,6 @@ val categoryData = mapOf(
         "제모"),
     112 to arrayOf("지성", "건성", "지+건성", "약산성",
         "여드름", "거품형"),
-    113 to arrayOf("하위 카테고리 없음"),
     114 to arrayOf("트리트먼트", "린스", "트윈원 샴푸", "탈모 샴푸",
         "샴푸", "쿨링샴푸"),
     // 얼굴 하위
@@ -48,24 +47,8 @@ val categoryData = mapOf(
     // 헤어 세팅 하위
     131 to arrayOf("소프트", "노말", "하드", "슈퍼하드"),
     132 to arrayOf("액상타입", "가스타입"),
-    133 to arrayOf("NONE"),
-    134 to arrayOf("NONE"),
-    135 to arrayOf("NONE"),
-    136 to arrayOf("NONE"),
     // 향기 하위
-    141 to arrayOf("NONE"),
-    142 to arrayOf("NONE"),
-    143 to arrayOf("NONE"),
-    144 to arrayOf("NONE"),
     // 파부 관리 하위
-    211 to arrayOf("NONE"),
-    212 to arrayOf("NONE"),
-    213 to arrayOf("NONE"),
-    214 to arrayOf("NONE"),
-    215 to arrayOf("NONE"),
-    216 to arrayOf("NONE"),
-    217 to arrayOf("NONE"),
-    218 to arrayOf("NONE"),
     // 제모 하위
     221 to arrayOf("눈썹칼", "눈썹 가위", "브로우 펜슬"),
     222 to arrayOf("코털제거"),
@@ -77,21 +60,13 @@ val categoryData = mapOf(
     232 to arrayOf("매트", "덤벨", "바벨", "각종기구"),
     233 to arrayOf("스트랩", "허리", "다리", "무릎"),
     234 to arrayOf("기능성 티", "기능성 반바지"),
-    235 to arrayOf("NONE"),
     // 건강 기능 식품 하위
-    241 to arrayOf("NONE"),
     242 to arrayOf("A", "B", "C", "D"),
-    243 to arrayOf("NONE"),
-    244 to arrayOf("NONE"),
-    245 to arrayOf("NONE"),
-    246 to arrayOf("NONE"),
     // PC 하위
     311 to arrayOf("유션", "무선"),
     312 to arrayOf("유션", "무선"),
     313 to arrayOf("마이크 유", "마이크 무"),
-    314 to arrayOf("NONE"),
     315 to arrayOf("롱", "숏"),
-    316 to arrayOf("NONE"),
     // 스포츠 하위
     321 to arrayOf("라켓", "셔틀콕", "가방", "의류",
         "신발", "그립", "아대"),
@@ -110,11 +85,8 @@ val categoryData = mapOf(
         "HUD", "청소기", "공기청청기"),
     // 집돌이 하위
     341 to arrayOf("일반 거치대", "침대 거치대"),
-    342 to arrayOf("NONE"),
-    343 to arrayOf("NONE"),
     344 to arrayOf("퍼즐", "레고", "건담", "피큐어"),
     345 to arrayOf("바디필로우", "대쿠션"),
-    346 to arrayOf("NONE"),
     // 선물 하위
     411 to arrayOf("악세사리", "전자제품", "같이 선물", "커플용품"),
     412 to arrayOf("소모품", "간식", "텀블러", "인형"),

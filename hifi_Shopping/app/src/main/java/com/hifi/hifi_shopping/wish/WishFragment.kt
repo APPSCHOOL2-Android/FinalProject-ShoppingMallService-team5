@@ -3,10 +3,13 @@ package com.hifi.hifi_shopping.wish
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
+import androidx.navigation.fragment.findNavController
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.ImageView
@@ -24,6 +27,10 @@ import com.hifi.hifi_shopping.rank.RankActivity
 import com.hifi.hifi_shopping.recommend.RecommendActivity
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.user.UserActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import com.hifi.hifi_shopping.user.model.WishDataClass
 import com.hifi.hifi_shopping.user.repository.ProductImgRepository
 import com.hifi.hifi_shopping.user.vm.ProductViewModel
@@ -35,16 +42,47 @@ import kotlin.concurrent.thread
 class WishFragment : Fragment() {
     lateinit var fragmentWishBinding : FragmentWishBinding
     lateinit var categoryActivity: CategoryActivity
+
+    var fromMyPage = false
+  
     lateinit var wishViewModel: WishViewModel
     var isCheckedAll = false
+
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragmentWishBinding = FragmentWishBinding.inflate(layoutInflater)
+        fragmentWishBinding = FragmentWishBinding.inflate(inflater, container, false)
         categoryActivity = activity as CategoryActivity
+
+        fromMyPage = arguments?.getBoolean("fromMyPage") ?: false
+
+        if (fromMyPage) {
+            categoryActivity.onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(1000)
+                        categoryActivity.navController.popBackStack()
+                        categoryActivity.categoryViewModel.setNavControllerDestination(categoryActivity.navController.currentDestination?.id ?: R.id.categoryMainFragment)
+                    }
+
+                    if (fromMyPage) {
+                        val intent = Intent(categoryActivity, UserActivity::class.java)
+                        intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+                        intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+                        intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+                        intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+                        intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+                        intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+                        intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
+                        intent.putExtra("whereFrom", "category")
+                        startActivity(intent)
+                    }
+                }
+            })
+        }            
 
         val userTemp = categoryActivity.userDataClass
 
@@ -93,15 +131,10 @@ class WishFragment : Fragment() {
                             intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
                             intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
                             startActivity(intent)
-//                            userActivity.replaceFragment(UserActivity.CART_FRAGMENT, true, null)
                         }
                     }
                     true
                 }
-            }
-
-            wishListTextViewSelect.setOnClickListener {
-                wishListCheckBoxSelectAll.visibility = View.VISIBLE
             }
         }
 

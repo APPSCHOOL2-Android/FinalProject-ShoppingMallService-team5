@@ -70,6 +70,12 @@ class ReviewListAdapter(
         var expanded = false
         fun bind(review: CategoryMainReview) {
             itemReviewCategoryDetailBinding.run {
+                imageViewItemReviewCategoryDetailProductThumb.setImageResource(R.drawable.product_sample)
+                Glide.with(imageViewItemReviewCategoryDetailUserThumb)
+                    .load(R.drawable.sample_img)
+                    .circleCrop()
+                    .into(imageViewItemReviewCategoryDetailUserThumb)
+
                 textViewItemReviewCategoryDetailReviewContent.text = review.context
 //                textViewItemReviewCategoryDetailReviewContent.text = "이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다. 이것은 샘플 데이터입니다."
 
@@ -108,11 +114,13 @@ class ReviewListAdapter(
                 categoryMainViewModel.getUser(review.writerIdx) { user ->
                     textViewItemReviewCategoryDetailUserName.text = user.nickname
 
-                    Glide.with(imageViewItemReviewCategoryDetailUserThumb)
-                        .load(user.profileImg)
-                        .placeholder(R.color.white)
-                        .circleCrop()
-                        .into(imageViewItemReviewCategoryDetailUserThumb)
+                    categoryMainViewModel.getUserProfileImgUrl(user.profileImg) {
+                        Glide.with(imageViewItemReviewCategoryDetailUserThumb)
+                            .load(it)
+                            .placeholder(R.color.white)
+                            .circleCrop()
+                            .into(imageViewItemReviewCategoryDetailUserThumb)
+                    }
                 }
 
                 categoryMainViewModel.getUserFollowerCnt(categoryViewModel.currentUserIdx, review.writerIdx) { followerCnt, subscribing ->
