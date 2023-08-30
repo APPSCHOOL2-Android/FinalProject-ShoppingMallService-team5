@@ -89,9 +89,8 @@ class CartFragment : Fragment() {
                             // 제품 이미지
                             getCartProductImg(it.idx, rowCartItemImg)
                             rowCartItemImg.setOnClickListener {
-                                val intent = Intent(userActivity, BuyActivity::class.java)
-                                intent.putExtra("productIdx", rowCartItemIdx.text.toString())
-                                startActivity(intent)
+                                val buyProduct = arrayListOf(rowCartItemIdx.text.toString())
+                                userActivity.clickProductImg(buyProduct,userTemp)
                             }
                         }
                         cartItemLayout.addView(rowCartItemBinding.root)
@@ -162,16 +161,7 @@ class CartFragment : Fragment() {
                             rowCartItemBindingList.filter { it.rowCartItemCheckBox.isChecked }
                                 .map { it.rowCartItemIdx.text.toString() } as ArrayList
 
-                        val intent = Intent(userActivity, BuyActivity::class.java)
-                        intent.putExtra("userEmail", userTemp.email)
-                        intent.putExtra("userIdx", userTemp.idx)
-                        intent.putExtra("userNickname", userTemp.nickname)
-                        intent.putExtra("userPw", userTemp.pw)
-                        intent.putExtra("userVerify", userTemp.verify)
-                        intent.putExtra("userPhoneNum", userTemp.phoneNum)
-                        intent.putExtra("userProfileImg", userTemp.profileImg)
-                        intent.putExtra("buyProduct", cartProductIdxList)
-                        startActivity(intent)
+                        userActivity.clickProductImg(cartProductIdxList,userTemp)
 
                     }
                 }
@@ -211,6 +201,19 @@ class CartFragment : Fragment() {
                 rowCartRecommendPrice = rowCartRecommendBinding.rowCartRecommendPrice
                 rowCartRecommendName = rowCartRecommendBinding.rowCartRecommendName
                 rowCartRecommendImg = rowCartRecommendBinding.rowCartRecommendImg
+
+
+                itemView.setOnClickListener {
+                    // 아이템이 클릭되었을 때 수행할 동작을 정의합니다.
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val clickedItem = itemList[position]
+                        val productidx = clickedItem.idx
+                        val buyProduct = arrayListOf(productidx)
+                        userActivity.clickProductImg(buyProduct,userActivity.userTemp)
+                    }
+                }
+
             }
         }
 
@@ -235,11 +238,6 @@ class CartFragment : Fragment() {
             holder.rowCartRecommendName.text = itemList.get(position).name
             holder.rowCartRecommendPrice.text = itemList.get(position).price + "원"
             holder.rowCartRecommendImg.run {
-                setOnClickListener {
-                    val intent = Intent(userActivity, BuyActivity::class.java)
-                    intent.putStringArrayListExtra("buyProduct", productidx as ArrayList<String>)
-                    startActivity(intent)
-                }
                 getCartProductImg(productidx,this)
             }
 

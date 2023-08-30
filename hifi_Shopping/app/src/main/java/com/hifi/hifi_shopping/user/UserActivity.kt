@@ -17,6 +17,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.buy.fragment.FAQFragment
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
@@ -290,6 +291,19 @@ class UserActivity : AppCompatActivity() {
 
         }
         whereFrom="myPage"
+    }
+
+    fun clickProductImg(productIdxList : ArrayList<String>, userTemp: UserDataClass){
+        val intent = Intent(this@UserActivity, BuyActivity::class.java)
+        intent.putExtra("buyProduct",productIdxList)
+        intent.putExtra("userEmail", userTemp.email)
+        intent.putExtra("userIdx", userTemp.idx)
+        intent.putExtra("userNickname", userTemp.nickname)
+        intent.putExtra("userPw", userTemp.pw)
+        intent.putExtra("userVerify", userTemp.verify)
+        intent.putExtra("userPhoneNum", userTemp.phoneNum)
+        intent.putExtra("userProfileImg", userTemp.profileImg)
+        startActivity(intent)
     }
 
 
