@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentAuthLoginBinding
@@ -84,14 +83,16 @@ class AuthLoginFragment : Fragment() {
                 // 이메일이 비어있다면 이메일 입력란에 포커스 및 키보드 표시
                 fragmentAuthLoginBinding.textInputEditTextLoginUserId.requestFocus()
                 authActivity.showSoftInput(fragmentAuthLoginBinding.textInputEditTextLoginUserId)
+                showLoginFailureDialog("이메일을 입력해주세요!!🥲")
             } else {
                 // 비밀번호가 비어있다면 비밀번호 입력란에 포커스 및 키보드 표시
                 fragmentAuthLoginBinding.textInputEditTextLoginUserPw.requestFocus()
                 authActivity.showSoftInput(fragmentAuthLoginBinding.textInputEditTextLoginUserPw)
+                showLoginFailureDialog("비밀번호를 입력해주세요!!🥲")
             }
         } else {
             // 이메일과 비밀번호가 입력되었다면 로그인 처리 함수 호출
-            authTestViewModel.loginUser(email, password)
+            authTestViewModel.loginUser(email, password, authActivity)
             // 포커스와 키보드 클리어
             fragmentAuthLoginBinding.textInputEditTextLoginUserId.clearFocus()
             fragmentAuthLoginBinding.textInputEditTextLoginUserPw.clearFocus()
@@ -109,10 +110,10 @@ class AuthLoginFragment : Fragment() {
     }
 
     // 로그인 실패 다이얼로그 표시 함수
-    private fun showLoginFailureDialog() {
+    private fun showLoginFailureDialog(errorMsg:String) {
         val alertDialog = AlertDialog.Builder(requireContext())
             .setTitle("로그인 실패")
-            .setMessage("이메일 또는 비밀번호가 올바르지 않습니다.")
+            .setMessage(errorMsg)
             .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
             .create()
         alertDialog.show()

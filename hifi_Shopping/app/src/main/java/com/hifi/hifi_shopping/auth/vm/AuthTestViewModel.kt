@@ -1,5 +1,6 @@
 package com.hifi.hifi_shopping.auth.vm
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.hifi.hifi_shopping.auth.model.UserDataClass
@@ -14,10 +15,10 @@ class AuthTestViewModel() : ViewModel() {
     )
 
     // AuthLoginFragment의 로그인 함수
-    fun loginUser(email: String, password: String) {
-        AuthTestRepository.loginUser(email, password) {
+    fun loginUser(email: String, password: String, context:Context) {
+        AuthTestRepository.loginUser(email, password, context) {
             val userUid = it.user?.uid
-            if(userUid != null) {
+            if (userUid != null) {
                 AuthTestRepository.getUserInfoByUserId(userUid) { currentUser ->
                     val userIdx = currentUser.result.child("idx").value as String
                     val userNickname = currentUser.result.child("nickname").value as String
