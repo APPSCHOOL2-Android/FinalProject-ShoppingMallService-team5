@@ -1,6 +1,8 @@
 package com.hifi.hifi_shopping.auth.repository
 
+import android.content.Context
 import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -13,7 +15,7 @@ import com.hifi.hifi_shopping.auth.model.UserDataClass
 
 class AuthTestRepository() {
     companion object {
-        fun loginUser(email: String, password: String, callback1: (AuthResult) -> Unit) {
+        fun loginUser(email: String, password: String, context:Context, callback1: (AuthResult) -> Unit) {
             val auth = FirebaseAuth.getInstance()
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{task ->
                 if(task.isSuccessful){
@@ -26,9 +28,20 @@ class AuthTestRepository() {
                         when (exception) {
                             is FirebaseAuthInvalidCredentialsException -> {
                                 Log.d("testaaa","Invalid credentials: ${exception.localizedMessage}")
+                                val alertDialog = AlertDialog.Builder(context)
+                                    .setTitle("로그인 실패")
+                                    .setMessage("이메일 또는 비밀번호가 올바르지 않습니다.")
+                                    .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
+                                    .create()
+                                alertDialog.show()
                             }
                             is FirebaseAuthInvalidUserException -> {
-                                Log.d("testaaa","Invalid user: ${exception.localizedMessage}")
+                                val alertDialog = AlertDialog.Builder(context)
+                                    .setTitle("로그인 실패")
+                                    .setMessage("해당 아이디의 사용자가 존재하지 않습니다.")
+                                    .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
+                                    .create()
+                                alertDialog.show()
                             }
                             else -> {
                                 Log.d("testaaa","Authentication failed: ${exception.localizedMessage}")
