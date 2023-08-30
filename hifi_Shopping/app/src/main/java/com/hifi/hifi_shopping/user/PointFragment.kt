@@ -102,7 +102,13 @@ class PointFragment : Fragment() {
                                 rowPointReviewBtnReview.setOnClickListener {
                                     val intent = Intent(userActivity, ReviewActivity::class.java)
                                     intent.putExtra("productIdx", rowPointReviewIdx.text.toString())
-                                    intent.putExtra("userIdx",userData.idx)
+                                    intent.putExtra("userEmail", userData.email)
+                                    intent.putExtra("userIdx", userData.idx)
+                                    intent.putExtra("userNickname", userData.nickname)
+                                    intent.putExtra("userPw", userData.pw)
+                                    intent.putExtra("userVerify", userData.verify)
+                                    intent.putExtra("userPhoneNum", userData.phoneNum)
+                                    intent.putExtra("userProfileImg", userData.profileImg)
                                     startActivity(intent)
                                 }
                             }

@@ -248,15 +248,7 @@ class UserActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             "review" ->{
-                val intent = Intent(this@UserActivity, ReviewActivity::class.java)
-                intent.putExtra("userEmail", userTemp.email)
-                intent.putExtra("userIdx", userTemp.idx)
-                intent.putExtra("userNickname", userTemp.nickname)
-                intent.putExtra("userPw", userTemp.pw)
-                intent.putExtra("userVerify", userTemp.verify)
-                intent.putExtra("userPhoneNum", userTemp.phoneNum)
-                intent.putExtra("userProfileImg", userTemp.profileImg)
-                startActivity(intent)
+                finish()
             }
             "subscribe" ->{
                 val intent = Intent(this@UserActivity, SubscribeActivity::class.java)
