@@ -16,11 +16,16 @@ import com.hifi.hifi_shopping.databinding.ParcelRecycItemBinding
 import com.hifi.hifi_shopping.parcel.repository.ParcelRepository
 import com.hifi.hifi_shopping.parcel.vm.ParcelViewModel
 import com.hifi.hifi_shopping.review.ReviewActivity
+import com.hifi.hifi_shopping.search.SearchActivity
+import com.hifi.hifi_shopping.user.UserActivity
+import com.hifi.hifi_shopping.user.model.UserDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.NumberFormat
+import java.util.Locale
 
 class ParcelActivity : AppCompatActivity() {
 
@@ -30,7 +35,7 @@ class ParcelActivity : AppCompatActivity() {
     var shippingParcelDataList = mutableListOf<RowParcelItemClass>()
     var arrivingParcelDataList = mutableListOf<RowParcelItemClass>()
     var rowParcelList = mutableListOf<RowParcelItemClass>()
-    var userIdx = "0"
+    lateinit var userData:UserDataClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +44,16 @@ class ParcelActivity : AppCompatActivity() {
 
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("userIdx")) {
-            userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userEmail = receivedIntent.getStringExtra("userEmail")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val newUserData = UserDataClass(userIdx, userEmail, userPw, userNickname, userVerify,
+                userPhoneNum, userProfileImg)
+            userData = newUserData
         }
 
         parcelViewModel = ViewModelProvider(this)[ParcelViewModel::class.java]
@@ -47,19 +61,23 @@ class ParcelActivity : AppCompatActivity() {
             packingParcelList.observe(this@ParcelActivity){
                 packingParcelDataList = it
                 rowParcelList = packingParcelDataList
+                activityParcelBinding.packingCntTextView.text = it.size.toString()
                 activityParcelBinding.parcelItemRecycView.adapter?.notifyDataSetChanged()
             }
             shippingParcelList.observe(this@ParcelActivity){
                 shippingParcelDataList = it
+                activityParcelBinding.shippingCntTextView.text = it.size.toString()
                 activityParcelBinding.parcelItemRecycView.adapter?.notifyDataSetChanged()
             }
             arrivingParcelList.observe(this@ParcelActivity){
                 arrivingParcelDataList = it
+                activityParcelBinding.arrivingCntTextView.text = it.size.toString()
                 activityParcelBinding.parcelItemRecycView.adapter?.notifyDataSetChanged()
             }
         }
         activityParcelBinding.run{
-            parcelViewModel.getParcelByUserIdx(userIdx)
+            parcelViewModel.getParcelByUserIdx(userData.idx)
+
             parcelMaterialToolbar.run{
                 title = "배송 관리"
                 setNavigationIcon(R.drawable.chevron_left_24px)
@@ -67,6 +85,35 @@ class ParcelActivity : AppCompatActivity() {
                     finish()
                 }
                 inflateMenu(R.menu.toolbar_menu_basic)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menuItemSearch -> {
+                            val intent = Intent(this@ParcelActivity, SearchActivity::class.java)
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                        R.id.menuItemCart -> {
+                            val intent = Intent(this@ParcelActivity, UserActivity::class.java)
+                            intent.putExtra("whereFrom", "parcel")
+                            intent.putExtra("userFragmentType", "cart")
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                    }
+                    true
+                }
                 isTitleCentered = true
             }
             packingCardView.setOnClickListener{
@@ -124,7 +171,13 @@ class ParcelActivity : AppCompatActivity() {
             init {
                 parcelRecycItemBinding.root.setOnClickListener {
                     val intent = Intent(this@ParcelActivity, ReviewActivity::class.java)
-                    intent.putExtra("userIdx", userIdx)
+                    intent.putExtra("userEmail", userData.email)
+                    intent.putExtra("userIdx", userData.idx)
+                    intent.putExtra("userNickname", userData.nickname)
+                    intent.putExtra("userPw", userData.pw)
+                    intent.putExtra("userVerify", userData.verify)
+                    intent.putExtra("userPhoneNum", userData.phoneNum)
+                    intent.putExtra("userProfileImg", userData.profileImg)
                     intent.putExtra("productIdx", rowParcelList[adapterPosition].productIdx)
                     startActivity(intent)
                 }
@@ -140,7 +193,7 @@ class ParcelActivity : AppCompatActivity() {
                     try {
                         val productInfo = ParcelRepository.getProductInfoByIdx(rowParcelList[adapterPosition].productIdx)
                         parcelItemNameTextView.text = productInfo!!.child("name").value as String
-                        parcelItemPriceTextView.text = productInfo!!.child("price").value as String
+                        parcelItemPriceTextView.text = formatPrice(productInfo!!.child("price").value as String)
                     }catch (e:Exception){
                         // todo : 예외처리
                     }
@@ -189,6 +242,12 @@ class ParcelActivity : AppCompatActivity() {
             val item = rowParcelList[position]
             holder.bindItem(item)
         }
+    }
+    fun formatPrice(priceStr: String): String {
+        val price = priceStr.toIntOrNull() ?: return "Invalid Input"
+        val formatter = NumberFormat.getNumberInstance(Locale("ko", "KR"))
+        val formattedAmount = formatter.format(price)
+        return "$formattedAmount 원"
     }
 
 }
