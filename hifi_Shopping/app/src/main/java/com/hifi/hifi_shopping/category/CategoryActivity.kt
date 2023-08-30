@@ -49,6 +49,7 @@ class CategoryActivity : AppCompatActivity() {
             val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
             val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
                 userVerify, userPhoneNum, userProfileImg)
+
             userDataClass = newUserData
         }
 

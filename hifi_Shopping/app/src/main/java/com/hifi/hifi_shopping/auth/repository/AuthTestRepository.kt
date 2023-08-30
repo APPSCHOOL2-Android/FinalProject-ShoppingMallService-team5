@@ -16,9 +16,7 @@ class AuthTestRepository() {
         fun loginUser(email: String, password: String, callback1: (AuthResult) -> Unit) {
             val auth = FirebaseAuth.getInstance()
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{task ->
-                Log.d("testaaa", "flag332")
                 if(task.isSuccessful){
-                    Log.d("testaaa", "flag222")
                     val result = task.result
                     callback1(result)
                 }else {

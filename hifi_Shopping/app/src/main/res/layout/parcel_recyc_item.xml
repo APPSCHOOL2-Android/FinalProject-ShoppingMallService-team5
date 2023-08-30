@@ -28,7 +28,7 @@
                 android:padding="5dp">
 
                 <ImageView
-                    android:id="@+id/pacelItemImageView"
+                    android:id="@+id/parcelItemImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/item_custom_backround"
@@ -43,7 +43,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/pacelItemStatustextView"
+                    android:id="@+id/parcelItemStatustextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="배송지 도착"
@@ -51,14 +51,14 @@
                     android:textSize="11sp" />
 
                 <TextView
-                    android:id="@+id/pacelItemNametextView"
+                    android:id="@+id/parcelItemNametextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="TMA-2 Comfort Wireless "
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/pacelItemPriceTextView"
+                    android:id="@+id/parcelItemPriceTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="20,000 원" />
@@ -69,7 +69,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/pacelOderCancelButton"
+                        android:id="@+id/parcelOderCancelButton"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                         android:textColor="@color/lstButtonTextGrayColor" />
 
                     <Button
-                        android:id="@+id/pacelOderChangeButton"
+                        android:id="@+id/parcelOderChangeButton"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
