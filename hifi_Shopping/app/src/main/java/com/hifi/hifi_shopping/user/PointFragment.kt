@@ -80,6 +80,8 @@ class PointFragment : Fragment() {
                         if(foundItem==null) {
                             val rowPointReviewBinding =
                                 RowPointReviewBinding.inflate(LayoutInflater.from(userActivity))
+
+                            val userData = userActivity.userTemp
                             // 데이터 설정
                             rowPointReviewBinding.run {
                                 rowPointReviewDate.text = it.date + " 결제"
@@ -101,6 +103,7 @@ class PointFragment : Fragment() {
                                 rowPointReviewBtnReview.setOnClickListener {
                                     val intent = Intent(userActivity, ReviewActivity::class.java)
                                     intent.putExtra("productIdx", rowPointReviewIdx.text.toString())
+                                    intent.putExtra("userIdx",userData.idx)
                                     startActivity(intent)
                                 }
                             }
