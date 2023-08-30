@@ -52,7 +52,7 @@ class BuyActivity : AppCompatActivity() {
         activityBuyBinding = ActivityBuyBinding.inflate(layoutInflater)
         setContentView(activityBuyBinding.root)
 
-        //dataSetting()
+        dataSetting()
         startFragment()
 
     }
@@ -60,14 +60,13 @@ class BuyActivity : AppCompatActivity() {
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
 
-        //var bundle = bundleSetting()
-        var bundle = Bundle()
+        var bundle = bundleSetting()
+
         bundle.putString("userIdx", "0")
         buyProductList = intent.getStringArrayListExtra("buyProduct")!!
 
         if(buyProductList?.size == 1){
-            //bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
-            bundle.putString("selProduct", "10") // 상품 인덱스
+            bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
             replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
         } else {
             bundle.putStringArrayList("selProduct", buyProductList)
@@ -84,7 +83,6 @@ class BuyActivity : AppCompatActivity() {
         val userVerify = intent.getStringExtra("userVerify")!!
         val userPhoneNum = intent.getStringExtra("userPhoneNum")!!
         newUserData = UserDataClass(userIdx, email, userPw, userNickname, userVerify, userPhoneNum, userProfileImg)
-        Log.d("ttt","$newUserData")
     }
 
 
