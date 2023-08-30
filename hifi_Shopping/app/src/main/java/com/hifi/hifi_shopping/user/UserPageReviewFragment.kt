@@ -110,9 +110,8 @@ class UserPageReviewFragment : Fragment() {
             }
             holder.rowPurchaseImg.run {
                 setOnClickListener {
-                    val intent = Intent(userActivity, BuyActivity::class.java)
-                    intent.putExtra("productIdx", productidx)
-                    startActivity(intent)
+                    val buyProduct = arrayListOf(productidx)
+                    userActivity.clickProductImg(buyProduct,userActivity.userTemp)
                 }
                 getProductImg(productidx,this)
             }
