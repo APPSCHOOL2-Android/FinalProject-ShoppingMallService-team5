@@ -24,6 +24,7 @@ import com.hifi.hifi_shopping.databinding.ActivityReviewBinding
 import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
 import com.hifi.hifi_shopping.review.vm.ReviewProductViewModel
 import com.hifi.hifi_shopping.review.vm.ReviewSubscribeViewModel
+import com.hifi.hifi_shopping.user.model.UserDataClass
 import java.text.NumberFormat
 import java.util.Locale
 
@@ -38,7 +39,8 @@ class ReviewActivity : AppCompatActivity() {
 //    val auth = FirebaseAuth.getInstance()
 //    val user = auth.currentUser
     // lateinit var productIdx: String
-    val productIdx = "1"
+    var productIdx = "1"
+    var userIdx = "0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +48,12 @@ class ReviewActivity : AppCompatActivity() {
         activityReviewBinding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(activityReviewBinding.root)
 
-//        val receivedIntent = intent
-//        if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
-//            productIdx = receivedIntent.getStringExtra("productIdx")!!
-//            // Log.d("리뷰 데이터",productIdx.toString())
-//        }
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
+            productIdx = receivedIntent.getStringExtra("productIdx")!!
+            userIdx = receivedIntent.getStringExtra("userIdx")!!
+            // Log.d("리뷰 데이터",productIdx.toString())
+        }
         reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
         reviewSubscribeViewModel = ViewModelProvider(this)[ReviewSubscribeViewModel::class.java]
 
@@ -75,8 +78,8 @@ class ReviewActivity : AppCompatActivity() {
 
         activityReviewBinding.run{
             // todo : 해당 상품 idx 입력 연결
-            reviewProductViewModel.getProductByIdx("1")
-            reviewSubscribeViewModel.getSubscribeListByUserIdx("0")
+            reviewProductViewModel.getProductByIdx(productIdx)
+            reviewSubscribeViewModel.getSubscribeListByUserIdx(userIdx)
 
             reviewImageView.visibility = View.GONE
             reviewWriteToolbar.run{

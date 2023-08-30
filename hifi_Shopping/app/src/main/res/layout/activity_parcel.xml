@@ -8,7 +8,7 @@
     tools:context=".parcel.ParcelActivity">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/pacelMaterialToolbar"
+        android:id="@+id/parcelMaterialToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -42,6 +42,7 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/packingCardView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -70,6 +71,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/shippingCardView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -98,6 +100,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/arrivingCardView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -128,7 +131,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pacelItemRecycView"
+                android:id="@+id/parcelItemRecycView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -190,7 +193,7 @@
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/pacelCallCenterButton"
+                android:id="@+id/parcelCallCenterButton"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
