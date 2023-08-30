@@ -89,7 +89,8 @@ class OrderUserViewModel() : ViewModel() {
                     subscribeUserInfoMap.postValue(tempMap)
                 }
             },{
-                null
+                tempMap[userIdx]?.profileImg = null
+                subscribeUserInfoMap.postValue(tempMap)
             })
         })
     }
