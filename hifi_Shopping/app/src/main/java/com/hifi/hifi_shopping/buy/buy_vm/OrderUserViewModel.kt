@@ -75,7 +75,7 @@ class OrderUserViewModel() : ViewModel() {
                 }
             }
         },{
-            OrderUserRepository.getOrderUserSubscribeUserImg(tempMap[userIdx]?.profileImgSrc!!){
+            OrderUserRepository.getOrderUserSubscribeUserImg(tempMap[userIdx]?.profileImgSrc!!,{
                 thread{
                     // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
                     val url = URL(it.result.toString())
@@ -88,7 +88,9 @@ class OrderUserViewModel() : ViewModel() {
                     tempMap[userIdx]?.profileImg = bitmap
                     subscribeUserInfoMap.postValue(tempMap)
                 }
-            }
+            },{
+                null
+            })
         })
     }
 

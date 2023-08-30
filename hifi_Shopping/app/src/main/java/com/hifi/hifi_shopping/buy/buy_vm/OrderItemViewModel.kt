@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModel
 
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import com.hifi.hifi_shopping.buy.buy_repository.OrderUserRepository
+import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
 import com.hifi.hifi_shopping.buy.datamodel.ProductFAQData
 import com.hifi.hifi_shopping.buy.datamodel.ProductNormalReview
+import com.hifi.hifi_shopping.buy.datamodel.WishData
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -18,17 +20,55 @@ import kotlin.concurrent.thread
 
 class OrderItemViewModel: ViewModel() {
 
-    var productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()
+    val productMap = MutableLiveData<LinkedHashMap<String, OrderProduct>>()
     val tempHashMap =  LinkedHashMap<String, OrderProduct>()
 
-    var productNoTitleImgMap = MutableLiveData<HashMap<String, Bitmap>>()
+    val productNoTitleImgMap = MutableLiveData<HashMap<String, Bitmap>>()
     val tempHashMap2 = HashMap<String, Bitmap>()
 
-    var normalReviewMap = MutableLiveData<HashMap<String,ProductNormalReview>>()
+    val normalReviewMap = MutableLiveData<HashMap<String,ProductNormalReview>>()
     val tempReviewMap = HashMap<String, ProductNormalReview>()
 
-    var productFAQ = MutableLiveData<HashMap<String,ProductFAQData>>()
+    val productFAQ = MutableLiveData<HashMap<String,ProductFAQData>>()
     val tempFAQMap = HashMap<String, ProductFAQData>()
+
+    val cartData = MutableLiveData<CartData>()
+    var tempCartData = CartData(null, null)
+
+    val wishData = MutableLiveData<WishData>()
+    var tempWishData = WishData(null, null)
+
+    fun setWishData(idx: String, productIdx: String){
+        OrderItemRepository.setWishData(WishData(idx,productIdx)){
+            tempWishData = WishData(idx,productIdx)
+            wishData.value = tempWishData
+        }
+    }
+    fun getWishData(idx: String, productIdx: String){
+        tempWishData = WishData(null, null)
+        OrderItemRepository.getCartData(idx){
+            for (c1 in it.result.children){
+                if(c1.child("productIdx").value as String == productIdx){
+                    tempWishData.userIdx = c1.child("userIdx").value as String
+                    tempWishData.productIdx = c1.child("productIdx").value as String
+                }
+            }
+            wishData.value = tempWishData
+        }
+    }
+
+    fun getCartData(idx: String, productIdx: String){
+        tempCartData = CartData(null, null)
+        OrderItemRepository.getCartData(idx){
+            for (c1 in it.result.children){
+                if(c1.child("productIdx").value as String == productIdx){
+                    tempCartData.userIdx = c1.child("userIdx").value as String
+                    tempCartData.productIdx = c1.child("productIdx").value as String
+                }
+            }
+            cartData.value = tempCartData
+        }
+    }
 
     fun getProductFAQUserInfo(idx: String){
         OrderUserRepository.getOrderUser(idx){
@@ -57,12 +97,29 @@ class OrderItemViewModel: ViewModel() {
         })
     }
     fun getProductReviewUserInfo(idx: String){
-        OrderUserRepository.getOrderUser(idx){
+        OrderUserRepository.getNormalReviewUser(idx,{
             for(c1 in it.result.children){
                 tempReviewMap[c1.child("idx").value as String]?.nickname = c1.child("nickname").value as String
+                tempReviewMap[c1.child("idx").value as String]?.imgSrc = c1.child("profileImg").value as String
             }
             normalReviewMap.value = tempReviewMap
-        }
+        },{
+            OrderUserRepository.getOrderUserSubscribeUserImg(tempReviewMap[idx]?.imgSrc!!,{
+                thread {
+                    // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
+                    val url = URL(it.result.toString())
+                    // 접속한다.
+                    val httpURLConnection =
+                        url.openConnection() as HttpURLConnection
+                    val bitmap =
+                        BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                    tempReviewMap[idx]?.bitmap = bitmap
+                    normalReviewMap.postValue(tempReviewMap)
+                }
+            },{
+                null
+            })
+        })
     }
     fun getProductNormalReview(idx: String){
         tempReviewMap.clear()
@@ -71,8 +128,10 @@ class OrderItemViewModel: ViewModel() {
                 val productNormalReview = ProductNormalReview(
                     c1.child("writerIdx").value as String,
                     null,
-                    c1.child("context").value as String
-                )
+                    c1.child("context").value as String,
+                    "",
+                    null
+                    )
                 tempReviewMap[c1.child("writerIdx").value as String] = productNormalReview
             }
         },{
