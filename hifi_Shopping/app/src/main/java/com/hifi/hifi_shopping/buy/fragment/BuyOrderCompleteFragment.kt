@@ -25,7 +25,6 @@ class BuyOrderCompleteFragment : Fragment() {
         fragmentBuyOrderCompleteBinding.run{
             buttonBuyOrderCompleteNext.run{
                 setOnClickListener {
-                    buyActivity.removeFragment(BuyActivity.BUY_ORDER_COMPLETE_FRAGMENT)
                     buyActivity.replaceFragment(BuyActivity.BUY_ORDER_COMPLETELIST_FRAGMENT, false, null)
                 }
             }

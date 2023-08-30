@@ -147,8 +147,8 @@ class OrderUserViewModel() : ViewModel() {
     fun getOdderUserAddress(userIdx:String, num:Int){ // 가져오는 함수, 없다면 동일한 빈내용3개를 저장한다.
         tempList.clear()
         OrderUserRepository.orderUserGetAddress(userIdx){
-            if(it.result.childrenCount == 0L){
-                repeat(3){
+            if(it.result.childrenCount != 3L){
+                repeat(3 - it.result.childrenCount.toInt()){
                     val temp = AddressData(UUID.randomUUID().toString(), userIdx, "", "", " / ", "")
                     OrderUserRepository.addOrderUserAddress(temp){
                         tempList.add(temp)

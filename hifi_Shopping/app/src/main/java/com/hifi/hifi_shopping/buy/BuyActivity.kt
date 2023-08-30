@@ -62,7 +62,6 @@ class BuyActivity : AppCompatActivity() {
 
         var bundle = bundleSetting()
 
-        bundle.putString("userIdx", "0")
         buyProductList = intent.getStringArrayListExtra("buyProduct")!!
 
         if(buyProductList?.size == 1){

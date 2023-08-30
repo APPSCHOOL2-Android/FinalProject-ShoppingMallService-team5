@@ -11,7 +11,7 @@ data class PossibleCoupon(val idx: String, val categoryNum: String, val validDat
 
 data class OrderProduct(var idx: String, var name: String, var price: String, var context: String, var category: String, var pointAmount: String, var sellerIdx: String, var img: Bitmap?)
 
-data class OrderData(var idx: String, val buyerIdx: String, val productIdx: String, val couponIdx: String, val address: String, val date: String, val price: String, val status: String)
+data class OrderData(var idx: String, val buyerIdx: String, val productIdx: String, val couponIdx: String, val addressIdx: String, val date: String, val price: String, val status: String)
 
 data class SubscribeUserInfo(var idx: String, var nickname: String, var profileImgSrc: String, var profileImg: Bitmap?, var review: String?)
 

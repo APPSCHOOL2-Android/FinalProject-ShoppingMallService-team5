@@ -169,7 +169,7 @@ class UserActivity : AppCompatActivity() {
 
     fun getUserProfileImg(userTemp: UserDataClass, imgView: ImageView){
         val storage = FirebaseStorage.getInstance()
-        if(userTemp.profileImg.isNullOrBlank() ||  userTemp.profileImg == "sample_img.jpg"){
+        if(userTemp.profileImg.isNullOrBlank() ||  userTemp.profileImg != userTemp.idx ){
             return
         }
         val fileName = "user/"+userTemp.profileImg
@@ -190,6 +190,8 @@ class UserActivity : AppCompatActivity() {
                     imgView.setImageBitmap(bitmap)
                 }
             }
+        }.addOnFailureListener {
+            null
         }
     }
 
