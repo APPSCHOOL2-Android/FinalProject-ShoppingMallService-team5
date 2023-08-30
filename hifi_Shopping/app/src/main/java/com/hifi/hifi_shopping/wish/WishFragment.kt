@@ -3,38 +3,30 @@ package com.hifi.hifi_shopping.wish
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
-import androidx.navigation.fragment.findNavController
 import android.widget.CheckBox
-import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.FragmentWishBinding
 import com.hifi.hifi_shopping.databinding.RowWishBinding
-import com.hifi.hifi_shopping.rank.RankActivity
-import com.hifi.hifi_shopping.recommend.RecommendActivity
 import com.hifi.hifi_shopping.search.SearchActivity
 import com.hifi.hifi_shopping.user.UserActivity
+import com.hifi.hifi_shopping.user.repository.ProductImgRepository
+import com.hifi.hifi_shopping.user.vm.WishViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.hifi.hifi_shopping.user.model.WishDataClass
-import com.hifi.hifi_shopping.user.repository.ProductImgRepository
-import com.hifi.hifi_shopping.user.vm.ProductViewModel
-import com.hifi.hifi_shopping.user.vm.WishViewModel
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
@@ -44,7 +36,7 @@ class WishFragment : Fragment() {
     lateinit var categoryActivity: CategoryActivity
 
     var fromMyPage = false
-  
+
     lateinit var wishViewModel: WishViewModel
     var isCheckedAll = false
 

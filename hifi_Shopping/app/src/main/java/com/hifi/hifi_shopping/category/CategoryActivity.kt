@@ -210,7 +210,7 @@ class CategoryActivity : AppCompatActivity() {
 
     fun sendIntentProcuctUserInfo(productidx: String){
         val intent = Intent(this, BuyActivity::class.java)
-        intent.putExtra("productIdx", productidx)
+        intent.putExtra("buyProduct", productidx as ArrayList<String>)
         intent.putExtra("userEmail", userDataClass.email)
         intent.putExtra("userIdx", userDataClass.idx)
         intent.putExtra("userNickname", userDataClass.nickname)

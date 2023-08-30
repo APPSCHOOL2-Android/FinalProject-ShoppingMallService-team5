@@ -237,7 +237,7 @@ class CartFragment : Fragment() {
             holder.rowCartRecommendImg.run {
                 setOnClickListener {
                     val intent = Intent(userActivity, BuyActivity::class.java)
-                    intent.putExtra("productIdx", productidx)
+                    intent.putStringArrayListExtra("buyProduct", productidx as ArrayList<String>)
                     startActivity(intent)
                 }
                 getCartProductImg(productidx,this)

@@ -43,7 +43,7 @@ class AuthLoginFragment : Fragment() {
                 intent.putExtra("userVerify", it.verify)
                 intent.putExtra("userPhoneNum", it.phoneNum)
                 intent.putExtra("userProfileImg", it.profileImg)
-                
+
                 startActivity(intent)
             }
         }
