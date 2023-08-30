@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.auth.vm.AuthViewModel
+import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.databinding.ActivityCategoryBinding
 import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.UserDataClass
@@ -29,7 +29,6 @@ class CategoryActivity : AppCompatActivity() {
 
     lateinit var navHostFragment: NavHostFragment
     lateinit var navController: NavController
-    lateinit var authViewModel: AuthViewModel
     lateinit var userDataClass: UserDataClass
 
     var doubleBackToExitPressedOnce = false
@@ -38,7 +37,6 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
 
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("userEmail")) {
@@ -53,16 +51,9 @@ class CategoryActivity : AppCompatActivity() {
                 userVerify, userPhoneNum, userProfileImg)
             userDataClass = newUserData
         }
-        Log.d("UserData", "Email: ${userDataClass.email}")
-        Log.d("UserData", "UserIdx: ${userDataClass.idx}")
-        Log.d("UserData", "UserNickname: ${userDataClass.nickname}")
-        Log.d("UserData", "UserPw: ${userDataClass.pw}")
-        Log.d("UserData", "UserProfileImg: ${userDataClass.profileImg}")
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
         categoryViewModel.currentUserIdx = userDataClass.idx
-
-        
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentCategory) as NavHostFragment
         navController = navHostFragment.navController
@@ -90,14 +81,12 @@ class CategoryActivity : AppCompatActivity() {
             }
         })
 
-        val navigateTo = intent.getIntExtra("navigateTo", R.id.bottomMenuItemCategoryMain)
-        navigateToFragment(navigateTo)
-
         binding.run {
             bottomNavigationViewCategory.run {
 
                 categoryViewModel.run {
                     navControllerDestination.observe(this@CategoryActivity) { destination ->
+                        Log.d("brudenell", "change")
                         when (destination) {
                             R.id.rankMainFragment -> {
                                 menu.forEach {
@@ -132,7 +121,7 @@ class CategoryActivity : AppCompatActivity() {
                 }
 
                 setOnItemSelectedListener {
-                    navigateToFragment(it.itemId)
+                    navigateToFragment(it.itemId, false)
                     true
                 }
             }
@@ -163,14 +152,17 @@ class CategoryActivity : AppCompatActivity() {
         }
     }
 
-    fun navigateToFragment(navigateTo: Int) {
+    fun navigateToFragment(navigateTo: Int, fromMyPage: Boolean) {
+        val bundle = Bundle()
+        bundle.putBoolean("fromMyPage", fromMyPage)
+
         when (navigateTo) {
             R.id.bottomMenuItemRankMain -> {
-                navController.navigate(R.id.actionToRankMainFragment)
+                navController.navigate(R.id.actionToRankMainFragment, bundle)
                 categoryViewModel.setSearchSubCategory(false)
             }
             R.id.bottomMenuItemRecommend -> {
-                navController.navigate(R.id.actionToRecommendFragment)
+                navController.navigate(R.id.actionToRecommendFragment, bundle)
                 categoryViewModel.setSearchSubCategory(false)
             }
             R.id.bottomMenuItemCategoryMain -> {
@@ -187,18 +179,44 @@ class CategoryActivity : AppCompatActivity() {
                 intent.putExtra("userVerify", userDataClass.verify)
                 intent.putExtra("userPhoneNum", userDataClass.phoneNum)
                 intent.putExtra("userProfileImg", userDataClass.profileImg)
+                intent.putExtra("whereFrom", "category")
                 startActivity(intent)
             }
             R.id.bottomMenuItemWish -> {
-                navController.navigate(R.id.actionToWishFragment)
+                navController.navigate(R.id.actionToWishFragment, bundle)
                 categoryViewModel.setSearchSubCategory(false)
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        val navigateTo = intent?.getIntExtra("navigateTo", R.id.bottomMenuItemCategoryMain) ?: R.id.bottomMenuItemCategoryMain
+
+        var fromMyPage = false
+        if (navigateTo != R.id.bottomMenuItemCategoryMain) {
+            fromMyPage = true
+        }
+
+        navigateToFragment(navigateTo, fromMyPage)
     }
 
     override fun onResume() {
         super.onResume()
 
         categoryViewModel.setNavControllerDestination(navController.currentDestination?.id ?: R.id.categoryMainFragment)
+    }
+
+    fun sendIntentProcuctUserInfo(productidx: String){
+        val intent = Intent(this, BuyActivity::class.java)
+        intent.putExtra("productIdx", productidx)
+        intent.putExtra("userEmail", userDataClass.email)
+        intent.putExtra("userIdx", userDataClass.idx)
+        intent.putExtra("userNickname", userDataClass.nickname)
+        intent.putExtra("userPw", userDataClass.pw)
+        intent.putExtra("userVerify", userDataClass.verify)
+        intent.putExtra("userPhoneNum", userDataClass.phoneNum)
+        intent.putExtra("userProfileImg", userDataClass.profileImg)
+        startActivity(intent)
     }
 }
