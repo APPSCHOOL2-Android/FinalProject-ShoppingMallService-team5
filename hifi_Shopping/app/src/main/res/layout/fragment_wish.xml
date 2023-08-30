@@ -7,29 +7,53 @@
     android:orientation="vertical"
     tools:context=".wish.WishFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarWishL"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/wishAppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:clickable="true"
-        android:minHeight="?attr/actionBarSize"
-        app:menu="@menu/menu_search_cart"
-        app:navigationIcon="@drawable/chevron_left_24px"
-        app:navigationIconTint="#846058"
-        app:title="위시 리스트"
-        app:titleCentered="true"
-        app:titleTextColor="#846058" />
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/wishToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            app:menu="@menu/menu_search_cart"
+            app:title="위시 리스트"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:titleTextColor="#846058" />
+
+        <View
+            android:id="@+id/wishToolbarDivider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/brown2" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:id="@+id/wishTextViewEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:fontFamily="@font/notosans_regular"
+        android:gravity="center"
+        android:text="위시리스트에 상품이 없습니다." />
 
     <ScrollView
+        android:id="@+id/wishScrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <LinearLayout
+            android:id="@+id/wishLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="visible">
 
             <CheckBox
                 android:id="@+id/wishListCheckBoxSelectAll"
@@ -37,13 +61,15 @@
                 android:layout_height="wrap_content"
                 android:elegantTextHeight="true"
                 android:fontFamily="@font/notosanskr_regular"
-                android:text="전체 선택" />
+                android:text="전체 선택"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="10dp">
+                android:padding="10dp"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -100,5 +126,6 @@
 
         </LinearLayout>
     </ScrollView>
+
 
 </LinearLayout>

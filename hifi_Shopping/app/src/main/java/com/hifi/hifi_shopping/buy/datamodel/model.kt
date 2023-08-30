@@ -15,9 +15,13 @@ data class OrderData(var idx: String, val buyerIdx: String, val productIdx: Stri
 
 data class SubscribeUserInfo(var idx: String, var nickname: String, var profileImgSrc: String, var profileImg: Bitmap?, var review: String?)
 
-data class ProductNormalReview(var userIdx: String, var nickname: String?, var review: String)
+data class ProductNormalReview(var userIdx: String, var nickname: String?, var review: String, var imgSrc: String, var bitmap: Bitmap?)
 
 data class ProductFAQData(var userIdx: String, var nickname: String?, var context: String)
+
+data class CartData(var userIdx: String?, var productIdx: String?)
+
+data class WishData(var userIdx: String?, var productIdx: String?)
 
 
 val categoryData = mapOf(

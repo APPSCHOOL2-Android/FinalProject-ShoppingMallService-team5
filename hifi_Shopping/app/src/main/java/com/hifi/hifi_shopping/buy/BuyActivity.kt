@@ -1,10 +1,14 @@
 package com.hifi.hifi_shopping.buy
 
+import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
@@ -16,6 +20,7 @@ import com.hifi.hifi_shopping.buy.fragment.DetailItemFragment
 import com.hifi.hifi_shopping.buy.fragment.OrderFragment
 import com.hifi.hifi_shopping.databinding.ActivityBuyBinding
 import com.hifi.hifi_shopping.databinding.RowOrderItemListBinding
+import com.hifi.hifi_shopping.user.model.UserDataClass
 import kotlin.concurrent.thread
 
 class BuyActivity : AppCompatActivity() {
@@ -37,6 +42,9 @@ class BuyActivity : AppCompatActivity() {
     var totalOrderProductCount = 0
     var totalOrderProductPrice = 0
     var oriTotalOrderProductPrice = 0
+    var buyProductList = ArrayList<String>()
+    var bundle = Bundle()
+    lateinit var newUserData: UserDataClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,28 +52,71 @@ class BuyActivity : AppCompatActivity() {
         activityBuyBinding = ActivityBuyBinding.inflate(layoutInflater)
         setContentView(activityBuyBinding.root)
 
+        dataSetting()
         startFragment()
 
     }
 
-
     // 입력 받은 정보에 따라 아이템 상세화면을 보여줄지, 주문창을 보여줄지 결정
     private fun startFragment(){
-        val buyProductList = intent.getStringArrayListExtra("buyProduct")
-        //val userIdx = intent.getStringExtra("userIdx")
 
+        var bundle = bundleSetting()
 
-        var bundle = Bundle()
+        bundle.putString("userIdx", "0")
+        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
 
         if(buyProductList?.size == 1){
             bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
-            bundle.putString("userIdx", "0") // 유저 인덱스
             replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
         } else {
             bundle.putStringArrayList("selProduct", buyProductList)
-            bundle.putString("userIdx", "0")
             replaceFragment(ORDER_FRAGMENT, true, bundle)
         }
+    }
+
+    private fun dataSetting(){
+        val email = intent.getStringExtra("userEmail")!!
+        val userIdx = intent.getStringExtra("userIdx")!!
+        val userNickname = intent.getStringExtra("userNickname")!!
+        val userPw = intent.getStringExtra("userPw")!!
+        val userProfileImg = intent.getStringExtra("userProfileImg")!!
+        val userVerify = intent.getStringExtra("userVerify")!!
+        val userPhoneNum = intent.getStringExtra("userPhoneNum")!!
+        newUserData = UserDataClass(userIdx, email, userPw, userNickname, userVerify, userPhoneNum, userProfileImg)
+    }
+
+
+    private fun bundleSetting(): Bundle{
+        val bundle = Bundle()
+        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
+
+        bundle.putString("userEmail", newUserData.email)
+        bundle.putString("userIdx", newUserData.idx)
+        bundle.putString("userNickname", newUserData.nickname)
+        bundle.putString("userPw", newUserData.pw)
+        bundle.putString("userProfileImg", newUserData.profileImg)
+        bundle.putString("userVerify", newUserData.verify)
+        bundle.putString("userPhoneNum", newUserData.phoneNum)
+
+        return bundle
+    }
+
+    fun intentSetting(returnIntent: Intent): Intent {
+
+        returnIntent.putExtra("userEmail", newUserData.email)
+        returnIntent.putExtra("userIdx", newUserData.idx)
+        returnIntent.putExtra("userNickname", newUserData.nickname)
+        returnIntent.putExtra("userPw", newUserData.pw)
+        returnIntent.putExtra("userProfileImg", newUserData.profileImg)
+        returnIntent.putExtra("userVerify", newUserData.verify)
+        returnIntent.putExtra("userPhoneNum", newUserData.phoneNum)
+
+        return returnIntent
+    }
+
+
+     fun activityKill() {
+         this@BuyActivity.finish()
     }
 
     fun changeWon(price: String, count: Int): String{
@@ -136,7 +187,11 @@ class BuyActivity : AppCompatActivity() {
     // Fragment를 BackStack에서 제거한다.
     fun removeFragment(name:String){
         supportFragmentManager.popBackStack(name, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        if(supportFragmentManager.backStackEntryCount == 0 ) {
+            this@BuyActivity.finish()
+        }
     }
+
 
     fun softInputVisible(view:View, visible: Boolean){
         if(visible){
