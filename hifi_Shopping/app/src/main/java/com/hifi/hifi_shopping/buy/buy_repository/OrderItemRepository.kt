@@ -13,10 +13,19 @@ class OrderItemRepository {
 
     companion object{
 
-        fun delWishData(cartData: WishData, callback1: (Task<Void>) -> Unit){
-            getWishData(cartData.userIdx!!){
+        fun delCartData(cartData: CartData){
+            getCartData(cartData.userIdx!!){
                 for (c1 in it.result.children){
                     if(c1.child("productIdx").value as String == cartData.productIdx!!){
+                        c1.ref.removeValue()
+                    }
+                }
+            }
+        }
+        fun delWishData(wishData: WishData, callback1: (Task<Void>) -> Unit){
+            getWishData(wishData.userIdx!!){
+                for (c1 in it.result.children){
+                    if(c1.child("productIdx").value as String == wishData.productIdx!!){
                         c1.ref.removeValue().addOnCompleteListener(callback1)
                     }
                 }

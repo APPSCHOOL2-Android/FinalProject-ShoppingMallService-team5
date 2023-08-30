@@ -62,8 +62,6 @@ class BuyActivity : AppCompatActivity() {
 
         var bundle = bundleSetting()
 
-        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
-
         if(buyProductList?.size == 1){
             bundle.putString("selProduct", buyProductList[0]) // 상품 인덱스
             replaceFragment(DETAIL_ITEM_FRAGMENT, true, bundle)
@@ -81,6 +79,7 @@ class BuyActivity : AppCompatActivity() {
         val userProfileImg = intent.getStringExtra("userProfileImg")!!
         val userVerify = intent.getStringExtra("userVerify")!!
         val userPhoneNum = intent.getStringExtra("userPhoneNum")!!
+        buyProductList = intent.getStringArrayListExtra("buyProduct")!!
         newUserData = UserDataClass(userIdx, email, userPw, userNickname, userVerify, userPhoneNum, userProfileImg)
     }
 
