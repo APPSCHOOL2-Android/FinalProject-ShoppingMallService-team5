@@ -21,6 +21,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/textViewNoSearchRecord"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="검색 내역이 없습니다."
+        android:layout_marginTop="8dp"
+        android:textColor="@color/grey"
+        app:layout_constraintStart_toStartOf="@id/textViewSearchInitRecentSearch"
+        app:layout_constraintTop_toBottomOf="@id/textViewSearchInitRecentSearch"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewSearchInitRecentSearch"
         android:layout_width="0dp"
@@ -28,11 +38,11 @@
         android:layout_marginTop="8dp"
         android:paddingStart="23dp"
         android:paddingEnd="23dp"
-        tools:listitem="@layout/item_search_init_recent_search"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textViewSearchInitRecentSearch"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        tools:listitem="@layout/item_search_init_recent_search" />
 
     <TextView
         android:id="@+id/textViewSearchInitPopular"

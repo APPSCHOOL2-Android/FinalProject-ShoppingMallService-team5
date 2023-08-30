@@ -1,7 +1,10 @@
 package com.hifi.hifi_shopping.search.ui
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -61,6 +64,35 @@ class SearchResultFragment : Fragment() {
         }
 
         searchViewModel.searchResultList.observe(viewLifecycleOwner) {
+            fragmentSearchResultBinding.run {
+                if (it.isNotEmpty()) {
+                    linearLayoutNoSearchResult.visibility = View.INVISIBLE
+                    recyclerViewSearchResultProduct.visibility = View.VISIBLE
+                    textViewSearchResultProduct.visibility = View.VISIBLE
+                } else {
+                    linearLayoutNoSearchResult.visibility = View.VISIBLE
+                    recyclerViewSearchResultProduct.visibility = View.INVISIBLE
+                    textViewSearchResultProduct.visibility = View.INVISIBLE
+
+                    val searchWord = "'${searchActivity.binding.editTextSearchWord.text}'"
+                    val fullText = "${searchWord}에 대한 검색결과가 없습니다."
+                    val coloredText = searchWord
+
+                    // SpannableString 생성
+                    val spannableString = SpannableString(fullText)
+
+                    // 글자의 시작과 끝 인덱스 계산
+                    val startIndex = fullText.indexOf(coloredText)
+                    val endIndex = startIndex + coloredText.length
+
+                    // ForegroundColorSpan을 사용하여 색상 변경
+                    val colorSpan = ForegroundColorSpan(Color.parseColor("#6C3428"))
+                    spannableString.setSpan(colorSpan, startIndex, endIndex, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    // TextView에 SpannableString 적용
+                    textViewNoSearchResult.text = spannableString
+                }
+            }
             searchResultListAdapter.submitList(it)
         }
 

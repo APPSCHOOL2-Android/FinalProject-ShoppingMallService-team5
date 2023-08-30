@@ -37,6 +37,13 @@ class SearchInitFragment : Fragment() {
         searchViewModel.getRecentSearchWord(searchActivity.userDataClass.idx)
 
         searchViewModel.recentSearchWordList.observe(viewLifecycleOwner) {
+            if (it.isNotEmpty()) {
+                fragmentSearchInitBinding.recyclerViewSearchInitRecentSearch.alpha = 1f
+                fragmentSearchInitBinding.textViewNoSearchRecord.visibility = View.INVISIBLE
+            } else {
+                fragmentSearchInitBinding.recyclerViewSearchInitRecentSearch.alpha = 0f
+                fragmentSearchInitBinding.textViewNoSearchRecord.visibility = View.VISIBLE
+            }
             recentSearchListAdapter.submitList(it)
         }
 

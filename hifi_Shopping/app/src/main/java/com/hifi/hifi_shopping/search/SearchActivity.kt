@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.os.SystemClock
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.activity.OnBackPressedCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.snackbar.Snackbar
 import com.hifi.hifi_shopping.R
@@ -57,7 +59,11 @@ class SearchActivity : AppCompatActivity() {
         binding.run {
             materialToolbarSearch.run {
                 setNavigationOnClickListener {
-                    finish()
+                    if (navController.currentDestination?.id == R.id.searchResultFragment) {
+                        navController.popBackStack()
+                    } else {
+                        finish()
+                    }
                 }
             }
 
