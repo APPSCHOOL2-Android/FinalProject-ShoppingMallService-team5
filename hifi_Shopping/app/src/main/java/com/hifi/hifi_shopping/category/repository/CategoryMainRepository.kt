@@ -213,7 +213,10 @@ class CategoryMainRepository {
     }
 
     fun getUserProfileImgUrl(profileImg: String, callback: (String) -> Unit) {
-        val filename = "user/$profileImg"
+        var filename = "user/$profileImg"
+        if (profileImg == "sample_img") {
+            filename += ".jpg"
+        }
         val fileRef = storage.reference.child(filename)
         fileRef.downloadUrl.addOnCompleteListener {
             callback(it.result.toString())
