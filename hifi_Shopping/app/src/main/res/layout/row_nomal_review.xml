@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="5dp"
     android:orientation="vertical"
     android:padding="5dp">
 
@@ -22,16 +22,21 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/rowDetailNormalReviewUserProfileImage"
-                android:layout_width="49dp"
-                android:layout_height="41dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:adjustViewBounds="false"
                 android:src="@drawable/sample_img" />
 
             <TextView
                 android:id="@+id/rowDetailNormalReviewTextViewName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="@font/notosans_black"
-                android:textColor="@color/black" />
+                android:gravity="center_vertical"
+                android:text="닉네임"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
         </LinearLayout>
 
         <TextView
@@ -39,12 +44,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginLeft="50dp"
+            android:layout_marginLeft="60dp"
             android:fontFamily="@font/notosans_eb"
             android:gravity="start|left|center_vertical"
             android:text="리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다 리뷰 내용입니다"
             android:textColor="@color/black"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
 </LinearLayout>

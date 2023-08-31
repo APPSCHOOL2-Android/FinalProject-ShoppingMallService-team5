@@ -50,8 +50,6 @@ class DetailItemFragment : Fragment() {
     var productFAQMap = HashMap<String, ProductFAQData>()
 
     var cartData = CartData(null, null)
-    var wishData = WishData(null, null)
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -197,15 +195,18 @@ class DetailItemFragment : Fragment() {
 
             wishCheckIconBtn.run{
                 setOnClickListener {
-                    if(wishData.productIdx != null){
-                        OrderItemRepository.delWishData(wishData){
+                    if(orderItemViewModel.wishData.value?.productIdx != null){
+                        OrderItemRepository.delWishData(orderItemViewModel.wishData.value!!){
                             Snackbar.make(fragmenDetailItemtBinding.root, "위시리시트에서 제거 되었습니다.", Snackbar.LENGTH_SHORT).show()
                             orderItemViewModel.getWishData(orderUserIdx, productIdx)
+                            fragmenDetailItemtBinding.wishCheckIconBtn.setImageResource(R.drawable.favorite_24px)
+                            Log.d("ttt", "제거기능확인")
                         }
 
                     } else {
                         orderItemViewModel.setWishData(orderUserIdx, productIdx)
                         Snackbar.make(fragmenDetailItemtBinding.root, "위시리시트에 추가 되었습니다.", Snackbar.LENGTH_SHORT).show()
+                        fragmenDetailItemtBinding.wishCheckIconBtn.setImageResource(R.drawable.favorite_like_24px)
                     }
                 }
             }
@@ -272,10 +273,8 @@ class DetailItemFragment : Fragment() {
             wishData.observe(buyActivity){
                 if(it.productIdx != null){
                     fragmenDetailItemtBinding.wishCheckIconBtn.setImageResource(R.drawable.favorite_like_24px)
-                    this@DetailItemFragment.wishData = it
                 } else {
                     fragmenDetailItemtBinding.wishCheckIconBtn.setImageResource(R.drawable.favorite2_24px)
-                    this@DetailItemFragment.wishData = it
                 }
             }
 
@@ -311,16 +310,17 @@ class DetailItemFragment : Fragment() {
                     fragmenDetailItemtBinding.constraint2.visibility = View.GONE
                 }
             }
+
         }
 
         orderItemViewModel.getOrderProductData(productIdx)
-        orderUserViewModel.getOrderUserSubUser(orderUserIdx)
         orderItemViewModel.getProductNormalReview(productIdx)
         orderItemViewModel.getProductFAQ(productIdx)
         orderItemViewModel.getCartData(orderUserIdx, productIdx)
         orderItemViewModel.getWishData(orderUserIdx, productIdx)
-
+        orderUserViewModel.getOrderUserSubUser(orderUserIdx)
     }
+
 
     inner class FAQListAdapter(): RecyclerView.Adapter<FAQListAdapter.FAQListViewHolder>(){
         inner class FAQListViewHolder(rowDetailReviewBinding: RowDetailReviewBinding): ViewHolder(rowDetailReviewBinding.root){
