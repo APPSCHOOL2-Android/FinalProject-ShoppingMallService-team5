@@ -45,8 +45,8 @@ class OrderItemViewModel: ViewModel() {
         }
     }
     fun getWishData(idx: String, productIdx: String){
-        tempWishData = WishData(null, null)
-        OrderItemRepository.getCartData(idx){
+        OrderItemRepository.getWishData(idx){
+            tempWishData = WishData(null, null)
             for (c1 in it.result.children){
                 if(c1.child("productIdx").value as String == productIdx){
                     tempWishData.userIdx = c1.child("userIdx").value as String
@@ -104,7 +104,6 @@ class OrderItemViewModel: ViewModel() {
             }
             normalReviewMap.value = tempReviewMap
         },{
-            Log.e("ttt","${tempReviewMap[idx]?.imgSrc!!}")
             OrderUserRepository.getOrderUserSubscribeUserImg(tempReviewMap[idx]?.imgSrc!!,{
                 thread {
                     // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
