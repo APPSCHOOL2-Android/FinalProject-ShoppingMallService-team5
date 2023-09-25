@@ -70,11 +70,15 @@ class OrderUserViewModel() : ViewModel() {
                     val getProductIdx = c3.child("productIdx").value as String
                     if(getProductIdx == productIdx){
                         tempMap[userIdx]?.review = c3.child("context").value as String
+                        subscribeUserInfoMap.postValue(tempMap)
+                    } else {
+                        tempMap.remove(userIdx)
+                        subscribeUserInfoMap.postValue(tempMap)
                     }
                 }
             }
         },{
-            OrderUserRepository.getOrderUserSubscribeUserImg(tempMap[userIdx]?.profileImgSrc!!){
+            OrderUserRepository.getOrderUserSubscribeUserImg(tempMap[userIdx]?.profileImgSrc!!,{
                 thread{
                     // 파일에 접근할 수 있는 경로를 이용해 URL 객체를 생성한다.
                     val url = URL(it.result.toString())
@@ -87,7 +91,10 @@ class OrderUserViewModel() : ViewModel() {
                     tempMap[userIdx]?.profileImg = bitmap
                     subscribeUserInfoMap.postValue(tempMap)
                 }
-            }
+            },{
+                tempMap[userIdx]?.profileImg = null
+                subscribeUserInfoMap.postValue(tempMap)
+            })
         })
     }
 
@@ -144,8 +151,8 @@ class OrderUserViewModel() : ViewModel() {
     fun getOdderUserAddress(userIdx:String, num:Int){ // 가져오는 함수, 없다면 동일한 빈내용3개를 저장한다.
         tempList.clear()
         OrderUserRepository.orderUserGetAddress(userIdx){
-            if(it.result.childrenCount == 0L){
-                repeat(3){
+            if(it.result.childrenCount != 3L){
+                repeat(3 - it.result.childrenCount.toInt()){
                     val temp = AddressData(UUID.randomUUID().toString(), userIdx, "", "", " / ", "")
                     OrderUserRepository.addOrderUserAddress(temp){
                         tempList.add(temp)

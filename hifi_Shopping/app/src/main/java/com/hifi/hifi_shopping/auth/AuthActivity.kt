@@ -6,6 +6,7 @@ import android.os.SystemClock
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.transition.MaterialSharedAxis
@@ -42,6 +43,7 @@ class AuthActivity : AppCompatActivity() {
 //            val intent = Intent(this, CategoryActivity::class.java)
 //            startActivity(intent)
 //        }
+        installSplashScreen()
 
         replaceFragment(AUTH_LOGIN_FRAGMENT, false, null)
     }

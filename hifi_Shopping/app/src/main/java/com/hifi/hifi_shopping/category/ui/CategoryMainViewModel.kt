@@ -3,6 +3,7 @@ package com.hifi.hifi_shopping.category.ui
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.hifi.hifi_shopping.category.model.CategoryMainBuyer
 import com.hifi.hifi_shopping.category.model.CategoryMainProduct
 import com.hifi.hifi_shopping.category.model.CategoryMainReview
 import com.hifi.hifi_shopping.category.model.CategoryMainUser
@@ -17,8 +18,6 @@ class CategoryMainViewModel: ViewModel() {
 
     var productWorth = 0
     var productCount = 0
-
-    var currentUserIdx = "5"
 
     val categoryMainRepository = CategoryMainRepository()
 
@@ -58,7 +57,11 @@ class CategoryMainViewModel: ViewModel() {
         categoryMainRepository.getUser(userIdx, callback)
     }
 
-    fun getUserFollowerCnt(userIdx: String, callback: (Int, Boolean) -> Unit) {
+    fun getUserProfileImgUrl(profileImg: String, callback: (String) -> Unit) {
+        categoryMainRepository.getUserProfileImgUrl(profileImg, callback)
+    }
+
+    fun getUserFollowerCnt(currentUserIdx: String, userIdx: String, callback: (Int, Boolean) -> Unit) {
         categoryMainRepository.getUserFollowerCnt(userIdx, currentUserIdx, callback)
     }
 
@@ -78,12 +81,16 @@ class CategoryMainViewModel: ViewModel() {
         categoryMainRepository.getProductRatingInfo(productIdx, callback)
     }
 
-    fun setSubscribe(userIdx: String, subscribing: Boolean, callback: () -> Unit) {
+    fun setSubscribe(currentUserIdx: String, userIdx: String, subscribing: Boolean, callback: () -> Unit) {
         val callbackViewModel: () -> Unit = {
             val value = updateSubscribeData.value ?: false
             updateSubscribeData.value = !value
         }
 
         categoryMainRepository.setSubscribe(userIdx, currentUserIdx, subscribing, callbackViewModel, callback)
+    }
+
+    fun getUserListBuyProduct(currentUserIdx: String, productIdx: String, callback: (List<CategoryMainBuyer>, Int) -> Unit) {
+        categoryMainRepository.getUserListBuyProduct(currentUserIdx, productIdx, callback)
     }
 }

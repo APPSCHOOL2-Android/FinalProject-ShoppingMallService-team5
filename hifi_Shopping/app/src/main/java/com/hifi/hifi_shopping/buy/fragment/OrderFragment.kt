@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.core.app.ActivityCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +25,7 @@ import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.buy.buy_repository.OrderItemRepository
 import com.hifi.hifi_shopping.buy.buy_vm.OrderItemViewModel
 import com.hifi.hifi_shopping.buy.buy_vm.OrderUserViewModel
+import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderData
 import com.hifi.hifi_shopping.buy.datamodel.OrderProduct
 import com.hifi.hifi_shopping.buy.datamodel.OrderUserCoupon
@@ -317,6 +321,7 @@ class OrderFragment : Fragment() {
                 }
             }
 
+
             orderPayBtn.run{
                 setOnClickListener {
 
@@ -353,7 +358,9 @@ class OrderFragment : Fragment() {
                                 "PACKING" // 배송 상태
                             )
                             OrderItemRepository.setOrderData(orderData)
+                            OrderItemRepository.delCartData(CartData(orderUserIdx, itemIdx))
                         }
+
                     }
                     buyActivity.removeFragment(BuyActivity.ORDER_FRAGMENT)
                     buyActivity.replaceFragment(BuyActivity.BUY_ORDER_COMPLETE_FRAGMENT, false, null)

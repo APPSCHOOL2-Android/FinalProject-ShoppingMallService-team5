@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        app:menu="@menu/review_write_menu"
+        app:menu="@menu/menu_search_cart"
         app:navigationIcon="@drawable/chevron_left_24px"
         app:navigationIconTint="@color/lstBasicFontColor"
         app:title="후기 작성"

@@ -80,6 +80,8 @@ class PointFragment : Fragment() {
                         if(foundItem==null) {
                             val rowPointReviewBinding =
                                 RowPointReviewBinding.inflate(LayoutInflater.from(userActivity))
+
+                            val userData = userActivity.userTemp
                             // 데이터 설정
                             rowPointReviewBinding.run {
                                 rowPointReviewDate.text = it.date + " 결제"
@@ -94,13 +96,19 @@ class PointFragment : Fragment() {
                                 // 제품 이미지
                                 getProductImg(it.idx, rowPointReviewImg)
                                 rowPointReviewImg.setOnClickListener {
-                                    val intent = Intent(userActivity, BuyActivity::class.java)
-                                    intent.putExtra("productIdx", rowPointReviewIdx.text.toString())
-                                    startActivity(intent)
+                                    val buyProduct = arrayListOf(productidx)
+                                    userActivity.clickProductImg(buyProduct,userActivity.userTemp)
                                 }
                                 rowPointReviewBtnReview.setOnClickListener {
                                     val intent = Intent(userActivity, ReviewActivity::class.java)
                                     intent.putExtra("productIdx", rowPointReviewIdx.text.toString())
+                                    intent.putExtra("userEmail", userData.email)
+                                    intent.putExtra("userIdx", userData.idx)
+                                    intent.putExtra("userNickname", userData.nickname)
+                                    intent.putExtra("userPw", userData.pw)
+                                    intent.putExtra("userVerify", userData.verify)
+                                    intent.putExtra("userPhoneNum", userData.phoneNum)
+                                    intent.putExtra("userProfileImg", userData.profileImg)
                                     startActivity(intent)
                                 }
                             }
@@ -116,7 +124,7 @@ class PointFragment : Fragment() {
 
             pointToolbar.run {
                 setNavigationOnClickListener {
-                    userActivity.removeFragment(UserActivity.CART_FRAGMENT)
+                    userActivity.removeFragment(UserActivity.POINT_FRAGMENT)
                 }
                 setOnMenuItemClickListener {
                     when(it.itemId){

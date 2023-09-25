@@ -5,12 +5,53 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import com.hifi.hifi_shopping.buy.datamodel.CartData
 import com.hifi.hifi_shopping.buy.datamodel.OrderData
+import com.hifi.hifi_shopping.buy.datamodel.WishData
 
 class OrderItemRepository {
 
     companion object{
 
+        fun delCartData(cartData: CartData){
+            getCartData(cartData.userIdx!!){
+                for (c1 in it.result.children){
+                    if(c1.child("productIdx").value as String == cartData.productIdx!!){
+                        c1.ref.removeValue()
+                    }
+                }
+            }
+        }
+        fun delWishData(wishData: WishData, callback1: (Task<Void>) -> Unit){
+            getWishData(wishData.userIdx!!){
+                for (c1 in it.result.children){
+                    if(c1.child("productIdx").value as String == wishData.productIdx!!){
+                        c1.ref.removeValue().addOnCompleteListener(callback1)
+                    }
+                }
+            }
+        }
+        fun setWishData(cartData: WishData, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val wishDataRef = database.getReference("WishData")
+            wishDataRef.push().setValue(cartData).addOnCompleteListener(callback1)
+        }
+        fun getWishData(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val wishDataRef = database.getReference("WishData")
+            wishDataRef.orderByChild("userIdx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
+
+        fun setCartData(cartData: CartData, callback1: (Task<Void>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val CartDataRef = database.getReference("CartData")
+            CartDataRef.push().setValue(cartData).addOnCompleteListener(callback1)
+        }
+        fun getCartData(idx: String, callback1: (Task<DataSnapshot>) -> Unit){
+            val database = FirebaseDatabase.getInstance()
+            val CartDataRef = database.getReference("CartData")
+            CartDataRef.orderByChild("userIdx").equalTo(idx).get().addOnCompleteListener(callback1)
+        }
         fun getProductFAQData(idx: String, callback1: (Task<DataSnapshot>) -> Unit, callback2: (Task<DataSnapshot>) -> Unit){
             val database = FirebaseDatabase.getInstance()
             val FAQDataRef = database.getReference("FAQData")

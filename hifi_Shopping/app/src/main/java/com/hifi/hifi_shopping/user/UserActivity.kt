@@ -2,6 +2,7 @@ package com.hifi.hifi_shopping.user
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.SystemClock
@@ -12,14 +13,17 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.hifi.hifi_shopping.R
-import com.hifi.hifi_shopping.auth.AuthActivity
-import com.hifi.hifi_shopping.auth.vm.AuthTestViewModel
+import com.hifi.hifi_shopping.buy.BuyActivity
+import com.hifi.hifi_shopping.buy.fragment.FAQFragment
+import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.databinding.ActivityUserBinding
+import com.hifi.hifi_shopping.parcel.ParcelActivity
+import com.hifi.hifi_shopping.review.ReviewActivity
+import com.hifi.hifi_shopping.subscribe.SubscribeActivity
 import com.hifi.hifi_shopping.user.model.UserDataClass
 import java.net.HttpURLConnection
 import java.net.URL
@@ -33,7 +37,8 @@ class UserActivity : AppCompatActivity() {
     var newFragment:Fragment? = null
     var oldFragment:Fragment? = null
 
-    var userTemp = UserDataClass("e8fa83ce-5341-4f10-9929-5521d9c5fe82", "ohsso98@naver.com", "0618", "김대박", "true", "010-1111-1111", "")
+    lateinit var userTemp: UserDataClass
+    var whereFrom = "myPage"
 
     val permissionList = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -58,10 +63,35 @@ class UserActivity : AppCompatActivity() {
 
         requestPermissions(permissionList,0)
 
-        replaceFragment(MY_PAGE_FRAGMENT, false, null)
+        val receivedIntent = intent
+        if (receivedIntent != null && receivedIntent.hasExtra("userEmail")) {
+            val email = receivedIntent.getStringExtra("userEmail")!!
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val newUserData = UserDataClass(userIdx, email, userPw, userNickname,
+                userVerify, userPhoneNum, userProfileImg)
+            userTemp = newUserData
+        }
+
+        if (receivedIntent != null && receivedIntent.hasExtra("userFragmentType")) {
+            val userFragmentType = receivedIntent.getStringExtra("userFragmentType")!!
+            whereFrom = receivedIntent.getStringExtra("whereFrom")!!
+            when(userFragmentType){
+                "cart" -> replaceFragment(CART_FRAGMENT, false, null)
+                "userPage"->replaceFragment(USER_PAGE_FRAGMENT,false,null)
+            }
+        }else{
+            replaceFragment(MY_PAGE_FRAGMENT, false, null)
+        }
         // authTestViewModel = ViewModelProvider()
 //        replaceFragment(EDIT_USER_FRAGMENT, false, null)
+
 //        replaceFragment(CART_FRAGMENT, false, null)
+
     }
 
     // 지정한 Fragment를 보여주는 메서드
@@ -140,12 +170,11 @@ class UserActivity : AppCompatActivity() {
 
     fun getUserProfileImg(userTemp: UserDataClass, imgView: ImageView){
         val storage = FirebaseStorage.getInstance()
-        val fileName = if(userTemp.profileImg.isNullOrBlank()){
-            "user/sample_img.jpg" // todo: sample_img -> 디폴트
-        }else{
-            "user/${userTemp.idx}"
+        if(userTemp.profileImg.isNullOrBlank() ||  userTemp.profileImg != userTemp.idx ){
+            return
         }
-        Log.d("fileName",fileName.toString())
+        val fileName = "user/"+userTemp.profileImg
+        Log.d("fileName",fileName)
         val fileRef = storage.reference.child(fileName)
 
         // 데이터를 가져올 수 있는 경로를 가져온다.
@@ -162,7 +191,111 @@ class UserActivity : AppCompatActivity() {
                     imgView.setImageBitmap(bitmap)
                 }
             }
+        }.addOnFailureListener {
+            null
         }
+    }
+
+
+    fun whatIsPrev(fragment :String){
+        when(whereFrom){
+            "category" -> {
+                val intent = Intent(this@UserActivity, CategoryActivity::class.java)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemCategoryMain)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
+                startActivity(intent)
+            }
+            "wish" ->{
+                val intent = Intent(this@UserActivity, CategoryActivity::class.java)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemWish)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
+                startActivity(intent)
+            }
+            "recommend" ->{
+                val intent = Intent(this@UserActivity, CategoryActivity::class.java)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemRecommend)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
+                startActivity(intent)
+            }
+            "rank" ->{
+                val intent = Intent(this@UserActivity, CategoryActivity::class.java)
+                intent.putExtra("navigateTo",R.id.bottomMenuItemRankMain)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
+                startActivity(intent)
+            }
+            "review" ->{
+                finish()
+            }
+            "subscribe" ->{
+                val intent = Intent(this@UserActivity, SubscribeActivity::class.java)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
+                startActivity(intent)
+            }
+            "parcel" ->{
+                val intent = Intent(this@UserActivity, ParcelActivity::class.java)
+                intent.putExtra("userIdx", userTemp.idx)
+                startActivity(intent)
+            }
+            "buy" -> {
+                val intent = Intent(this@UserActivity, ParcelActivity::class.java)
+                intent.putExtra("userEmail", userTemp.email)
+                intent.putExtra("userIdx", userTemp.idx)
+                intent.putExtra("userNickname", userTemp.nickname)
+                intent.putExtra("userPw", userTemp.pw)
+                intent.putExtra("userVerify", userTemp.verify)
+                intent.putExtra("userPhoneNum", userTemp.phoneNum)
+                intent.putExtra("userProfileImg", userTemp.profileImg)
+                startActivity(intent)
+            }
+            else -> {
+                removeFragment(fragment)
+            }
+
+        }
+        whereFrom="myPage"
+    }
+
+    fun clickProductImg(productIdxList : ArrayList<String>, userTemp: UserDataClass){
+        val intent = Intent(this@UserActivity, BuyActivity::class.java)
+        intent.putExtra("buyProduct",productIdxList)
+        intent.putExtra("userEmail", userTemp.email)
+        intent.putExtra("userIdx", userTemp.idx)
+        intent.putExtra("userNickname", userTemp.nickname)
+        intent.putExtra("userPw", userTemp.pw)
+        intent.putExtra("userVerify", userTemp.verify)
+        intent.putExtra("userPhoneNum", userTemp.phoneNum)
+        intent.putExtra("userProfileImg", userTemp.profileImg)
+        startActivity(intent)
     }
 
 

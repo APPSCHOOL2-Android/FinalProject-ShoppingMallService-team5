@@ -3,6 +3,7 @@ package com.hifi.hifi_shopping.review
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
@@ -25,10 +27,20 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.hifi.hifi_shopping.R
 import com.hifi.hifi_shopping.databinding.ActivityReviewBinding
 import com.hifi.hifi_shopping.databinding.ReviewRycItemBinding
+import com.hifi.hifi_shopping.parcel.repository.ParcelRepository
 import com.hifi.hifi_shopping.review.repository.ReviewProductRepository
+import com.hifi.hifi_shopping.review.repository.ReviewSubscribeRepository
 import com.hifi.hifi_shopping.review.vm.ReviewProductViewModel
 import com.hifi.hifi_shopping.review.vm.ReviewSubscribeViewModel
+import com.hifi.hifi_shopping.search.SearchActivity
+import com.hifi.hifi_shopping.user.UserActivity
 import com.hifi.hifi_shopping.user.model.ReviewDataClass
+import com.hifi.hifi_shopping.user.model.UserDataClass
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -43,9 +55,10 @@ class ReviewActivity : AppCompatActivity() {
 
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
-    var uploadUri: Uri? = null
+    private var uploadUri: Uri? = null
     var productIdx = "1"
-    var userIdx = "0"
+    lateinit var userData: UserDataClass
+    var reviewSubscribeList = mutableListOf<ReviewSubscribeClass>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +69,18 @@ class ReviewActivity : AppCompatActivity() {
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("productIdx")) {
             productIdx = receivedIntent.getStringExtra("productIdx")!!
-            if(receivedIntent.hasExtra("userIdx")) {
-                userIdx = receivedIntent.getStringExtra("userIdx")!!
-            }
+        }
+        if(receivedIntent != null && receivedIntent.hasExtra("userIdx")) {
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userEmail = receivedIntent.getStringExtra("userEmail")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val newUserData = UserDataClass(userIdx, userEmail, userPw, userNickname, userVerify,
+                userPhoneNum, userProfileImg)
+            userData = newUserData
         }
 
         reviewProductViewModel = ViewModelProvider(this)[ReviewProductViewModel::class.java]
@@ -73,25 +95,56 @@ class ReviewActivity : AppCompatActivity() {
                 activityReviewBinding.reviewWriteItemPricetextView.text = formatPrice(it)
             }
             productImg.observe(this@ReviewActivity){
-                activityReviewBinding.reviewWriteItemImageView.setImageBitmap(it)
+                if(it!=null) {
+                    activityReviewBinding.reviewWriteItemImageView.setImageBitmap(it)
+                }
             }
         }
 
         reviewSubscribeViewModel.run{
             subscribeList.observe(this@ReviewActivity){
+                reviewSubscribeList = it
                 activityReviewBinding.reviewWriteItemRecommendHumanRecyclerView.adapter?.notifyDataSetChanged()
             }
         }
 
         activityReviewBinding.run{
-            // todo : 해당 상품 idx 입력 연결
             reviewProductViewModel.getProductByIdx(productIdx)
-            reviewSubscribeViewModel.getSubscribeListByUserIdx(userIdx)
+            reviewSubscribeViewModel.getSubscribeListByUserIdx(userData.idx)
 
             reviewImageView.visibility = View.GONE
             reviewWriteToolbar.run{
                 setNavigationOnClickListener {
                     finish()
+                }
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menu_item_search -> {
+                            val intent = Intent(this@ReviewActivity, SearchActivity::class.java)
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                        R.id.menu_item_cart -> {
+                            val intent = Intent(this@ReviewActivity, UserActivity::class.java)
+                            intent.putExtra("whereFrom", "review")
+                            intent.putExtra("userFragmentType", "cart")
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                    }
+                    true
                 }
             }
             reviewWritePictureAddButton.setOnClickListener {
@@ -126,7 +179,7 @@ class ReviewActivity : AppCompatActivity() {
                     ReviewProductRepository.uploadImage(uploadUri!!, fileName)
                 }
 
-                val newReview = ReviewDataClass(idx, productIdx, "리뷰 제목", reviewContext, score, userIdx, "0",
+                val newReview = ReviewDataClass(idx, productIdx, "리뷰 제목", reviewContext, score, userData.idx, "0",
                     writeDate, fileName)
                 ReviewProductRepository.addReviewInfo(newReview)
                 finish()
@@ -135,11 +188,25 @@ class ReviewActivity : AppCompatActivity() {
     }
     inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
         inner class ViewHolder(reviewRycItemBinding: ReviewRycItemBinding) : RecyclerView.ViewHolder(reviewRycItemBinding.root){
-            var profile : ImageView
-            var nickname : TextView
-            init{
-                profile = reviewRycItemBinding.editUserProfileImg
-                nickname = reviewRycItemBinding.textView5
+            var profile = reviewRycItemBinding.editUserProfileImg
+            var nickname = reviewRycItemBinding.subscribeUserNickname
+
+            fun bindItem(reviewSubscribeItem:ReviewSubscribeClass){
+                nickname.text = reviewSubscribeItem.nickname
+                profile.setImageResource(R.drawable.sample_img)
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val productImgUri = ReviewSubscribeRepository.getUserProfileImgByFilename(reviewSubscribeItem.filename)
+                        val url = URL(productImgUri.toString())
+                        val httpURLConnection =
+                            url.openConnection() as HttpURLConnection
+                        val productImgBitmap =
+                            BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                        profile.setImageBitmap(productImgBitmap)
+                    } catch(e:Exception){
+                        // todo : 예외 처리
+                    }
+                }
             }
         }
 
@@ -156,16 +223,12 @@ class ReviewActivity : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int {
-            return reviewSubscribeViewModel.subscribeList.value?.size!!
+            return reviewSubscribeList.size
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            if(reviewSubscribeViewModel.subscribeList.value?.get(position)?.profile == null) {
-                holder.profile.setImageResource(R.drawable.empty_photo)
-            }else{
-                holder.profile.setImageBitmap(reviewSubscribeViewModel.subscribeList.value?.get(position)?.profile)
-            }
-            holder.nickname.text = reviewSubscribeViewModel.subscribeList.value?.get(position)?.nickname
+            val reviewSubscribeItem = reviewSubscribeList[position]
+            holder.bindItem(reviewSubscribeItem)
         }
     }
 
@@ -235,3 +298,4 @@ class ReviewActivity : AppCompatActivity() {
     data class reviewDataClass(val context:String, val date:String, val idx:String, val imgSrc:String,
         val likeCnt:String, val productIdx:String, val score:String, val title:String, val writerIdx:String)
 }
+data class ReviewSubscribeClass(val nickname:String, val filename:String, val imgBitmap: Bitmap?)

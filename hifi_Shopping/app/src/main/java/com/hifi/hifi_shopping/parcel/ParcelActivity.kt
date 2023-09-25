@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
@@ -16,11 +17,16 @@ import com.hifi.hifi_shopping.databinding.ParcelRecycItemBinding
 import com.hifi.hifi_shopping.parcel.repository.ParcelRepository
 import com.hifi.hifi_shopping.parcel.vm.ParcelViewModel
 import com.hifi.hifi_shopping.review.ReviewActivity
+import com.hifi.hifi_shopping.search.SearchActivity
+import com.hifi.hifi_shopping.user.UserActivity
+import com.hifi.hifi_shopping.user.model.UserDataClass
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.URL
+import java.text.NumberFormat
+import java.util.Locale
 
 class ParcelActivity : AppCompatActivity() {
 
@@ -30,7 +36,7 @@ class ParcelActivity : AppCompatActivity() {
     var shippingParcelDataList = mutableListOf<RowParcelItemClass>()
     var arrivingParcelDataList = mutableListOf<RowParcelItemClass>()
     var rowParcelList = mutableListOf<RowParcelItemClass>()
-    var userIdx = "0"
+    lateinit var userData:UserDataClass
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +45,16 @@ class ParcelActivity : AppCompatActivity() {
 
         val receivedIntent = intent
         if (receivedIntent != null && receivedIntent.hasExtra("userIdx")) {
-            userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userIdx = receivedIntent.getStringExtra("userIdx")!!
+            val userEmail = receivedIntent.getStringExtra("userEmail")!!
+            val userPw = receivedIntent.getStringExtra("userPw")!!
+            val userNickname = receivedIntent.getStringExtra("userNickname")!!
+            val userVerify = receivedIntent.getStringExtra("userVerify")!!
+            val userPhoneNum = receivedIntent.getStringExtra("userPhoneNum")!!
+            val userProfileImg = receivedIntent.getStringExtra("userProfileImg")!!
+            val newUserData = UserDataClass(userIdx, userEmail, userPw, userNickname, userVerify,
+                userPhoneNum, userProfileImg)
+            userData = newUserData
         }
 
         parcelViewModel = ViewModelProvider(this)[ParcelViewModel::class.java]
@@ -47,19 +62,23 @@ class ParcelActivity : AppCompatActivity() {
             packingParcelList.observe(this@ParcelActivity){
                 packingParcelDataList = it
                 rowParcelList = packingParcelDataList
+                activityParcelBinding.packingCntTextView.text = it.size.toString()
                 activityParcelBinding.parcelItemRecycView.adapter?.notifyDataSetChanged()
             }
             shippingParcelList.observe(this@ParcelActivity){
                 shippingParcelDataList = it
+                activityParcelBinding.shippingCntTextView.text = it.size.toString()
                 activityParcelBinding.parcelItemRecycView.adapter?.notifyDataSetChanged()
             }
             arrivingParcelList.observe(this@ParcelActivity){
                 arrivingParcelDataList = it
+                activityParcelBinding.arrivingCntTextView.text = it.size.toString()
                 activityParcelBinding.parcelItemRecycView.adapter?.notifyDataSetChanged()
             }
         }
         activityParcelBinding.run{
-            parcelViewModel.getParcelByUserIdx(userIdx)
+            parcelViewModel.getParcelByUserIdx(userData.idx)
+
             parcelMaterialToolbar.run{
                 title = "배송 관리"
                 setNavigationIcon(R.drawable.chevron_left_24px)
@@ -67,6 +86,35 @@ class ParcelActivity : AppCompatActivity() {
                     finish()
                 }
                 inflateMenu(R.menu.toolbar_menu_basic)
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.menuItemSearch -> {
+                            val intent = Intent(this@ParcelActivity, SearchActivity::class.java)
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                        R.id.menuItemCart -> {
+                            val intent = Intent(this@ParcelActivity, UserActivity::class.java)
+                            intent.putExtra("whereFrom", "parcel")
+                            intent.putExtra("userFragmentType", "cart")
+                            intent.putExtra("userEmail", userData.email)
+                            intent.putExtra("userIdx", userData.idx)
+                            intent.putExtra("userNickname", userData.nickname)
+                            intent.putExtra("userPw", userData.pw)
+                            intent.putExtra("userVerify", userData.verify)
+                            intent.putExtra("userPhoneNum", userData.phoneNum)
+                            intent.putExtra("userProfileImg", userData.profileImg)
+                            startActivity(intent)
+                        }
+                    }
+                    true
+                }
                 isTitleCentered = true
             }
             packingCardView.setOnClickListener{
@@ -124,47 +172,74 @@ class ParcelActivity : AppCompatActivity() {
             init {
                 parcelRecycItemBinding.root.setOnClickListener {
                     val intent = Intent(this@ParcelActivity, ReviewActivity::class.java)
-                    intent.putExtra("userIdx", userIdx)
+                    intent.putExtra("userEmail", userData.email)
+                    intent.putExtra("userIdx", userData.idx)
+                    intent.putExtra("userNickname", userData.nickname)
+                    intent.putExtra("userPw", userData.pw)
+                    intent.putExtra("userVerify", userData.verify)
+                    intent.putExtra("userPhoneNum", userData.phoneNum)
+                    intent.putExtra("userProfileImg", userData.profileImg)
                     intent.putExtra("productIdx", rowParcelList[adapterPosition].productIdx)
                     startActivity(intent)
                 }
             }
 
-            fun bindItem(item: RowParcelItemClass) {
+            fun bindItem(parcelItem: RowParcelItemClass) {
                 // UI 업데이트 등 필요한 작업 수행
-                parcelItemNameTextView.text = rowParcelList[adapterPosition].productName
-                parcelItemStatusTextView.text = rowParcelList[adapterPosition].parcelStatus
-                parcelItemPriceTextView.text = rowParcelList[adapterPosition].productPrice
-                parcelItemImageView.setImageResource(R.drawable.empty_photo)
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val productInfo = ParcelRepository.getProductInfoByIdx(rowParcelList[adapterPosition].productIdx)
-                        parcelItemNameTextView.text = productInfo!!.child("name").value as String
-                        parcelItemPriceTextView.text = productInfo!!.child("price").value as String
-                    }catch (e:Exception){
-                        // todo : 예외처리
+                parcelItemStatusTextView.text = parcelItem.parcelStatus
+                if(parcelItem.productName == "로딩 중") {
+                    parcelItemNameTextView.text = "로딩 중"
+                    parcelItemPriceTextView.text = "로딩 중"
+                } else{
+                    parcelItemNameTextView.text = parcelItem.productName
+                    parcelItemPriceTextView.text = parcelItem.productPrice
+                }
+                if(parcelItem.productImgBitmap == null) {
+                    parcelItemImageView.setImageResource(R.drawable.empty_photo)
+                } else {
+                    parcelItemImageView.setImageBitmap(parcelItem.productImgBitmap)
+                }
+
+                if(parcelItem.productName == "로딩 중") {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val productInfo = ParcelRepository.getProductInfoByIdx(parcelItem.productIdx)
+                            val productName = productInfo!!.child("name").value as String
+                            val productPrice = formatPrice(productInfo!!.child("price").value as String)
+                            parcelItemNameTextView.text = productName
+                            parcelItemPriceTextView.text =productPrice
+                            parcelItem.productName = productName
+                            parcelItem.productPrice = productPrice
+                        } catch (e: Exception) {
+                            // todo : 예외처리
+                        }
                     }
                 }
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val productImgInfo = ParcelRepository.getProductImgByProductIdx(rowParcelList[adapterPosition].productIdx)
-                        for (imgInfo in productImgInfo!!.children) {
-                            val def = imgInfo.child("default").value as String
-                            val omgOrder = imgInfo.child("omgOrder").value as String
-                            if (def == "true" && omgOrder == "1") {
-                                val productImgFilename = imgInfo.child("imgSrc").value as String
-                                val productImgUri = ParcelRepository.getProductImgByFilename(productImgFilename)
-                                val url = URL(productImgUri.toString())
-                                val httpURLConnection =
-                                    url.openConnection() as HttpURLConnection
-                                val productImgBitmap =
-                                    BitmapFactory.decodeStream(httpURLConnection.inputStream)
-                                parcelItemImageView.setImageBitmap(productImgBitmap)
-                                break
+                if(parcelItem.productImgBitmap == null) {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        try {
+                            val productImgInfo =
+                                ParcelRepository.getProductImgByProductIdx(parcelItem.productIdx)
+                            for (imgInfo in productImgInfo!!.children) {
+                                val def = imgInfo.child("default").value as String
+                                val omgOrder = imgInfo.child("omgOrder").value as String
+                                if (def == "true" && omgOrder == "1") {
+                                    val productImgFilename = imgInfo.child("imgSrc").value as String
+                                    val productImgUri =
+                                        ParcelRepository.getProductImgByFilename(productImgFilename)
+                                    val url = URL(productImgUri.toString())
+                                    val httpURLConnection =
+                                        url.openConnection() as HttpURLConnection
+                                    val productImgBitmap =
+                                        BitmapFactory.decodeStream(httpURLConnection.inputStream)
+                                    parcelItemImageView.setImageBitmap(productImgBitmap)
+                                    parcelItem.productImgBitmap = productImgBitmap
+                                    break
+                                }
                             }
+                        } catch (e: Exception) {
+                            // todo : 예외 처리
                         }
-                    } catch(e:Exception){
-                        // todo : 예외 처리
                     }
                 }
             }
@@ -186,11 +261,16 @@ class ParcelActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = rowParcelList[position]
-            holder.bindItem(item)
+            val parcelItem = rowParcelList[position]
+            holder.bindItem(parcelItem)
         }
+    }
+    fun formatPrice(priceStr: String): String {
+        val price = priceStr.toIntOrNull() ?: return "Invalid Input"
+        val formatter = NumberFormat.getNumberInstance(Locale("ko", "KR"))
+        val formattedAmount = formatter.format(price)
+        return "$formattedAmount 원"
     }
 
 }
-data class RowParcelItemClass(val productIdx:String, val productName:String, val productPrice:String, var productImg:Bitmap?,
-                              val parcelStatus:String, val parcelDate:String)
+data class RowParcelItemClass(val productIdx:String, var productName:String, var productPrice:String, var productImgBitmap:Bitmap?, val parcelStatus:String, val parcelDate:String)

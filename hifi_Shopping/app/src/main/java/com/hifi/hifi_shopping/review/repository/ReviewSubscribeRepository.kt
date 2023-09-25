@@ -21,7 +21,7 @@ class ReviewSubscribeRepository {
             Dispatchers.IO) {
             val database = FirebaseDatabase.getInstance()
             val postDataRef = database.getReference("UserData")
-            val task = postDataRef.orderByChild("idx").equalTo(idx).get()
+            val task = postDataRef.child(idx).get()
             task.await()
         }
 

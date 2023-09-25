@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hifi.hifi_shopping.R
+import com.hifi.hifi_shopping.auth.vm.AuthViewModel
 import com.hifi.hifi_shopping.buy.BuyActivity
 import com.hifi.hifi_shopping.category.CategoryActivity
 import com.hifi.hifi_shopping.category.CategoryViewModel
@@ -34,6 +35,7 @@ class CategoryMainFragment : Fragment() {
 
     lateinit var categoryMainViewModel: CategoryMainViewModel
     lateinit var categoryViewModel: CategoryViewModel
+//    lateinit var authViewModel: AuthViewModel
 
     var categoryList: Array<String>? = null
     var categoryNum = 0
@@ -54,13 +56,26 @@ class CategoryMainFragment : Fragment() {
 
         categoryMainViewModel = ViewModelProvider(this)[CategoryMainViewModel::class.java]
         categoryViewModel = ViewModelProvider(categoryActivity)[CategoryViewModel::class.java]
+//        authViewModel = ViewModelProvider(categoryActivity)[AuthViewModel::class.java]
 
-        val userActivityLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-
-        }
+//        authViewModel.run {
+//            userData.observe(viewLifecycleOwner) {
+//                Log.d("brudenell", "뷰모델 테스트")
+//                categoryMainViewModel.currentUserIdx = it.idx
+//            }
+//        }
 
         val profileClickCallback: () -> Unit = {
             val intent = Intent(categoryActivity, UserActivity::class.java)
+            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
+            intent.putExtra("whereFrom", "category")
+            intent.putExtra("userFragmentType", "userPage")
             startActivity(intent)
         }
 
@@ -71,13 +86,20 @@ class CategoryMainFragment : Fragment() {
             buyProductList.add(idx)
 
             intent.putStringArrayListExtra("buyProduct", buyProductList)
+            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
 
             startActivity(intent)
         }
 
-        val productListAdapter = ProductListAdapter(categoryMainViewModel, productClickCallback)
+        val productListAdapter = ProductListAdapter(categoryViewModel, categoryMainViewModel, productClickCallback)
 
-        val reviewListAdapter = ReviewListAdapter(this, categoryMainViewModel, profileClickCallback, productClickCallback)
+        val reviewListAdapter = ReviewListAdapter(categoryViewModel, this, categoryMainViewModel, profileClickCallback, productClickCallback)
 
         categoryNum = arguments?.getInt("categoryNum") ?: 0
 
@@ -152,10 +174,26 @@ class CategoryMainFragment : Fragment() {
                     when (it.itemId) {
                         R.id.menuItemSearch -> {
                             val intent = Intent(categoryActivity, SearchActivity::class.java)
+                            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+                            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+                            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+                            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+                            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+                            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+                            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
                             startActivity(intent)
                         }
                         R.id.menuItemCart -> {
                             val intent = Intent(categoryActivity, UserActivity::class.java)
+                            intent.putExtra("userEmail", categoryActivity.userDataClass.email)
+                            intent.putExtra("userIdx", categoryActivity.userDataClass.idx)
+                            intent.putExtra("userNickname", categoryActivity.userDataClass.nickname)
+                            intent.putExtra("userPw", categoryActivity.userDataClass.pw)
+                            intent.putExtra("userVerify", categoryActivity.userDataClass.verify)
+                            intent.putExtra("userPhoneNum", categoryActivity.userDataClass.phoneNum)
+                            intent.putExtra("userProfileImg", categoryActivity.userDataClass.profileImg)
+                            intent.putExtra("whereFrom", "category")
+                            intent.putExtra("userFragmentType", "cart")
                             startActivity(intent)
                         }
                     }

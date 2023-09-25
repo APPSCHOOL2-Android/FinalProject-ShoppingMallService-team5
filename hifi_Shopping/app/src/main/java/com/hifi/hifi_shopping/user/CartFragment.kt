@@ -89,9 +89,8 @@ class CartFragment : Fragment() {
                             // 제품 이미지
                             getCartProductImg(it.idx, rowCartItemImg)
                             rowCartItemImg.setOnClickListener {
-                                val intent = Intent(userActivity, BuyActivity::class.java)
-                                intent.putExtra("productIdx", rowCartItemIdx.text.toString())
-                                startActivity(intent)
+                                val buyProduct = arrayListOf(rowCartItemIdx.text.toString())
+                                userActivity.clickProductImg(buyProduct,userTemp)
                             }
                         }
                         cartItemLayout.addView(rowCartItemBinding.root)
@@ -117,8 +116,8 @@ class CartFragment : Fragment() {
                                 val itemPrice = itemBinding.rowCartItemPrice.text.toString().toInt()
                                 itemsCount += 1
                                 itemsPrice += itemPrice
-                                Log.d("제품 추가", itemPrice.toString())
-                                Log.d("제품 추가1", itemsPrice.toString())
+//                                Log.d("제품 추가", itemPrice.toString())
+//                                Log.d("제품 추가1", itemsPrice.toString())
                             } else if (!itemBinding.rowCartItemCheckBox.isChecked) {
                                 val itemPrice = itemBinding.rowCartItemPrice.text.toString().toInt()
                                 itemsCount -= 1
@@ -161,9 +160,9 @@ class CartFragment : Fragment() {
                         val cartProductIdxList =
                             rowCartItemBindingList.filter { it.rowCartItemCheckBox.isChecked }
                                 .map { it.rowCartItemIdx.text.toString() } as ArrayList
-                        val intent = Intent(userActivity, BuyActivity::class.java)
-                        intent.putExtra("cartProducts", cartProductIdxList)
-                        startActivity(intent)
+
+                        userActivity.clickProductImg(cartProductIdxList,userTemp)
+
                     }
                 }
             })
@@ -172,7 +171,8 @@ class CartFragment : Fragment() {
         fragmentCartBinding.run {
             cartToolbar.run {
                 setNavigationOnClickListener {
-                    userActivity.removeFragment(UserActivity.CART_FRAGMENT)
+                    userActivity.whatIsPrev(UserActivity.CART_FRAGMENT)
+
                 }
                 setOnMenuItemClickListener {
                     when (it.itemId) {
@@ -201,6 +201,19 @@ class CartFragment : Fragment() {
                 rowCartRecommendPrice = rowCartRecommendBinding.rowCartRecommendPrice
                 rowCartRecommendName = rowCartRecommendBinding.rowCartRecommendName
                 rowCartRecommendImg = rowCartRecommendBinding.rowCartRecommendImg
+
+
+                itemView.setOnClickListener {
+                    // 아이템이 클릭되었을 때 수행할 동작을 정의합니다.
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val clickedItem = itemList[position]
+                        val productidx = clickedItem.idx
+                        val buyProduct = arrayListOf(productidx)
+                        userActivity.clickProductImg(buyProduct,userActivity.userTemp)
+                    }
+                }
+
             }
         }
 
@@ -225,11 +238,6 @@ class CartFragment : Fragment() {
             holder.rowCartRecommendName.text = itemList.get(position).name
             holder.rowCartRecommendPrice.text = itemList.get(position).price + "원"
             holder.rowCartRecommendImg.run {
-                setOnClickListener {
-                    val intent = Intent(userActivity, BuyActivity::class.java)
-                    intent.putExtra("productIdx", productidx)
-                    startActivity(intent)
-                }
                 getCartProductImg(productidx,this)
             }
 
@@ -288,5 +296,7 @@ class CartFragment : Fragment() {
 
         }
     }
+
+
 
 }

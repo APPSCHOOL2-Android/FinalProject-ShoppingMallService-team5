@@ -64,7 +64,7 @@ class PurchaseFragment : Fragment() {
         fragmentPurchaseBinding.run {
             purchaseToolbar.run {
                 setNavigationOnClickListener{
-                    userActivity.removeFragment(UserActivity.USER_PAGE_FRAGMENT)
+                    userActivity.removeFragment(UserActivity.PURCHASE_FRAGMENT)
                 }
                 setOnMenuItemClickListener {
                     when(it.itemId){
@@ -141,9 +141,8 @@ class PurchaseFragment : Fragment() {
             }
 
             holder.rowPurchaseBtnOrder.setOnClickListener {
-                val intent = Intent(userActivity, BuyActivity::class.java)
-                intent.putExtra("productIdx", productidx)
-                startActivity(intent)
+                val buyProduct = arrayListOf(productidx)
+                userActivity.clickProductImg(buyProduct,userActivity.userTemp)
             }
 
             val userTemp = userActivity.userTemp
@@ -162,9 +161,8 @@ class PurchaseFragment : Fragment() {
 
             holder.rowPurchaseImg.run {
                 setOnClickListener {
-                    val intent = Intent(userActivity, BuyActivity::class.java)
-                    intent.putExtra("productIdx", productidx)
-                    startActivity(intent)
+                    val buyProduct = arrayListOf(productidx)
+                    userActivity.clickProductImg(buyProduct,userActivity.userTemp)
                 }
                 getProductImg(productidx,this)
             }
